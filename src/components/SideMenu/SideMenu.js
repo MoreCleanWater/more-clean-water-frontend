@@ -3,21 +3,18 @@ import SideMenuBar from "./SideMenuBar/SideMenuBar"
 import "./SideMenu.css"
 
 function SideMenu () {
-    const [isVisible, setVisible] = useState(false);
+    const [isActive, toggleMenu] = useState(false);
 
-    const handleClick = (e) => {
-        setVisible(isVisible ? false : true)
-    }
+    const handleClick = (e) => toggleMenu(isActive ? false : true);
 
     return (
         <div className="sidemenu">
-            <div id="sidemenu__button" 
-                className="sidemenu__button material-icons" 
+            <div className="sidemenu__button material-icons" 
                 onClick={handleClick}
             >
                 menu
             </div>
-            <SideMenuBar isVisible={isVisible} handleClick={handleClick}/>
+            <SideMenuBar isActive={isActive} handleClick={handleClick}/>
         </div>
     )
 }

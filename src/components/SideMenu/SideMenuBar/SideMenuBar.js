@@ -1,15 +1,14 @@
 import "./SideMenuBar.css";
 
-function SideMenuBar({isVisible,handleClick}) {
-    console.log(isVisible)
+function SideMenuBar({isActive,handleClick}) {
     return (
         <div>
-            <div className={`overlay ${isVisible ? 'show' : ''}`} onClick={handleClick}></div>
-            <div className={`sidemenu__bar ${isVisible ? 'show' : ''}`}>
+            <div className={`overlay ${isActive ? 'show' : ''}`} onClick={handleClick}></div>
+            <div className={`sidemenu__bar ${isActive ? 'show' : ''}`}>
             <h1 className="sidemenu__title">
                 More Clean Water
             </h1>
-            <ul id="sidemenu__maplabels" className="sidemenu__maplabels">
+            <ul className="sidemenu__maplabels">
                 <li className="sidemenu__item station">
                 <div className="map-labels__icon material-icons">room</div>
                 <h5>Clean Water Station</h5>
@@ -27,7 +26,7 @@ function SideMenuBar({isVisible,handleClick}) {
                 <h5>Groundwater</h5>
                 </li>
             </ul>
-            <ul id="sidemenu__main" className="sidemenu__main">
+            <ul className="sidemenu__main">
                 <li className="sidemenu__item dashboard">
                 <h5 className="title">
                     Dashboard

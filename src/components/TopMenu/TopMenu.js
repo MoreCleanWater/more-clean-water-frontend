@@ -1,8 +1,14 @@
+import {NavLink} from 'react-router-dom';
+import {useState} from "react";
 import Grid from '@material-ui/core/Grid';
 import UpdatesList from '../Updates/UpdatesList/UpdatesList';
 import "./TopMenu.css"
 
 function TopMenu() {
+    const [isUpdateActive, toggleUpdate] = useState(false);
+
+    const handleClick = (e) => toggleUpdate(isUpdateActive ? false : true);
+
     return (
         <div className="top-menu">
             <Grid container justify="space-around">
@@ -14,23 +20,29 @@ function TopMenu() {
                 <Grid item md={8}>
                     <ul className="top-menu__menu">
                         <li className="top-menu__item find-water">
-                        <a href="find-water">Find Water</a>
+                        <NavLink to="/find-water">
+                            Find Water
+                        </NavLink>
                         </li>
                         <li className="top-menu__item water-awareness">
-                        <a href="water-awareness">Water Awareness</a>
+                        <NavLink to="/water-awareness">
+                            Water Awareness
+                        </NavLink>
                         </li>
                         <li className="top-menu__item dashboard">
-                        <a href="dashboard">Dashboard</a>
+                        <NavLink to="dashboard">
+                            Dashboard
+                        </NavLink>
                         </li>
                     </ul>
                 </Grid>
                 <Grid item md={1}>
                     <ul className="top-menu__icons">
                         <li className="top-menu__updates">
-                            <div className="material-icons">
+                            <div className="material-icons" onClick={handleClick}>
                                 notifications
                             </div>
-                            <div id="updates-overlay" class="updates-container overlay">
+                            <div class={`updates-container overlay ${isUpdateActive ? 'active' : ''}`}>
                                 <UpdatesList/>
                             </div>
                         </li>
