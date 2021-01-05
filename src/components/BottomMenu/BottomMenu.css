@@ -7,9 +7,9 @@
     width: 100%;
     z-index: 1;
   }
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 960px) {
         .bottom-bar {
-            /* display: none; */
+            display: none;
         }
     }
   

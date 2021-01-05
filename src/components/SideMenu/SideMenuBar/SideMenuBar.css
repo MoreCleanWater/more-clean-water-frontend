@@ -28,7 +28,7 @@
     transform: translateX(0);
     opacity: 1;
 }
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 960px) {
         .sidemenu .sidemenu__bar {
             display: none;
         }
@@ -46,16 +46,14 @@
     .sidemenu .sidemenu__bar ul {
         list-style: none;
         margin: 0;
-        margin-left: 23px;
         padding: 0;
-        width: 100%;
     }
         .sidemenu .sidemenu__bar ul li {
             margin: 0;
             padding: 0;
-            width: 100%;
             display: inline-block;
             margin-top: 20px;
+            margin-left: 23px;
         }
             .sidemenu .sidemenu__bar ul li > *{
                 float: left;
