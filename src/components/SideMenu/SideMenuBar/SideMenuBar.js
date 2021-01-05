@@ -30,12 +30,12 @@ function SideMenuBar({isVisible,handleClick}) {
             <ul id="sidemenu__main" className="sidemenu__main">
                 <li className="sidemenu__item dashboard">
                 <h5 className="title">
-                    Dashboard
+                    <a href="dashboard">Dashboard</a>
                 </h5>
                 </li>
                 <li className="sidemenu__item profile">
                 <h5 className="title">
-                    User profile
+                    <a href="profile">User profile</a>
                 </h5>
                 </li>
             </ul>
