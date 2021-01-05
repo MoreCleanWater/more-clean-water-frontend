@@ -28,7 +28,7 @@
     transform: translateX(0);
     opacity: 1;
 }
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 960px) {
         .sidemenu .sidemenu__bar {
             display: none;
         }

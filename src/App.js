@@ -7,6 +7,7 @@ import {
 import SignUp from "./components/SignUp/SignUp";
 import BottomMenu from "./components/BottomMenu/BottomMenu";
 import SideMenu from "./components/SideMenu/SideMenu";
+import TopMenu from "./components/TopMenu/TopMenu";
 import BottomMenuItem from "./components/BottomMenu/BottomMenuItem/BottomMenuItem";
 import Updates from "./components/Updates/Updates";
 import Map from "./components/WaterQuality/Map";
@@ -16,6 +17,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <TopMenu/>
         <SideMenu/>
         <BottomMenu>
           <NavLink to="/water-awareness">

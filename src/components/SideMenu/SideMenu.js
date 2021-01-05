@@ -13,7 +13,6 @@ function SideMenu () {
         <div className="sidemenu">
             <div id="sidemenu__button" 
                 className="sidemenu__button material-icons" 
-                target-element="sidemenu__bar"
                 onClick={handleClick}
             >
                 menu
