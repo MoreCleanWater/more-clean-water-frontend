@@ -125,9 +125,13 @@
                 filter: none;
                 margin-bottom: 0;
             }
+
             .updates-container.overlay .update-item:last-child {
                 border-bottom: none;
             }
         }
 
-  
+    .updates-container .total .no-items  {
+        position: relative;
+        margin-top: 20px;
+    }
