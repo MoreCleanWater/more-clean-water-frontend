@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import SignUp from "./components/SignUp/SignUp";
 import BottomMenu from "./components/BottomMenu/BottomMenu";
+import SideMenu from "./components/SideMenu/SideMenu";
 import BottomMenuItem from "./components/BottomMenu/BottomMenuItem/BottomMenuItem";
 import Updates from "./components/Updates/Updates";
 import Map from "./components/WaterQuality/Map";
@@ -15,6 +16,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <SideMenu/>
         <BottomMenu>
           <NavLink to="/water-awareness">
             <BottomMenuItem icon="info" title="Water Awareness" />

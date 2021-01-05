@@ -1,0 +1,111 @@
+.sidemenu .sidemenu__bar {
+    background: #ffffff;
+    filter: drop-shadow(4px 0 4px rgba(0,0,0,.1));
+    height: 100%;
+    left: 0;
+    position: fixed;
+    transform: translateX(-100%);
+    transition: all 400ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    top: 0;
+    width: 65%;
+    z-index: 3;
+}
+
+.sidemenu .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 2;
+    transform: translateX(-100%);
+    transition: opacity 400ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    opacity: 0;
+}
+
+.sidemenu .show {
+    transform: translateX(0);
+    opacity: 1;
+}
+    @media screen and (min-width: 992px) {
+        .sidemenu .sidemenu__bar {
+            display: none;
+        }
+    }
+
+    .sidemenu .sidemenu__bar .sidemenu__title {
+        color: #288FEE;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 23px;
+        letter-spacing: 0.05em;
+        margin: 25px;
+    }
+
+    .sidemenu .sidemenu__bar ul {
+        list-style: none;
+        margin: 0;
+        margin-left: 23px;
+        padding: 0;
+        width: 100%;
+    }
+        .sidemenu .sidemenu__bar ul li {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: inline-block;
+            margin-top: 20px;
+        }
+            .sidemenu .sidemenu__bar ul li > *{
+                float: left;
+            }
+
+            .sidemenu .sidemenu__bar ul li h5 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 300;
+            }
+    
+    .sidemenu .sidemenu__bar ul.sidemenu__main {
+        margin-top: 100px;
+    }
+        .sidemenu .sidemenu__bar ul.sidemenu__main li.profile {
+            position: absolute;
+            bottom: 20px;
+            left: 23px;
+        }
+            .sidemenu .sidemenu__bar ul.sidemenu__main li h5 {
+                font-size: 18px;
+            }
+
+    .sidemenu .sidemenu__bar ul.sidemenu__maplabels {
+        margin-top: 40px;
+    }
+        .sidemenu .sidemenu__bar ul.sidemenu__maplabels li .map-labels__icon {
+            margin-right: 15px;
+        }
+
+        .sidemenu .sidemenu__bar ul.sidemenu__maplabels li.station .map-labels__icon {
+            color: #c82a29;
+        }
+
+        .sidemenu .sidemenu__bar ul.sidemenu__maplabels li.natural .map-labels__icon {
+            color: #9dc1f4;
+        }
+
+        .sidemenu .sidemenu__bar ul.sidemenu__maplabels li.alerts .map-labels__icon {
+            color: #c82a29;
+            font-size: 24px;
+        }
+
+        .sidemenu .sidemenu__bar ul.sidemenu__maplabels li.groundwater .map-labels__icon {
+            font-size: 23px;
+            color: #9dc1f4;
+        }
+
+    .sidemenu .sidemenu__bar ul.sidemenu__maplabels li h5 {
+        font-size: 15px;
+    }
+
+            

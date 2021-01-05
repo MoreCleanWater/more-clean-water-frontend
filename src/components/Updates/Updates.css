@@ -1,5 +1,5 @@
 .updates .updates-list {
-    margin: 40px 0 0;
+    margin: 70px 0 0;
 }
 
 .updates .total {
@@ -13,5 +13,4 @@
     left: 0;
     position: absolute;
     top: 0;
-    transform: translateY(-30px);
 }
