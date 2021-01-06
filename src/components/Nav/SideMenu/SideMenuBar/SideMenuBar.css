@@ -71,7 +71,7 @@
         .sidemenu .sidemenu__bar ul.sidemenu__main li.profile {
             position: absolute;
             bottom: 20px;
-            left: 23px;
+            left: 0;
         }
             .sidemenu .sidemenu__bar ul.sidemenu__main li h5 {
                 font-size: 18px;

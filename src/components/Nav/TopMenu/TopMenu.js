@@ -1,7 +1,7 @@
 import {NavLink} from 'react-router-dom';
 import {useState} from "react";
 import Grid from '@material-ui/core/Grid';
-import UpdatesList from '../Updates/UpdatesList/UpdatesList';
+import UpdatesList from '../../Updates/UpdatesList/UpdatesList';
 import "./TopMenu.css"
 
 function TopMenu() {

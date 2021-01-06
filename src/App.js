@@ -1,47 +1,36 @@
-import {BrowserRouter as Router, Switch, Route, NavLink} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import SignUp from "./components/SignUp/SignUp";
-import BottomMenu from "./components/BottomMenu/BottomMenu";
-import SideMenu from "./components/SideMenu/SideMenu";
-import TopMenu from "./components/TopMenu/TopMenu";
-import BottomMenuItem from "./components/BottomMenu/BottomMenuItem/BottomMenuItem";
 import Updates from "./components/Updates/Updates";
 import Map from "./components/WaterQuality/Map";
+import Nav from "./components/Nav/Nav";
 import "./App.scss";
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <TopMenu/>
-        <SideMenu/>
-        <BottomMenu>
-          <NavLink to="/water-awareness">
-            <BottomMenuItem icon="info" title="Water Awareness" />
-          </NavLink>
-
-          <NavLink to="/find-water">
-            <BottomMenuItem icon="room" title="Find Water" />
-          </NavLink>
-
-          <NavLink to="/updates">
-            <BottomMenuItem icon="notifications" title="Updates" />
-          </NavLink>
-        </BottomMenu>
-
+        
         <Switch>
-          <Route path="/water-awareness">Water Awareness</Route>
+          <Route path="/water-awareness">
+            <Nav/>
+            Water Awareness
+          </Route>
 
-          <Route path="/find-water">
-            <Map />
+          <Route path="/profile">
+            <SignUp/>
           </Route>
 
           <Route path="/updates">
+            <Nav/>
             <Updates />
           </Route>
 
-          <Route path="/">
-            <SignUp />
+          <Route path="/find-water">
+            <Nav/>
+            <Map />
           </Route>
+
+          <Redirect to="/find-water" />
         </Switch>
       </div>
     </Router>

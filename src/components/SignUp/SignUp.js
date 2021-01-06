@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {Redirect} from 'react-router-dom'
+import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {Account, Personal, Confirmation} from './SignUpSteps'
@@ -16,13 +17,17 @@ function SignUp() {
 
     const [step, setStep] = useState(1)
 
+    const [redirect, setRedirect] = useState(null);
+
     const prev = (e) => setStep(step > 1 ? step - 1 : step)
 
     const next = (e) => setStep(step < 3 ? step + 1 : 3)
 
     const handleChange = (e) => setForm({...form, [e.target.id]: e.target.value})
     
-    const submit = () => console.log(form)
+    const submit = (e) => setRedirect("/find-water")
+
+    if (redirect!=null) return (<Redirect to={redirect} />)
     
     return (
         <Grid 
