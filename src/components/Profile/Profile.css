@@ -3,7 +3,8 @@
 }
 
 .input {
+  padding-top: 1rem;
   flex-direction: column;
   justify-content: flex-start;
-  height: 65vh;
+  height: 60vh;
 }

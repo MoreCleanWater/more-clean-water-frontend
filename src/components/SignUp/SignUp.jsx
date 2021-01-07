@@ -26,6 +26,9 @@ function SignUp({form, onChange}) {
         className={container}
         >
             <Grid item xs={10}>
+                <h2 class="center">
+                    Registration
+                </h2>
                 <form>
                     <ul>
                         <Account isActive={step === 1} 

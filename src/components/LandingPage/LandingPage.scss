@@ -111,32 +111,20 @@
             }
 
             a.enter  {
-                margin-top: .7rem;
+                margin-top: .9rem;
             }
 
-            .MuiFormControl-root {
-                width: 85%;
+            form {
                 margin: 0 auto;
-                
-                .MuiInputBase-root {
-                    border: 1px solid rgba(0,0,0,.2);
-                    border-radius: 8px;
-                    background-color: #fff;
 
-                    &.MuiFilledInput-underline {
-                        &:after {
-                            border-bottom: none;
-                        }
-
-                        &:before {
-                            border-bottom: none;
-                        }
+                .MuiFormControl-root {
+                    width: 90%;
+                    margin: 0 auto;
+    
+                    button {
+                        width: 10rem;
+                        margin: 2rem auto 0;
                     }
-                }
-
-                button {
-                    width: 10rem;
-                    margin: 2rem auto 0;
                 }
             }
             

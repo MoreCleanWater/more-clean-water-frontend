@@ -36,31 +36,37 @@ function LandingPage ({form, onChange}) {
                             Helping you to access clean water
                         </h2>
                         <h3>
-                            Register now and receive water shortage alerts, water cleaning advises and more.
+                            Sign up now and receive water shortage alerts, water cleaning advises and more.
                         </h3>
                     </div>
                     
-                    <FormControl>
-                        <TextField
-                            autoComplete="on"
-                            required id='email'
-                            label='Email'
-                            variant='filled'
-                            onChange={onChange}
-                        />
+                    <form action="">
+                        <FormControl>
+                            <TextField
+                                autoComplete="on"
+                                required id='email'
+                                label='Email'
+                                variant="outlined"
+                                onChange={onChange}
+                            />
 
-                        <Button 
-                            variant="contained"
-                            color="primary"
-                            disableElevation
-                            onClick={handleRegister}
-                        >
-                            Register
-                        </Button>
-                    </FormControl>
-
-                    <NavLink to="/find-water" className="enter">Or click here to proceed</NavLink>
-                        
+                            <Button 
+                                variant="contained"
+                                color="primary"
+                                disableElevation
+                                onClick={handleRegister}
+                            >
+                                Register
+                            </Button>
+                        </FormControl>
+                    </form>    
+                
+                    <Grid item xs={5}>
+                        <NavLink to="/find-water" className="enter">
+                            Or proceed
+                            without sign up
+                        </NavLink>
+                    </Grid>
                 </Grid>
             </div>
         </div>

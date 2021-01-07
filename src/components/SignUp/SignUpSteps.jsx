@@ -10,6 +10,7 @@ function Account({isActive, onChange, email, password}) {
                     label='Email'
                     value={email}
                     onChange={onChange}
+                    variant="outlined"
                 />
                 <TextField
                     autoComplete="on"
@@ -18,6 +19,7 @@ function Account({isActive, onChange, email, password}) {
                     type="password"
                     value={password}
                     onChange={onChange}
+                    variant="outlined"
                 />
                 <TextField
                     autoComplete="on"
@@ -25,6 +27,7 @@ function Account({isActive, onChange, email, password}) {
                     label='Confirm password'
                     type="password"
                     onChange={onChange}
+                    variant="outlined"
                 />
             </FormControl>
         </li>
@@ -40,6 +43,7 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                     label='First name'
                     value={firstName}
                     onChange={onChange}
+                    variant="outlined"
                 />
                 <TextField
                     autoComplete="on"
@@ -48,6 +52,7 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                     value={lastName}
                     onChange={onChange}
                     required 
+                    variant="outlined"
                 />
                 <FormControl>
                     <InputLabel htmlFor="county">County</InputLabel>
@@ -59,6 +64,7 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                         name: 'county',
                         id: 'county',
                     }}
+                    variant="outlined"  
                     >
                         <option aria-label="None" value="" />
                         <option value="Great London">Great London</option>
@@ -70,6 +76,7 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                     label='Post code'
                     onChange={onChange}
                     required 
+                    variant="outlined"
                 />
             
         </li>

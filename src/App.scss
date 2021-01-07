@@ -70,7 +70,7 @@ li {
 
 form {
   width: 80%;
-  margin: 2rem auto;
+  margin: 2.5rem auto;
 
   @media screen and (min-width: 1024px) {
     margin: 5rem auto;
@@ -78,11 +78,15 @@ form {
 
   .MuiFormControl-root {
     width: 100%;
-    margin: 1rem 0;
+    margin: .6rem 0;
   
     .MuiTextField-root {
       width: 100%;
     }
+
+    .MuiInputBase-root {
+        background-color: #fff;
+    }    
   
     button {
         width: 10rem;
@@ -91,4 +95,8 @@ form {
         font-weight: 500;
     }
   }
+}
+
+h1, h2, h3 {
+  color: $text;
 }

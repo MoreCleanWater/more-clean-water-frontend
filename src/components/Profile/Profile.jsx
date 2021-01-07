@@ -19,6 +19,7 @@ function Profile({form, onChange}) {
 								autoComplete="on"
 								required id='email'
 								label='Email'
+								variant="outlined"
 								value={form.email}
 								onChange={onChange}
 							/>
@@ -26,6 +27,7 @@ function Profile({form, onChange}) {
 								autoComplete="on"
 								required id='firstName'
 								label='First name'
+								variant="outlined"
 								value={form.firstName}
 								onChange={form.onChange}
 							/>
@@ -33,23 +35,10 @@ function Profile({form, onChange}) {
 								autoComplete="on"
 								id='lastName'
 								label='Last name'
+								variant="outlined"
 								value={form.lastName}
 								onChange={onChange}
 								required 
-							/>
-							<TextField
-								autoComplete="on"
-								required id='password'
-								label='Password'
-								type="password"
-								onChange={onChange}
-							/>
-							<TextField
-								autoComplete="on"
-								required id='confirm-password'
-								label='Confirm password'
-								type="password"
-								onChange={onChange}
 							/>
 						</div>
 						<Button
