@@ -19,7 +19,6 @@
     .top-menu h1 {
         color: #288FEE;
         float: left;
-        font-family: Roboto;
         font-weight: 500;
         font-size: 20px;
         line-height: 26px;
@@ -36,7 +35,6 @@
     }
         .top-menu ul.top-menu__menu li {
             float: left;
-            font-family: Roboto;
             font-weight: 400;
             font-size: 18px;
             line-height: 26px;

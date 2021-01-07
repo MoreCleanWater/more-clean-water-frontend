@@ -1,0 +1,145 @@
+@import 'styles/_colors';
+
+.landing-page {
+    min-height: 100vh;
+    text-align: center;
+    color: $text;
+
+    .ocean-wrapper {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: 0;
+        
+        .ocean {
+            background: #015871;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: scaleY(.8);
+            
+            @media screen and (min-width: 1025px) {
+                transform: scaleY(1.5);
+            }
+        }
+    
+        .wave {
+            background: url(../../img/wave.svg) repeat-x;
+            position: absolute;
+            top: -160px;
+            width: 8000px;
+            height: 200px;
+            animation: wave 6s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite, swell 5s ease infinite;
+            transform: translate3d(0, 0, 0);
+        }
+    
+        .wave:nth-of-type(2) {
+            top: -160px;
+            animation: wave 6s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.425s infinite, swell 7s ease -1.25s infinite;
+            opacity: 1;
+        }
+
+        @keyframes wave {
+            0% {
+                margin-left: 0;
+            }
+        
+            100% {
+                margin-left: -2000px;
+            }
+        }
+        
+        @keyframes swell {
+        
+            0%,
+            100% {
+                transform: translate3d(0, -40px, 0);
+            }
+        
+            50% {
+                transform: translate3d(0, 5px, 0);
+            }
+        }
+    }
+
+    .content-wrapper {
+        position: absolute;
+        width: 100vw;
+        z-index: 1;
+
+        .content {
+            height: 80vh;
+            max-width: 30rem;
+            margin: 0 auto;
+            padding: 1rem 0;
+
+            @media screen and (min-width: 1025px) {
+                height: 65vh;
+            }
+
+            .title {
+                width: 90%;
+                margin: 0 auto;
+
+                h1 {
+                    font-size: 2rem;
+                    font-weight: 500;
+                    width: 100%;
+                }
+
+                @media screen and (min-width: 360px) {
+                    font-size: 2.3rem;
+                }
+
+                h2 {
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                    width: 90%;
+                    margin: auto;
+                }
+
+                h3 {
+                    font-weight: 400;
+                    width: 90%;
+                    margin: 1.5rem auto;
+                    font-size: 1.1rem;
+                }
+            }
+
+            a.enter  {
+                margin-top: .7rem;
+            }
+
+            .MuiFormControl-root {
+                width: 85%;
+                margin: 0 auto;
+                
+                .MuiInputBase-root {
+                    border: 1px solid rgba(0,0,0,.2);
+                    border-radius: 8px;
+                    background-color: #fff;
+
+                    &.MuiFilledInput-underline {
+                        &:after {
+                            border-bottom: none;
+                        }
+
+                        &:before {
+                            border-bottom: none;
+                        }
+                    }
+                }
+
+                button {
+                    width: 10rem;
+                    margin: 2rem auto 0;
+                }
+            }
+            
+        }
+    }
+}

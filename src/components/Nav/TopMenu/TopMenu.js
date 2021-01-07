@@ -30,7 +30,7 @@ function TopMenu() {
                         </NavLink>
                         </li>
                         <li className="top-menu__item dashboard">
-                        <NavLink to="dashboard">
+                        <NavLink to="/dashboard">
                             Dashboard
                         </NavLink>
                         </li>
@@ -42,12 +42,14 @@ function TopMenu() {
                             <div className="material-icons" onClick={handleClick}>
                                 notifications
                             </div>
-                            <div class={`updates-container overlay ${isUpdateActive ? 'active' : ''}`}>
+                            <div className={`updates-container overlay ${isUpdateActive ? 'active' : ''}`}>
                                 <UpdatesList/>
                             </div>
                         </li>
-                        <li className="top-menu__user material-icons">
-                            <a href="profile">account_circle</a>
+                        <li className="top-menu__user material- icons">
+                        <NavLink to="/profile">
+                            account_circle
+                        </NavLink>
                         </li>
                     </ul>
                 </Grid>

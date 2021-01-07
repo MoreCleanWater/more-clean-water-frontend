@@ -14,7 +14,7 @@ function SideMenu () {
             >
                 menu
             </div>
-            <SideMenuBar isActive={isActive} handleClick={handleClick}/>
+            <SideMenuBar isActive={isActive} onClick={handleClick}/>
         </div>
     )
 }

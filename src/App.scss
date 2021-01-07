@@ -5,9 +5,15 @@ body {
     margin: 0;
     background-color: #e6e6e6;
     color: #606060;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: radial-gradient(ellipse at center, rgba(255, 254, 234, 1) 0%, rgba(255, 254, 234, 1) 60%, #B7E8EB 100%);
+
+    @media screen and (min-width: 1024px) {
+      background: radial-gradient(ellipse at center, rgba(255, 254, 234, 1) 0%, rgba(255, 254, 234, 1) 35%, #B7E8EB 100%);
+    }
+    
   }
   
 a {
@@ -65,4 +71,29 @@ li {
 
 .no-margin {
   margin: 0;
+}
+
+form {
+  width: 80%;
+  margin: 2rem auto;
+
+  @media screen and (min-width: 1024px) {
+    margin: 5rem auto;
+  }
+
+  .MuiFormControl-root {
+    width: 100%;
+    margin: 1rem 0;
+  
+    .MuiTextField-root {
+      width: 100%;
+    }
+  
+    button {
+        width: 10rem;
+        margin: 2rem auto 0;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-weight: 500;
+    }
+  }
 }

@@ -5,16 +5,8 @@ import Button from '@material-ui/core/Button';
 import {Account, Personal, Confirmation} from './SignUpSteps'
 import {container} from './SignUp.module.scss';
 
-function SignUp() {
-    const [form, setForm] = useState({
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        county: '',
-        postcode: ''
-    })
-
+function SignUp({form, onChange}) {
+    
     const [step, setStep] = useState(1)
 
     const [redirect, setRedirect] = useState(null);
@@ -23,8 +15,6 @@ function SignUp() {
 
     const next = (e) => setStep(step < 3 ? step + 1 : 3)
 
-    const handleChange = (e) => setForm({...form, [e.target.id]: e.target.value})
-    
     const submit = (e) => setRedirect("/find-water")
 
     if (redirect!=null) return (<Redirect to={redirect} />)
@@ -38,8 +28,17 @@ function SignUp() {
             <Grid item xs={10}>
                 <form>
                     <ul>
-                        <Account isActive={step === 1} onChange={handleChange}/>
-                        <Personal isActive={step === 2} county={form.county} onChange={handleChange}/>
+                        <Account isActive={step === 1} 
+                            email={form.email}
+                            password={form.password}
+                            onChange={onChange}
+                        />
+                        <Personal isActive={step === 2}
+                            firstName={form.firstName}
+                            lastName={form.lastName}
+                            county={form.county}
+                            onChange={onChange}
+                        />
                         <Confirmation isActive={step === 3} 	
                             email={form.email}
                             firstName={form.firstName}

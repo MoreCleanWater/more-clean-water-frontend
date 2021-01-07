@@ -1,9 +1,10 @@
 import "./SideMenuBar.css";
+import {NavLink} from 'react-router-dom';
 
-function SideMenuBar({isActive,handleClick}) {
+function SideMenuBar({isActive, onClick}) {
     return (
         <div>
-            <div className={`overlay ${isActive ? 'show' : ''}`} onClick={handleClick}></div>
+            <div className={`overlay ${isActive ? 'show' : ''}`} onClick={onClick}></div>
             <div className={`sidemenu__bar ${isActive ? 'show' : ''}`}>
             <h1 className="sidemenu__title">
                 More Clean Water
@@ -29,12 +30,16 @@ function SideMenuBar({isActive,handleClick}) {
             <ul className="sidemenu__main">
                 <li className="sidemenu__item dashboard">
                 <h5 className="title">
-                    <a href="dashboard">Dashboard</a>
+                        <NavLink to="/dashboard" onClick={onClick}>
+                            Dashboard
+                        </NavLink>
                 </h5>
                 </li>
                 <li className="sidemenu__item profile">
                 <h5 className="title">
-                    <a href="profile">User profile</a>
+                        <NavLink to="/profile" onClick={onClick}>
+                            User profile
+                        </NavLink>
                 </h5>
                 </li>
             </ul>

@@ -1,6 +1,6 @@
 import { TextField, Select, InputLabel, FormControl } from '@material-ui/core';
 
-function Account({isActive, onChange}) {
+function Account({isActive, onChange, email, password}) {
     return (
         <li className={`account${isActive ? ' active-flex' : ''}`}>
             <FormControl>
@@ -8,6 +8,7 @@ function Account({isActive, onChange}) {
                     autoComplete="on"
                     required id='email'
                     label='Email'
+                    value={email}
                     onChange={onChange}
                 />
                 <TextField
@@ -15,6 +16,7 @@ function Account({isActive, onChange}) {
                     required id='password'
                     label='Password'
                     type="password"
+                    value={password}
                     onChange={onChange}
                 />
                 <TextField
@@ -29,19 +31,21 @@ function Account({isActive, onChange}) {
     )
 }
 
-function Personal({isActive, county, onChange}) {
+function Personal({isActive, county, onChange, firstName, lastName}) {
     return (
         <li className={`personal${isActive ? ' active-flex' : ''}`}>
                 <TextField
                     autoComplete="on"
                     required id='firstName'
                     label='First name'
+                    value={firstName}
                     onChange={onChange}
                 />
                 <TextField
                     autoComplete="on"
                     id='lastName'
                     label='Last name'
+                    value={lastName}
                     onChange={onChange}
                     required 
                 />
@@ -72,7 +76,7 @@ function Personal({isActive, county, onChange}) {
     )
 }
 
-function Confirmation({isActive, form, email, firstName, lastName, county, postCode}) {
+function Confirmation({isActive, email, firstName, lastName, county, postCode}) {
     return (
         <li className={`confirmation${isActive ? ' active-flex' : ''}`}>
             <ul>

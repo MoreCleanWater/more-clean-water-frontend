@@ -1,9 +1,0 @@
-.add-user {
-  height: 100vh;
-}
-  .add-user .form {
-    background: #fff;
-    filter: drop-shadow(0 4px 2px rgba(0,0,0,.1));
-    padding: 0 25px 40px;
-    transform: translateY(-30px);
-  }

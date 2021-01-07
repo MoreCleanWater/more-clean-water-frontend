@@ -7,14 +7,11 @@
             flex-direction: column;
             justify-content: flex-start;
             height: 70vh;
-    
-            * {
-                margin: 10px 0;
-            }
             
             li {
                 display: block;
                 height: initial;
+                margin-top: 1rem;
             }
         }
     }
