@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import SamplePoints from './LocationList/SamplePoints'
-import Loader from './LocationList/Loader'
+import SamplePoints from './SamplePoints'
+import Loader from './LocationMarker/Loader'
 
 function Map () {
 
