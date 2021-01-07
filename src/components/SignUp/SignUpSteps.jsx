@@ -1,4 +1,5 @@
 import { TextField, Select, InputLabel, FormControl } from '@material-ui/core';
+import {select} from './SignUp.module.scss';
 
 function Account({isActive, onChange, email, password}) {
     return (
@@ -55,7 +56,7 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                     variant="outlined"
                 />
                 <FormControl>
-                    <InputLabel htmlFor="county">County</InputLabel>
+                    <InputLabel htmlFor="county" className={select}>County</InputLabel>
                     <Select
                     native
                     value={county}

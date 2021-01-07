@@ -3,12 +3,12 @@
 // set basic styling
 body {
     margin: 0;
-    background-color: #e6e6e6;
+    background-color: rgba(255, 254, 244, 1) 45%;
     color: #606060;
     font-family: 'IBM Plex Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, #B7E8EB 150%);
+    background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, #B7E8EB 130%);
 }
   
 a {
