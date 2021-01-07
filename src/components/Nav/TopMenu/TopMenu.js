@@ -46,7 +46,7 @@ function TopMenu() {
                                 <UpdatesList/>
                             </div>
                         </li>
-                        <li className="top-menu__user material- icons">
+                        <li className="top-menu__user material-icons">
                         <NavLink to="/profile">
                             account_circle
                         </NavLink>
