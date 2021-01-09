@@ -4,10 +4,10 @@ import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
   typographyStyles: {
     flex: 1,
-    fontFamily: "Material Icons",
+    fontFamily: "Raleway",
   },
   root: {
-    backgroundColor: "#288FEE",
+    backgroundColor: "#66CCFF",
   },
 });
 
