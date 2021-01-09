@@ -15,7 +15,12 @@ const useStyles = makeStyles((theme) => ({
   P: { backgroundColor: "orange", justify: "center" },
   G: { backgroundColor: "green", justify: "center" },
   media: {
-    height: "150px",
+    height: "200px",
+    border: "2px solid white",
+    padding: "5px",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
   },
   expand: {
     transform: "rotate(0deg)",
@@ -41,7 +46,7 @@ function AwarenessCard(props) {
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar className={classes.avatarType}>{avatarType}</Avatar>}
+        avatar={<Avatar className={classes.P}>{avatarType}</Avatar>}
         action={
           <IconButton>
             <MoreVertIcon />
