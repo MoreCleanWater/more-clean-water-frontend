@@ -5,7 +5,7 @@ import awarenessList from './DataDump.js'
 function AwarenessContent() {
   const getAwarenessCard = (awareness) => {
     return (
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={6} md={4}>
         <AwarenessCard {...awareness} />
       </Grid>
     );

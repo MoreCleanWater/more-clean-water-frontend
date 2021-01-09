@@ -4,15 +4,11 @@ import {
   CardHeader,
   CardMedia,
   CardContent,
-  CardActions,
   Typography,
   Avatar,
   IconButton,
 } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React from "react";
-import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   S: { backgroundColor: "red", justify: "center" },
@@ -36,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
 function AwarenessCard(props) {
   const { title, subtitle, description, avatarType, imageUrl } = props;
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  // const [expanded, setExpanded] = React.useState(false);
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded);
+  // };
 
   return (
     <Card>
@@ -60,7 +56,7 @@ function AwarenessCard(props) {
           {description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -71,7 +67,7 @@ function AwarenessCard(props) {
         >
           <ExpandMoreIcon />
         </IconButton>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }

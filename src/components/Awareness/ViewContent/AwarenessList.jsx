@@ -15,12 +15,13 @@ function AwarenessList() {
       <Grid item xs={12}>
         <AwarenessHeader />
       </Grid>
+      <div style={{ paddingTop: "10px" }}></div>
       <Grid item container>
-        <Grid item xs={false} sm={2} />
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={false} sm={1} />
+        <Grid item xs={12} sm={10}>
           <AwarenessContent />
         </Grid>
-        <Grid item xs={false} sm={2} />
+        <Grid item xs={false} sm={1} />
       </Grid>
     </Grid>
   );
