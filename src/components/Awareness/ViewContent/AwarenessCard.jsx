@@ -42,11 +42,13 @@ function AwarenessCard(props) {
   // const handleExpandClick = () => {
   //   setExpanded(!expanded);
   // };
+  const avatarStyle =
+    avatarType === "P" ? classes.P : avatarType === "G" ? classes.G : classes.S;
 
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar className={classes.P}>{avatarType}</Avatar>}
+        avatar={<Avatar className={avatarStyle}>{avatarType}</Avatar>}
         action={
           <IconButton>
             <MoreVertIcon />
