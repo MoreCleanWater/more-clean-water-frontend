@@ -1,5 +1,5 @@
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import {useState} from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useState } from "react";
 import SignUp from "./components/SignUp/SignUp";
 import Updates from "./components/Updates/Updates";
 import Profile from "./components/Profile/Profile";
@@ -8,63 +8,69 @@ import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
 import "./App.scss";
 import { Grid } from "@material-ui/core";
+import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 
 function App() {
-  const [form, setForm]  = useState({
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      county: '',
-      postcode: ''
-  })
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    county: "",
+    postcode: "",
+  });
 
   const handleChange = (e) => {
-    setForm({...form, [e.target.id]: e.target.value})
-    console.log(form)
-  }
-
+    setForm({ ...form, [e.target.id]: e.target.value });
+    console.log(form);
+  };
 
   return (
     <Router>
       <div className="App">
-        
         <Switch>
           <Route path="/water-awareness">
-            <Nav/>  
-            <Grid container alignItems="center" justify="center" className="full-height">
-              Water Awareness
-            </Grid>
+            <Nav />
+            <AwarenessList />
           </Route>
 
           <Route path="/dashboard">
-            <Nav/>  
-            <Grid container alignItems="center" justify="center" className="full-height">
+            <Nav />
+            <Grid
+              container
+              alignItems="center"
+              justify="center"
+              className="full-height"
+            >
               Dashboard
             </Grid>
           </Route>
 
           <Route path="/signup">
-            <SignUp form={form} setForm={setForm} onChange={handleChange}/>
+            <SignUp form={form} setForm={setForm} onChange={handleChange} />
           </Route>
 
           <Route path="/profile">
-            <Nav/>  
-            <Profile form={form} setForm={setForm} onChange={handleChange}/>
+            <Nav />
+            <Profile form={form} setForm={setForm} onChange={handleChange} />
           </Route>
 
           <Route path="/updates">
-            <Nav/>
+            <Nav />
             <Updates />
           </Route>
 
           <Route path="/find-water">
-            <Nav/>
+            <Nav />
             <Map />
           </Route>
 
           <Route path="/">
-            <LandingPage form={form} setForm={setForm} onChange={handleChange}/>
+            <LandingPage
+              form={form}
+              setForm={setForm}
+              onChange={handleChange}
+            />
           </Route>
         </Switch>
       </div>
