@@ -4,34 +4,67 @@ import {
   CardHeader,
   CardMedia,
   CardContent,
+  CardActionArea,
   Typography,
   Avatar,
-  IconButton,
 } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   S: { backgroundColor: "red", justify: "center" },
   P: { backgroundColor: "orange", justify: "center" },
   G: { backgroundColor: "green", justify: "center" },
-  media: {
-    height: "200px",
-    border: "2px solid white",
-    padding: "5px",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
+  actionArea: {
+    padding: "35px 35px",
+    borderRadius: 16,
+    transition: "0.2s",
+    "&:hover": {
+      transform: "scale(1.1)",
+    },
   },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
+  card: {
+    inWidth: 256,
+    borderRadius: 16,
+    boxShadow: "none",
+    "&:hover": {
+      boxShadow: `0 6px 12px 0 
+        .rotate(-12)
+        .darken(0.2)
+        .fade(0.5)}`,
+    },
   },
-  expandOpen: {
-    transform: "rotate(180deg)",
+  header: {
+    "&:hover": {
+      boxShadow: `0 6px 12px 0 
+        .rotate(-12)
+        .darken(0.2)
+        .fade(0.5)}`,
+    },
   },
+  // media: {
+  //   height: "200px",
+  //   border: "2px solid white",
+  //   padding: "5px",
+  //   display: "block",
+  //   maxWidth: "100%",
+  //   maxHeight: "100%",
+  // },
+
+  media: () => ({
+    width: "100%",
+    height: 0,
+    paddingBottom: "75%",
+    // backgroundColor: bgColor,
+  }),
+  // expand: {
+  //   transform: "rotate(0deg)",
+  //   marginLeft: "auto",
+  //   transition: theme.transitions.create("transform", {
+  //     duration: theme.transitions.duration.shortest,
+  //   }),
+  // },
+  // expandOpen: {
+  //   transform: "rotate(180deg)",
+  // },
 }));
 
 function AwarenessCard(props) {
@@ -46,24 +79,26 @@ function AwarenessCard(props) {
     avatarType === "P" ? classes.P : avatarType === "G" ? classes.G : classes.S;
 
   return (
-    <Card>
-      <CardHeader
-        avatar={<Avatar className={avatarStyle}>{avatarType}</Avatar>}
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={title}
-        subheader={subtitle}
-      />
-      <CardMedia className={classes.media} image={imageUrl} title={title} />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {description}
-        </Typography>
-      </CardContent>
-      {/* <CardActions disableSpacing>
+    <Card variant="outlined" className={classes.card}>
+      <CardActionArea className={classes.actionArea}>
+        <CardHeader
+          className={classes.header}
+          avatar={<Avatar className={avatarStyle}>{avatarType}</Avatar>}
+          // action={
+          //   <IconButton>
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
+          title={title}
+          subheader={subtitle}
+        />
+        <CardMedia className={classes.media} image={imageUrl} title={title} />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {description}
+          </Typography>
+        </CardContent>
+        {/* <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -75,6 +110,7 @@ function AwarenessCard(props) {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions> */}
+      </CardActionArea>
     </Card>
   );
 }
