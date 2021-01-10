@@ -29,7 +29,7 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/water-awareness">
+          <Route path="/awareness">
             <Nav />
             <AwarenessList />
           </Route>

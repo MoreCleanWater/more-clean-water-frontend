@@ -9,7 +9,7 @@ function Nav() {
             <TopMenu/>
             <SideMenu/>
             <BottomMenu>
-                <BottomMenuItem icon="info" title="Water Awareness" to="/water-awareness"/>
+                <BottomMenuItem icon="info" title="Awareness" to="/awareness"/>
                 <BottomMenuItem icon="room" title="Find Water" to="/find-water"/>
                 <BottomMenuItem icon="notifications" title="Updates" to="/updates"/>
             </BottomMenu>

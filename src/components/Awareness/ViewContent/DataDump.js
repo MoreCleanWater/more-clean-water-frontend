@@ -1,5 +1,6 @@
 const dataDump = [
   {
+    key: 1,
     title: "Read Beneath the Surface: The State of the World's Water 2019",
     subtitle: "January 09, 2021",
     description:
@@ -9,6 +10,7 @@ const dataDump = [
       "http://d3i3l3kraiqpym.cloudfront.net/wp-content/uploads/2016/02/13105152/water-scarcity.jpg",
   },
   {
+    key: 2,
     title: "Help us inspire change through art",
     subtitle: "Discover the art through change",
     description:
@@ -18,6 +20,7 @@ const dataDump = [
       "https://images.twinkl.co.uk/tw1n/image/private/t_630/image_repo/c8/41/T-M-096-When-to-Wash-Your-Hands-Display-Sign.jpg",
   },
   {
+    key: 3,
     title: "March for Water",
     subtitle:
       "Join thousands and pledge to walk further than usual in solidarity with those who have no choice but to walk to collect water",

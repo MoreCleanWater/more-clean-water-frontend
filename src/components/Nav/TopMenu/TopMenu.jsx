@@ -25,8 +25,8 @@ function TopMenu() {
                         </NavLink>
                         </li>
                         <li className="top-menu__item water-awareness">
-                        <NavLink to="/water-awareness">
-                            Water Awareness
+                        <NavLink to="/awareness">
+                            Awareness
                         </NavLink>
                         </li>
                         <li className="top-menu__item dashboard">
