@@ -1,44 +1,38 @@
-import {
-  makeStyles,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActionArea,
-  Typography,
-  Avatar,
-} from "@material-ui/core";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import Collapse from "@material-ui/core/Collapse";
+import clsx from "clsx";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MoreVertIcon from "@material-ui/icons//MoreVert";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   S: { backgroundColor: "red", justify: "center" },
   P: { backgroundColor: "orange", justify: "center" },
   G: { backgroundColor: "green", justify: "center" },
   actionArea: {
-    padding: "35px 35px",
-    borderRadius: 16,
+    padding: "15px 15px 0px 15px",
     transition: "0.2s",
     "&:hover": {
       transform: "scale(1.1)",
     },
   },
   card: {
-    inWidth: 256,
+    maxWidth: 345,
     borderRadius: 16,
     boxShadow: "none",
-    "&:hover": {
-      boxShadow: `0 6px 12px 0 
-        .rotate(-12)
-        .darken(0.2)
-        .fade(0.5)}`,
-    },
+    backgroundColor: "#F9FCFF",
   },
   header: {
-    "&:hover": {
-      boxShadow: `0 6px 12px 0 
-        .rotate(-12)
-        .darken(0.2)
-        .fade(0.5)}`,
-    },
+    padding: "8px",
   },
   // media: {
   //   height: "200px",
@@ -51,66 +45,105 @@ const useStyles = makeStyles(() => ({
 
   media: () => ({
     width: "100%",
-    height: 0,
+    height: "auto",
     paddingBottom: "75%",
-    // backgroundColor: bgColor,
   }),
-  // expand: {
-  //   transform: "rotate(0deg)",
-  //   marginLeft: "auto",
-  //   transition: theme.transitions.create("transform", {
-  //     duration: theme.transitions.duration.shortest,
-  //   }),
-  // },
-  // expandOpen: {
-  //   transform: "rotate(180deg)",
-  // },
+
+  video: {
+    height: "200px",
+    width: "100%",
+  },
+
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
 }));
 
 function AwarenessCard(props) {
-  const { title, subtitle, description, avatarType, imageUrl } = props;
+  const {
+    title,
+    subtitle,
+    description,
+    content,
+    avatarType,
+    imageUrl,
+    videoUrl,
+  } = props;
   const classes = useStyles();
 
-  // const [expanded, setExpanded] = React.useState(false);
-  // const handleExpandClick = () => {
-  //   setExpanded(!expanded);
-  // };
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   const avatarStyle =
     avatarType === "P" ? classes.P : avatarType === "G" ? classes.G : classes.S;
 
   return (
     <Card variant="outlined" className={classes.card}>
+      <CardHeader
+        avatar={<Avatar className={avatarStyle}>{avatarType}</Avatar>}
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={title}
+        subheader={subtitle}
+      />
       <CardActionArea className={classes.actionArea}>
-        <CardHeader
-          className={classes.header}
-          avatar={<Avatar className={avatarStyle}>{avatarType}</Avatar>}
-          // action={
-          //   <IconButton>
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
-          title={title}
-          subheader={subtitle}
-        />
-        <CardMedia className={classes.media} image={imageUrl} title={title} />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {description}
-          </Typography>
-        </CardContent>
-        {/* <CardActions disableSpacing>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions> */}
+        {imageUrl ? (
+          <CardMedia className={classes.media} image={imageUrl} title={title} />
+        ) : null}
+        {videoUrl ? (
+          <CardMedia
+            className={classes.video}
+            component="iframe"
+            title={title}
+            src={videoUrl}
+          />
+        ) : null}
+        {description ? (
+          <CardContent>
+            <Typography
+              //className="classes.description"
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              {description}
+            </Typography>
+          </CardContent>
+        ) : null}
       </CardActionArea>
+      <CardActions disableSpacing>
+        {content ? (
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        ) : null}
+      </CardActions>
+      {content ? (
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>{content}</Typography>
+          </CardContent>
+        </Collapse>
+      ) : null}
     </Card>
   );
 }

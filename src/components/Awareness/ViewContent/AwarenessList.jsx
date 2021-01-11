@@ -1,17 +1,11 @@
 import React from "react";
-import { Grid, makeStyles } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import AwarenessHeader from "./AwarenessHeader";
 import AwarenessContent from "./AwarenessContent";
 
-const useStyles = makeStyles({
-  root: { paddingTop: "76px" },
-  orange: { backgroundColor: "orange", justify: "center" },
-});
-
 function AwarenessList() {
-  const classes = useStyles();
   return (
-    <Grid container className={classes.root} direction="column">
+    <Grid container style={{ paddingTop: "76px" }} direction="column">
       <Grid item xs={12}>
         <AwarenessHeader />
       </Grid>
@@ -20,8 +14,8 @@ function AwarenessList() {
         <Grid item xs={false} sm={1} />
         <Grid item xs={12} sm={10}>
           <AwarenessContent />
+          <Grid item xs={false} sm={1} />
         </Grid>
-        <Grid item xs={false} sm={1} />
       </Grid>
     </Grid>
   );
