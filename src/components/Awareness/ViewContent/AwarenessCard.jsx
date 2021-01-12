@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -13,6 +14,8 @@ import Collapse from "@material-ui/core/Collapse";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons//MoreVert";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 
 const useStyles = makeStyles((theme) => ({
   S: { backgroundColor: "red", justify: "center" },
@@ -30,18 +33,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 16,
     boxShadow: "none",
     backgroundColor: "#F9FCFF",
+    position: "relative",
   },
   header: {
     padding: "8px",
   },
-  // media: {
-  //   height: "200px",
-  //   border: "2px solid white",
-  //   padding: "5px",
-  //   display: "block",
-  //   maxWidth: "100%",
-  //   maxHeight: "100%",
-  // },
 
   media: () => ({
     width: "100%",
@@ -78,26 +74,53 @@ function AwarenessCard(props) {
     videoUrl,
   } = props;
   const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const avatarStyle =
+    avatarType === "P" ? classes.P : avatarType === "G" ? classes.G : classes.S;
 
-  const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const avatarStyle =
-    avatarType === "P" ? classes.P : avatarType === "G" ? classes.G : classes.S;
+
+  const handleSettingsClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Card variant="outlined" className={classes.card}>
       <CardHeader
         avatar={<Avatar className={avatarStyle}>{avatarType}</Avatar>}
         action={
-          <IconButton aria-label="settings">
+          <IconButton onClick={handleSettingsClick}>
             <MoreVertIcon />
           </IconButton>
         }
         title={title}
         subheader={subtitle}
       />
+      <Menu
+        keepMounted
+        id="settings-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>
+          <Typography variant="caption" color="primary">
+            Edit
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Typography variant="caption" color="primary">
+            Delete
+          </Typography>
+        </MenuItem>
+      </Menu>
       <CardActionArea className={classes.actionArea}>
         {imageUrl ? (
           <CardMedia className={classes.media} image={imageUrl} title={title} />
@@ -140,7 +163,13 @@ function AwarenessCard(props) {
       {content ? (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{content}</Typography>
+            <Typography
+              //className="classes.description"
+              variant="body2"
+              component="p"
+            >
+              {content}
+            </Typography>
           </CardContent>
         </Collapse>
       ) : null}
