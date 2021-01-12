@@ -1,0 +1,20 @@
+[
+    {
+        "id": "001",
+        "title": "Water shortage updates",
+        "description": "Description detailing water shortage", 
+        "isReaded": false
+      },
+      {
+        "id": "002",
+        "title": "Unsafe Area update",
+        "description": "Description detailing unsafe area", 
+        "isReaded": false
+      },
+      {
+        "id": "003",
+        "title": "New content update",
+        "description": "Description detailing the update", 
+        "isReaded": false
+      }
+]
