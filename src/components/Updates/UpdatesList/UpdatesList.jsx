@@ -1,28 +1,17 @@
 import Grid from '@material-ui/core/Grid';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UpdatesItem from './UpdatesItem/UpdatesItem';
 
 function UpdatesList() {
-  const [updates, setUpdates] = useState([
-    {
-      id: "001",
-      title: "Water shortage updates",
-      description: "Description detailing water shortage", 
-      isReaded: false
-    },
-    {
-      id: "002",
-      title: "Unsafe Area update",
-      description: "Description detailing unsafe area", 
-      isReaded: false
-    },
-    {
-      id: "003",
-      title: "New content update",
-      description: "Description detailing the update", 
-      isReaded: false
-    }
-  ]);
+  const [updates, setUpdates] = useState();
+
+  useEffect(() => {
+    fetch('updates.json')
+    .then(res => res.json())
+    .then((data) => {
+      setUpdates(Array.from(data))
+    })
+  }, []);
 
   const markAsRead = id => {
     const newUpdates = [...updates];
@@ -30,6 +19,7 @@ function UpdatesList() {
     setUpdates(newUpdates);
   }
   
+  if (!updates) return (<div></div>);
   const unreadUpdates = updates.filter(update => !update.isReaded);
 
   return (
