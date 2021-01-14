@@ -100,3 +100,7 @@ form {
 h1, h2, h3 {
   color: $text;
 }
+
+.active > * {
+  color: #c82a29;
+}

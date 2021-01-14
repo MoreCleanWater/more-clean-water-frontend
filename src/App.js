@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import SignUp from "./components/SignUp/SignUp";
 import Updates from "./components/Updates/Updates";
+import Admin from "./components/Admin/Admin";
+import AdminMenu from "./components/Admin/AdminMenu/AdminMenu";
 import Profile from "./components/Profile/Profile";
 import Map from "./components/WaterQuality/Map";
 import Nav from "./components/Nav/Nav";
@@ -63,6 +65,11 @@ function App() {
           <Route path="/find-water">
             <Nav />
             <Map />
+          </Route>
+
+          <Route path="/admin">
+            <AdminMenu />
+            <Admin />
           </Route>
 
           <Route path="/">
