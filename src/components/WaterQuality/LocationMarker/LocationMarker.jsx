@@ -1,5 +1,7 @@
 import { Icon } from "@iconify/react";
 import locationIcon from "@iconify/icons-mdi/map-marker";
+import "./LocationMarker.css";
+
 
 function LocationMarker({ onClick }) {
   return (
