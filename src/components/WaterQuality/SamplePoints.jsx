@@ -1,32 +1,31 @@
-import GoogleMapReact from "google-map-react";
 import { useState } from "react";
-import LocationMarker from "./LocationMarker/LocationMarker";
 import "./LocationMarker/LocationMarker.css";
-import { InfoWindow } from "google-maps-react";
+import { GoogleApiWrapper, Map, InfoWindow, Marker } from "google-maps-react";
 
-function SamplePoints({ samplePoint, center, zoom }) {
-  const [locationInfo, setLocationInfo] = useState(null);
+function SamplePoints({ samplePoint, center, zoom, google }) {
+  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
+  const [activeMarker, setActiveMarker] = useState({});
+  const [selectedPlace, setSelectedPlace] = useState({});
+
   let markers = null;
   if (samplePoint != null) {
-    markers = samplePoint.map((sp, index) => {
+    markers = samplePoint.map((sp) => {
       if (
         sp.samplingPointType.group ===
         process.env.REACT_APP_SAMPLING_POINT_GROUPS_FW
       )
         return (
-          <LocationMarker
+          <Marker
             key={sp.easting}
-            lat={sp.lat}
-            lng={sp.long}
-            onClick={() =>
-              setLocationInfo({
-                key: sp.easting,
-                lat: sp.lat,
-                lng: sp.long,
-                area: sp.area.label,
-              })
-            }
-          ></LocationMarker>
+            name={sp.label}
+            position={{ lat: sp.lat, lng: sp.long }}
+            onClick={(props, marker) => {
+              //  console.log(props);
+              setSelectedPlace(props);
+              setActiveMarker(marker);
+              setShowingInfoWindow(!showingInfoWindow);
+            }}
+          ></Marker>
         );
       return null;
     });
@@ -34,29 +33,27 @@ function SamplePoints({ samplePoint, center, zoom }) {
 
   return (
     <div className="map">
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: `${process.env.REACT_APP_GOOGLE_APIKEY}`,
+      <Map
+        disableDefaultUI={true}
+        google={google}
+        initialCenter={center}
+        zoom={zoom}
+        onClick={() => {
+          setShowingInfoWindow(false);
         }}
-        defaultCenter={center}
-        defaultZoom={zoom}
       >
         {markers}
-        {locationInfo ? (
-          <InfoWindow
-            key={locationInfo.key}
-            position={{ lat: locationInfo.lat, lng: locationInfo.lng }}
-          >
+        {activeMarker ? (
+          <InfoWindow visible={showingInfoWindow} marker={activeMarker}>
             <div>
-              <h2>{locationInfo.area}</h2>
+              <h6>{selectedPlace.name}</h6>
             </div>
           </InfoWindow>
         ) : null}
-      </GoogleMapReact>
+      </Map>
     </div>
   );
 }
-
 SamplePoints.defaultProps = {
   center: {
     lat: 51.507351,
@@ -64,4 +61,6 @@ SamplePoints.defaultProps = {
   },
   zoom: 7,
 };
-export default SamplePoints;
+export default GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_GOOGLE_APIKEY,
+})(SamplePoints);
