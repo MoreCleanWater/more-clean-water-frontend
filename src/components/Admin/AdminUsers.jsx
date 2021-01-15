@@ -38,6 +38,7 @@ function AdminUsers () {
     ];
         
     const [users, setUsers] = useState();
+    const [isSelected, setSelected] = useState();
 
     useEffect(() => {
         fetch('/users.json')
@@ -46,6 +47,12 @@ function AdminUsers () {
     }, []);
     
     const editUser = (e) => console.log(e.currentTarget.id);
+    
+    const handleSelection = (e) => {
+        console.log(e.rowIds.length)
+        e.rowIds.length === 0 ? setSelected(false) : setSelected(true);
+    }
+
     
     const deleteUser = (e) => {
         setUsers(users.filter(i => i.id !== e.currentTarget.id));
@@ -70,6 +77,7 @@ function AdminUsers () {
                     disableColumnMenu
                     disableSelectionOnClick
                     autoPageSize
+                    onSelectionChange={handleSelection}
                 />
             </Grid>
 
@@ -89,7 +97,7 @@ function AdminUsers () {
                     style={{ marginLeft: 16 }}
                     // onClick={deleteUser}
                     disableElevation
-                    // className="hidden"
+                    className={isSelected ? '' : 'hidden'}
                 >
                     Delete users
                 </Button>
