@@ -62,7 +62,7 @@ function AdminUsers () {
             </h2>
             </Grid>
 
-            <Grid item xs={10} md={8} className='center' style={{height: '80%'}}>
+            <Grid item xs={10} md={8} className='center' style={{height: '70%'}}>
                 <DataGrid
                     rows={users}
                     columns={columns}
@@ -71,6 +71,28 @@ function AdminUsers () {
                     disableSelectionOnClick
                     autoPageSize
                 />
+            </Grid>
+
+            <Grid item xs={10} md={8} className='buttons mt10'>
+                <Button variant="contained"
+                    className='primaryButton'
+                    size="small"
+                    // onClick={addUser}
+                    disableElevation
+                >
+                    Add User
+                </Button>
+
+                <Button 
+                    variant="text"
+                    size="small"
+                    style={{ marginLeft: 16 }}
+                    // onClick={deleteUser}
+                    disableElevation
+                    // className="hidden"
+                >
+                    Delete users
+                </Button>
             </Grid>
         </Grid>
     )
