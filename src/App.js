@@ -3,7 +3,8 @@ import { useState } from "react";
 import SignUp from "./components/SignUp/SignUp";
 import Updates from "./components/Updates/Updates";
 import Admin from "./components/Admin/Admin";
-import AdminMenu from "./components/Admin/AdminMenu/AdminMenu";
+import AdminUsers from "./components/Admin/AdminUsers";
+import AdminNav from "./components/Admin/AdminNav/AdminNav";
 import Profile from "./components/Profile/Profile";
 import Map from "./components/WaterQuality/Map";
 import Nav from "./components/Nav/Nav";
@@ -67,8 +68,14 @@ function App() {
             <Map />
           </Route>
 
+
+          <Route path="/admin/users">
+            <AdminNav />
+            <AdminUsers />
+          </Route>
+
           <Route path="/admin">
-            <AdminMenu />
+            <AdminNav />
             <Admin />
           </Route>
 

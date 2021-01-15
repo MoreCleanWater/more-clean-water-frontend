@@ -58,6 +58,10 @@ li {
   height: 100vh;
 }
 
+.full-width {
+  width: 100vw;
+}
+
 @media screen and (max-width:679px) {
   .full-height-mobile {
     height: 100vh;
@@ -103,4 +107,14 @@ h1, h2, h3 {
 
 .active > * {
   color: #c82a29;
+}
+
+
+.alertColor {
+  color: $alert!important;
+}
+
+.greenButton {
+  background-color: $green!important;
+  color: #fff!important;
 }

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AdminMenu() {
+function AdminNav() {
   const classes = useStyles();
   const [isOpen, setOpen] = React.useState(false);
 
@@ -84,4 +84,4 @@ function AdminMenu() {
   );
 }
 
-export default AdminMenu;
+export default AdminNav;
