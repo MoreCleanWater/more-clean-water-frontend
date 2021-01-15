@@ -32,13 +32,6 @@ li {
 }
 
 
-.MuiButton-contained {
-  background-color: $primary!important;
-}
-
-.MuiButton-textPrimary {
-  color: $primary!important;
-}
 
 
 //helpers
@@ -114,7 +107,36 @@ h1, h2, h3 {
   color: $alert!important;
 }
 
+.primaryColor {
+  color: $primary!important;
+}
+
 .greenButton {
   background-color: $green!important;
   color: #fff!important;
+}
+
+.primaryButton {
+  background-color: $primary!important;
+}
+
+.MuiButton-contained {
+  // background-color: $primary!important;
+}
+
+.MuiButton-textPrimary {
+  // color: $primary!important;
+}
+
+
+.alignRight {
+  text-align: right;
+}
+
+.expandWidth {
+  width: 100%;
+}
+
+.absolute {
+  position: absolute!important;
 }

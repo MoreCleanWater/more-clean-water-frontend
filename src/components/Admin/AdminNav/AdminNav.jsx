@@ -9,20 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { NavLink  } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const useStyles = makeStyles((theme) => ({
-  list: {
-    width: 250,
-  },
-  nested: {
-    paddingLeft: theme.spacing(4),
-  },
-  fullList: {
-    width: 'auto',
-  },
-}));
-
 function AdminNav() {
-  const classes = useStyles();
   const [isOpen, setOpen] = React.useState(false);
 
   const toggleDrawer = (isOpen) => (event) => {
@@ -35,13 +22,13 @@ function AdminNav() {
   return (
     <React.Fragment key='left'>
         
-        {/* <Button onClick={toggleDrawer(true)}> <MenuIcon /></Button> */}
         <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={toggleDrawer(true)}
-          >
-            <MenuIcon />
+            className="absolute"
+        >
+          <MenuIcon />
         </IconButton>
         <SwipeableDrawer
         anchor='left'
@@ -50,7 +37,7 @@ function AdminNav() {
         onOpen={toggleDrawer(true)}
         >
             <div
-                className={classes.list}
+                className="menu-list"
                 role="presentation"
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
@@ -69,7 +56,7 @@ function AdminNav() {
                     </ListItem>
 
                     <ListItem button component={NavLink} to="/admin/awareness-category">
-                        <ListItemText primary="Categories" className={classes.nested}/>
+                        <ListItemText primary="Categories" className="menu-item__nested"/>
                     </ListItem>
 
                     <ListItem button component={NavLink} to="/admin/communication">
