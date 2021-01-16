@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   //   },
 }));
 
-export default function AddAwarenessCategory() {
+export default function AwarenessCategory() {
   const classes = useStyles();
   const [disableButton, setDisableButton] = useState(true);
   const [openMessage, setOpenMessage] = useState(false);
@@ -137,13 +137,8 @@ export default function AddAwarenessCategory() {
             </Alert>
           </Snackbar>
         </Grid>
-        <Grid item xs={10} md={8} style={{ height: "40%", display: "flex" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoPageSize
-            checkboxSelection
-          />
+        <Grid item xs={10} md={8} style={{ height: "60%", display: "flex" }}>
+          <DataGrid rows={rows} columns={columns} autoPageSize />
         </Grid>
       </Grid>
     </div>

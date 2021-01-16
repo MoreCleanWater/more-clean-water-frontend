@@ -12,7 +12,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import "./App.scss";
 import { Grid } from "@material-ui/core";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
-import AddAwarenessCategory from "./components/Admin/AwarenessCategory/AddAwarenessCategory";
+import AwarenessCategory from "./components/Admin/AwarenessCategory/AwarenessCategory";
 
 function App() {
   const [form, setForm] = useState({
@@ -71,7 +71,7 @@ function App() {
 
           <Route path="/admin/awareness-category">
             <AdminNav />
-            <AddAwarenessCategory />
+            <AwarenessCategory />
           </Route>
 
           <Route path="/admin/users">
