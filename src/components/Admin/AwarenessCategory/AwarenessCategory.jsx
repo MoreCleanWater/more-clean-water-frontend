@@ -7,6 +7,7 @@ import { useState } from "react";
 import AwarenessCategoryList from "./AwarenessCategoryList";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import { setCategory } from "./../services/categoryServices";
 
 const useStyles = makeStyles(() => ({
   text: {
@@ -29,9 +30,12 @@ export default function AwarenessCategory() {
   const [descText, setDescText] = useState("");
   const [catText, setCatText] = useState("");
 
-  const handleSave = () => {
-    setSuccessMessage(true);
-    handleReset();
+  const handleSave = (e) => {
+    e.preventDefault();
+    setCategory(catText, descText).then(() => {
+      setSuccessMessage(true);
+      handleReset();
+    });
   };
 
   const handleReset = () => {
@@ -97,7 +101,7 @@ export default function AwarenessCategory() {
             </Alert>
           </Snackbar>
         </Grid>
-        <AwarenessCategoryList />
+        <AwarenessCategoryList successMessage={successMessage} />
       </Grid>
     </div>
   );
