@@ -23,6 +23,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "api": "json-server db.json -p 3333 --delay 1500",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "json-server": "^0.16.3"
   }
 }
