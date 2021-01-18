@@ -1,9 +1,14 @@
-export function getCategory() {
-  return fetch("http://localhost:3333/category").then((data) => data.json());
+export async function getCategories() {
+  const response = await fetch("http://localhost:3333/category");
+  if (response.status >= 200 && response.status <= 299) {
+    return await response.json();
+  } else {
+    console.log(response.status, response.statusText);
+  }
 }
 
-export function setCategory(category, description) {
-  return fetch("http://localhost:3333/category", {
+export async function saveCategory(category, description) {
+  const data = await fetch("http://localhost:3333/category", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,5 +17,6 @@ export function setCategory(category, description) {
       category: category,
       description: description,
     }),
-  }).then((data) => data.json());
+  });
+  return await data.json();
 }

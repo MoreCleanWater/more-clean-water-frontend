@@ -3,11 +3,14 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import { useState } from "react";
-import AwarenessCategoryList from "./AwarenessCategoryList";
+import { useState, useEffect } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import { setCategory } from "./../services/categoryServices";
+import { DataGrid } from "@material-ui/data-grid";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import { getCategories } from "./../services/categoryServices";
+import { saveCategory } from "./../services/categoryServices";
 
 const useStyles = makeStyles(() => ({
   text: {
@@ -26,13 +29,14 @@ const useStyles = makeStyles(() => ({
 
 export default function AwarenessCategory() {
   const classes = useStyles();
-  const [successMessage, setSuccessMessage] = useState(false);
   const [descText, setDescText] = useState("");
   const [catText, setCatText] = useState("");
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [category, setCategory] = useState([]);
+  let rows = [];
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    setCategory(catText, descText).then(() => {
+  const handleSave = () => {
+    saveCategory(catText, descText).then(() => {
       setSuccessMessage(true);
       handleReset();
     });
@@ -41,7 +45,6 @@ export default function AwarenessCategory() {
   const handleReset = () => {
     setCatText("");
     setDescText("");
-    // setDisableButton(true);
   };
 
   const handleClose = (reason) => {
@@ -51,12 +54,43 @@ export default function AwarenessCategory() {
     setSuccessMessage(false);
   };
 
+  const columns = [
+    { field: "id", hide: true },
+    {
+      field: "category",
+      headerClassName: "super-app-theme--header",
+      headerName: <strong>Category</strong>,
+      flex: 0.5,
+    },
+    { field: "description", headerName: <strong>Description</strong>, flex: 1 },
+    {
+      field: "actions",
+      headerName: <strong>Actions</strong>,
+      flex: 0.25,
+      renderCell: () => (
+        <div>
+          <EditIcon style={{ cursor: "pointer", color: "green" }} />
+          <DeleteIcon style={{ cursor: "pointer", color: "red" }} />
+        </div>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    getCategories().then((items) => {
+      setCategory(items);
+    });
+  }, [successMessage]);
+
+  console.log(category);
+  if (typeof category !== "undefined" && category.length > 0)
+    rows = category.map((item) => (rows[item] = item));
+
   return (
     <div>
       <Grid
         container
         style={{ height: "100vh", width: "100vw" }}
-        //</div>direction="column"
         alignContent="center"
         justify="space-around"
         spacing={5}
@@ -101,7 +135,9 @@ export default function AwarenessCategory() {
             </Alert>
           </Snackbar>
         </Grid>
-        <AwarenessCategoryList successMessage={successMessage} />
+        <Grid item xs={10} md={8} style={{ height: "60%", display: "flex" }}>
+          <DataGrid rows={rows} columns={columns} autoPageSize />
+        </Grid>
       </Grid>
     </div>
   );
