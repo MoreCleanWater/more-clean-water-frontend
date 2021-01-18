@@ -74,6 +74,10 @@ function App() {
             <AwarenessCategory />
           </Route>
 
+          <Route path="/admin/awareness-content">
+            <AdminNav />
+          </Route>
+
           <Route path="/admin/users">
             <AdminNav />
             <AdminUsers />

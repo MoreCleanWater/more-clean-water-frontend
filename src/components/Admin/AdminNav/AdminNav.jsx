@@ -57,6 +57,9 @@ function AdminNav() {
                     <ListItem button component={NavLink} to="/admin/awareness-category">
                         <ListItemText primary="Categories" className="menu-item__nested"/>
                     </ListItem>
+                    <ListItem button component={NavLink} to="/admin/awareness-content">
+                        <ListItemText primary="Content" className="menu-item__nested"/>
+                    </ListItem>
 
                     <ListItem button component={NavLink} to="/admin/communication">
                         <ListItemText primary="Communication"/>
