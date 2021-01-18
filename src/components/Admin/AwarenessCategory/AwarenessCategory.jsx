@@ -11,6 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { getCategories } from "./../services/categoryServices";
 import { saveCategory } from "./../services/categoryServices";
+import { deleteCategory } from "./../services/categoryServices";
 
 const useStyles = makeStyles(() => ({
   text: {
@@ -31,14 +32,25 @@ export default function AwarenessCategory() {
   const classes = useStyles();
   const [descText, setDescText] = useState("");
   const [catText, setCatText] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
   const [category, setCategory] = useState([]);
+  const [deletedRows, setDeletedRows] = useState([]);
+
   let rows = [];
 
   const handleSave = () => {
     saveCategory(catText, descText).then(() => {
+      setAlertMessage("Category created successfully");
       setSuccessMessage(true);
       handleReset();
+    });
+  };
+
+  const handleDelete = () => {
+    deleteCategory(deletedRows[0].id).then(() => {
+      setAlertMessage("Category deleted successfully");
+      setSuccessMessage(true);
     });
   };
 
@@ -54,6 +66,12 @@ export default function AwarenessCategory() {
     setSuccessMessage(false);
   };
 
+  const handleRowSelection = (e) => {
+    console.log(e.data.id);
+    // setDeletedRows([...deletedRows, ...rows.filter((r) => r.id === e.data.id)]);
+    setDeletedRows(rows.filter((r) => r.id === e.data.id));
+  };
+
   const columns = [
     { field: "id", hide: true },
     {
@@ -66,11 +84,14 @@ export default function AwarenessCategory() {
     {
       field: "actions",
       headerName: <strong>Actions</strong>,
-      flex: 0.25,
+      flex: 0.5,
       renderCell: () => (
         <div>
-          <EditIcon style={{ cursor: "pointer", color: "green" }} />
-          <DeleteIcon style={{ cursor: "pointer", color: "red" }} />
+          {/* <EditIcon style={{ cursor: "pointer", color: "green" }} /> */}
+          <DeleteIcon
+            style={{ cursor: "pointer", color: "red" }}
+            onClick={handleDelete}
+          />
         </div>
       ),
     },
@@ -82,7 +103,7 @@ export default function AwarenessCategory() {
     });
   }, [successMessage]);
 
-  console.log(category);
+  //console.log(category);
   if (typeof category !== "undefined" && category.length > 0)
     rows = category.map((item) => (rows[item] = item));
 
@@ -95,7 +116,7 @@ export default function AwarenessCategory() {
         justify="space-around"
         spacing={5}
       >
-        <Grid item xs={10} md={8}>
+        <Grid item xs={10} sm={8}>
           <TextField
             required
             id="standard-basic-category"
@@ -131,12 +152,17 @@ export default function AwarenessCategory() {
             onClose={handleClose}
           >
             <Alert onClose={handleClose} severity="success">
-              Category created!
+              {alertMessage}
             </Alert>
           </Snackbar>
         </Grid>
-        <Grid item xs={10} md={8} style={{ height: "60%", display: "flex" }}>
-          <DataGrid rows={rows} columns={columns} autoPageSize />
+        <Grid item xs={10} sm={8} style={{ height: "60%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoPageSize
+            onRowSelected={handleRowSelection}
+          />
         </Grid>
       </Grid>
     </div>
