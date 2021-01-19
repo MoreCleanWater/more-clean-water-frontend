@@ -1,5 +1,4 @@
 import { Button } from "@material-ui/core";
-import { useEffect } from "react";
 import css from "./Admin.module.scss";
 
 function EditForm (props) {
@@ -13,19 +12,6 @@ function EditForm (props) {
         className,
         style
     } = props;
-
-    console.log(fields);
-
-    useEffect(() => {
-        if (row) {
-            console.log(row)
-            populateFields();
-        }    
-    })
-
-    const populateFields = () => {
-        
-    }
 
     return (
         <div className={className} style={style}>
@@ -44,7 +30,6 @@ function EditForm (props) {
                             ></input>
                         </div>
                     )
-
                 })}
             </form>
 
@@ -55,8 +40,8 @@ function EditForm (props) {
                     onClick={handleSubmit}
                     disableElevation
                 >
-                    {mode === 'create' && 'Add'}
-                    {mode === 'update' && 'Save'}
+                    {mode === 'create' && 'Create'}
+                    {mode === 'update' && 'Update'}
                 </Button>
 
                 <Button variant="contained"
