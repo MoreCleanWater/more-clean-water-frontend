@@ -8,7 +8,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { DataGrid } from "@material-ui/data-grid";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import { getCategories } from "./../services/categoryServices";
 import { saveCategory } from "./../services/categoryServices";
 import { deleteCategory } from "./../services/categoryServices";
