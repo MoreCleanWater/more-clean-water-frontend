@@ -38,25 +38,19 @@ function App() {
             <AwarenessList />
           </Route>
 
-          <Route path="/dashboard">
-            <Nav />
-            <Grid
-              container
-              alignItems="center"
-              justify="center"
-              className="full-height"
-            >
-              Dashboard
-            </Grid>
-          </Route>
-
           <Route path="/signup">
-            <SignUp form={form} setForm={setForm} onChange={handleChange} />
+            <SignUp form={form} 
+            setForm={setForm} 
+            onChange={handleChange} 
+          />
           </Route>
 
           <Route path="/profile">
             <Nav />
-            <Profile form={form} setForm={setForm} onChange={handleChange} />
+            <Profile form={form} 
+            setForm={setForm} 
+            onChange={handleChange} 
+          />
           </Route>
 
           <Route path="/updates">

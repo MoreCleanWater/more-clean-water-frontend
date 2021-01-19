@@ -30,8 +30,8 @@ function TopMenu() {
                         </NavLink>
                         </li>
                         <li className="top-menu__item dashboard">
-                        <NavLink to="/dashboard">
-                            Dashboard
+                        <NavLink to="/admin">
+                            Admin
                         </NavLink>
                         </li>
                     </ul>

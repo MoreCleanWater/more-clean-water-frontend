@@ -30,8 +30,8 @@ function SideMenuBar({isActive, onClick}) {
             <ul className="sidemenu__main">
                 <li className="sidemenu__item dashboard">
                 <h5 className="title">
-                        <NavLink to="/dashboard" onClick={onClick}>
-                            Dashboard
+                        <NavLink to="/admin" onClick={onClick}>
+                            Admin
                         </NavLink>
                 </h5>
                 </li>
