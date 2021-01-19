@@ -9,10 +9,9 @@ import Profile from "./components/Profile/Profile";
 import Map from "./components/WaterQuality/Map";
 import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
-import "./App.scss";
-import { Grid } from "@material-ui/core";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/AwarenessCategory/AwarenessCategory";
+import "./App.scss";
 
 function App() {
   const [form, setForm] = useState({
@@ -30,68 +29,68 @@ function App() {
   };
 
   return (
-    <Router>
       <div className="App">
-        <Switch>
-          <Route path="/awareness">
-            <Nav />
-            <AwarenessList />
-          </Route>
+        <Router>
+            <Switch>
+              <Route path="/awareness">
+                <Nav />
+                <AwarenessList />
+              </Route>
 
-          <Route path="/signup">
-            <SignUp form={form} 
-            setForm={setForm} 
-            onChange={handleChange} 
-          />
-          </Route>
+              <Route path="/signup">
+                <SignUp form={form} 
+                setForm={setForm} 
+                onChange={handleChange} 
+              />
+              </Route>
 
-          <Route path="/profile">
-            <Nav />
-            <Profile form={form} 
-            setForm={setForm} 
-            onChange={handleChange} 
-          />
-          </Route>
+              <Route path="/profile">
+                <Nav />
+                <Profile form={form} 
+                setForm={setForm} 
+                onChange={handleChange} 
+              />
+              </Route>
 
-          <Route path="/updates">
-            <Nav />
-            <Updates />
-          </Route>
+              <Route path="/updates">
+                <Nav />
+                <Updates />
+              </Route>
 
-          <Route path="/find-water">
-            <Nav />
-            <Map />
-          </Route>
+              <Route path="/find-water">
+                <Nav />
+                <Map />
+              </Route>
 
-          <Route path="/admin/awareness-category">
-            <AdminNav />
-            <AwarenessCategory />
-          </Route>
+              <Route path="/admin/awareness-category">
+                <AdminNav />
+                <AwarenessCategory />
+              </Route>
 
-          <Route path="/admin/awareness-content">
-            <AdminNav />
-          </Route>
+              <Route path="/admin/awareness-content">
+                <AdminNav />
+              </Route>
 
-          <Route path="/admin/users">
-            <AdminNav />
-            <AdminUsers />
-          </Route>
+              <Route path="/admin/users">
+                <AdminNav />
+                <AdminUsers />
+              </Route>
 
-          <Route path="/admin">
-            <AdminNav />
-            <Admin />
-          </Route>
+              <Route path="/admin">
+                <AdminNav />
+                <Admin />
+              </Route>
 
-          <Route path="/">
-            <LandingPage
-              form={form}
-              setForm={setForm}
-              onChange={handleChange}
-            />
-          </Route>
-        </Switch>
+              <Route path="/">
+                <LandingPage
+                  form={form}
+                  setForm={setForm}
+                  onChange={handleChange}
+                />
+              </Route>
+            </Switch>
+        </Router>
       </div>
-    </Router>
   );
 }
 
