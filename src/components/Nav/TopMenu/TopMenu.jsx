@@ -29,11 +29,6 @@ function TopMenu() {
                             Awareness
                         </NavLink>
                         </li>
-                        <li className="top-menu__item dashboard">
-                        <NavLink to="/dashboard">
-                            Dashboard
-                        </NavLink>
-                        </li>
                     </ul>
                 </Grid>
                 <Grid item md={1}>
