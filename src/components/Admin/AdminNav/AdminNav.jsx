@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { NavLink  } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
+import css from "../Admin.module.scss";
 
 function AdminNav() {
   const [isOpen, setOpen] = React.useState(false);
@@ -36,7 +37,7 @@ function AdminNav() {
         onOpen={toggleDrawer(true)}
         >
             <div
-                className="menu-list"
+                className={css.menuList}
                 role="presentation"
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
@@ -55,7 +56,10 @@ function AdminNav() {
                     </ListItem>
 
                     <ListItem button component={NavLink} to="/admin/awareness-category">
-                        <ListItemText primary="Categories" className="menu-item__nested"/>
+                        <ListItemText primary="Categories" className={css.menuItem__nested}/>
+                    </ListItem>
+                    <ListItem button component={NavLink} to="/admin/awareness-content">
+                        <ListItemText primary="Content" className={css.menuItem__nested}/>
                     </ListItem>
 
                     <ListItem button component={NavLink} to="/admin/communication">

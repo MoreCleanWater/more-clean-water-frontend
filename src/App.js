@@ -12,7 +12,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import "./App.scss";
 import { Grid } from "@material-ui/core";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
-import EditForm from "./components/Admin/EditForm";
+import AwarenessCategory from "./components/Admin/AwarenessCategory/AwarenessCategory";
 
 function App() {
   const [form, setForm] = useState({
@@ -67,6 +67,15 @@ function App() {
           <Route path="/find-water">
             <Nav />
             <Map />
+          </Route>
+
+          <Route path="/admin/awareness-category">
+            <AdminNav />
+            <AwarenessCategory />
+          </Route>
+
+          <Route path="/admin/awareness-content">
+            <AdminNav />
           </Route>
 
           <Route path="/admin/users">
