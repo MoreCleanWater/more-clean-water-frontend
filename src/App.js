@@ -12,6 +12,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import "./App.scss";
 import { Grid } from "@material-ui/core";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
+import EditForm from "./components/Admin/EditForm";
 
 function App() {
   const [form, setForm] = useState({
@@ -67,7 +68,6 @@ function App() {
             <Nav />
             <Map />
           </Route>
-
 
           <Route path="/admin/users">
             <AdminNav />

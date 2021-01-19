@@ -1,7 +1,8 @@
 import { Button, Grid } from "@material-ui/core";
-import { DataGrid } from '@material-ui/data-grid';
 import { useState, useEffect } from "react";
-import "./Admin.scss";
+import css from "./Admin.module.scss";
+import EditForm from "./EditForm";
+import ListData from "./ListData";
 
 function AdminUsers () {
     const columns = [
@@ -17,7 +18,7 @@ function AdminUsers () {
                     className='greenButton'
                     size="small"
                     id={params.getValue('id')}
-                    onClick={editUser}
+                    onClick={handleUpdateRow}
                     disableElevation
                 >
                     Edit
@@ -27,7 +28,7 @@ function AdminUsers () {
                     size="small"
                     style={{ marginLeft: 16 }}
                     id={params.getValue('id')}
-                    onClick={deleteUser}
+                    onClick={handleDeleteRow}
                     disableElevation
                 >
                     Delete
@@ -38,7 +39,8 @@ function AdminUsers () {
     ];
         
     const [users, setUsers] = useState();
-    const [isSelected, setSelected] = useState();
+    const [mode, setMode] = useState('retrieve');
+    const [selected, setSelected] = useState();
 
     useEffect(() => {
         fetch('/users.json')
@@ -46,61 +48,69 @@ function AdminUsers () {
         .then(data => setUsers(Array.from(data)))
     }, []);
     
-    const editUser = (e) => console.log(e.currentTarget.id);
     
+    const handleCreate = (e) => {
+        setMode('create');
+    };
+
     const handleSelection = (e) => {
         console.log(e.rowIds.length)
         e.rowIds.length === 0 ? setSelected(false) : setSelected(true);
     }
 
-    
-    const deleteUser = (e) => {
+    const handleDeleteSelection = (e) => {
+        console.log()
+    };
+
+    const handleDeleteRow = (e) => {
         setUsers(users.filter(i => i.id !== e.currentTarget.id));
     };
 
+    const handleUpdateRow = (e) => {
+        // console.log()
+        setSelected(users.filter(i => i.id === e.currentTarget.id)[0]);
+        setMode('update');
+    };
+
+    const handleCancel = (e) => setMode('retrieve');
+
+    const handleSubmit = (e, data) => {
+        console.log(data)
+        if (mode==='create') create(data);
+        if (mode==='update') update(data);
+    }
+
+    const create = (e) => console.log(e);
+    
+    const update = (e) => console.log(e);
    
     if (!users) return (<div className="full-height"></div>);
 
     return (
-        <Grid container alignContent='center' justify='space-evenly' className='full-height'>
-            <Grid item xs={10} md={8} className='center'>
-            <h2>
-                Users
-            </h2>
-            </Grid>
+        <Grid container justify="center">
+            <Grid item xs={10} md={8} className={css.container} >
+                <h2 className="center">
+                    Users
+                </h2>
 
-            <Grid item xs={10} md={8} className='center' style={{height: '70%'}}>
-                <DataGrid
-                    rows={users}
+                <ListData 
+                    className={css.dataGrid} 
+                    style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
+                    users={users} 
                     columns={columns}
-                    checkboxSelection
-                    disableColumnMenu
-                    disableSelectionOnClick
-                    autoPageSize
-                    onSelectionChange={handleSelection}
+                    handleCreate={handleCreate}
+                    handleSelection={handleSelection}
+                    handleDeleteSelection={handleDeleteSelection}
                 />
-            </Grid>
 
-            <Grid item xs={10} md={8} className='buttons mt10'>
-                <Button variant="contained"
-                    className='primaryButton'
-                    size="small"
-                    // onClick={addUser}
-                    disableElevation
-                >
-                    Add User
-                </Button>
-
-                <Button 
-                    variant="text"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                    // onClick={deleteUser}
-                    disableElevation
-                    className={isSelected ? '' : 'hidden'}
-                >
-                    Delete users
-                </Button>
+                <EditForm
+                    className={css.editForm} 
+                    mode={mode}
+                    handleSubmit={handleSubmit}
+                    handleCancel={handleCancel}
+                    style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
+                    selected={mode === 'update' ? selected : ''}
+                />
             </Grid>
         </Grid>
     )
