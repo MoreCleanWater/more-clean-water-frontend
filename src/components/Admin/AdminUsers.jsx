@@ -37,10 +37,20 @@ function AdminUsers () {
             ),
         },
     ];
+
+    const fields = [
+        {label: 'Email', name: 'email', type: 'text'},
+        {label: 'First Name', name: 'firstName', type: 'text'},
+        {label: 'Last Name', name: 'lastName', type: 'text'},
+        {label: 'County', name: 'county', type: 'combobox'},
+        {label: 'Post Code', name: 'postcode', type: 'text'},
+        {label: 'Password', name: 'password', type: 'password'},
+        {label: 'Confirm Password', name: 'confirm-password', type: 'password'},
+    ]
         
     const [users, setUsers] = useState();
     const [mode, setMode] = useState('retrieve');
-    const [selected, setSelected] = useState();
+    const [row, setRow] = useState();
 
     useEffect(() => {
         fetch('/users.json')
@@ -53,9 +63,8 @@ function AdminUsers () {
         setMode('create');
     };
 
-    const handleSelection = (e) => {
-        console.log(e.rowIds.length)
-        e.rowIds.length === 0 ? setSelected(false) : setSelected(true);
+    const handleSelection = (rowId) => {
+        console.log(rowId)
     }
 
     const handleDeleteSelection = (e) => {
@@ -68,7 +77,7 @@ function AdminUsers () {
 
     const handleUpdateRow = (e) => {
         // console.log()
-        setSelected(users.filter(i => i.id === e.currentTarget.id)[0]);
+        setRow(users.filter(i => i.id === e.currentTarget.id)[0]);
         setMode('update');
     };
 
@@ -96,7 +105,7 @@ function AdminUsers () {
                 <ListData 
                     className={css.dataGrid} 
                     style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
-                    users={users} 
+                    rows={users} 
                     columns={columns}
                     handleCreate={handleCreate}
                     handleSelection={handleSelection}
@@ -106,10 +115,11 @@ function AdminUsers () {
                 <EditForm
                     className={css.editForm} 
                     mode={mode}
+                    fields={fields}
                     handleSubmit={handleSubmit}
                     handleCancel={handleCancel}
                     style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
-                    selected={mode === 'update' ? selected : ''}
+                    row={mode === 'update' ? row : ''}
                 />
             </Grid>
         </Grid>

@@ -7,7 +7,7 @@ import { useState } from "react";
 function ListData (props) {
 
     const {
-        users, 
+        rows, 
         columns, 
         handleCreate, 
         handleSelection,
@@ -18,17 +18,22 @@ function ListData (props) {
 
     const [isSelected, setSelected] = useState(false);
 
+    const onSelectionChange = (e) => {
+        e.rowIds.length === 0 ? setSelected(false) : setSelected(true);
+        handleSelection(e.rowIds);
+    }
+
     return (
         <div style={style} className={className}>
             <div className={css.content}>
                 <DataGrid 
-                    rows={users}
+                    rows={rows}
                     columns={columns}
                     checkboxSelection
                     disableColumnMenu
                     disableSelectionOnClick
                     autoPageSize
-                    onSelectionChange={handleSelection}
+                    onSelectionChange={onSelectionChange}
                 />
             </div>
 
