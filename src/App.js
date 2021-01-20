@@ -10,7 +10,7 @@ import Map from "./components/WaterQuality/Map";
 import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
-import AwarenessCategory from "./components/Admin/AwarenessCategory/AwarenessCategory";
+import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import "./App.scss";
 
 function App() {
@@ -29,68 +29,67 @@ function App() {
   };
 
   return (
-      <div className="App">
-        <Router>
-            <Switch>
-              <Route path="/awareness">
-                <Nav />
-                <AwarenessList />
-              </Route>
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route path="/awareness">
+            <Nav />
+            <AwarenessList />
+          </Route>
 
-              <Route path="/signup">
-                <SignUp form={form} 
-                setForm={setForm} 
-                onChange={handleChange} 
-              />
-              </Route>
+          <Route path="/signup">
+            <SignUp form={form} setForm={setForm} onChange={handleChange} />
+          </Route>
 
-              <Route path="/profile">
-                <Nav />
-                <Profile form={form} 
-                setForm={setForm} 
-                onChange={handleChange} 
-              />
-              </Route>
+          <Route path="/profile">
+            <Nav />
+            <Profile form={form} setForm={setForm} onChange={handleChange} />
+          </Route>
 
-              <Route path="/updates">
-                <Nav />
-                <Updates />
-              </Route>
+          <Route path="/updates">
+            <Nav />
+            <Updates />
+          </Route>
 
-              <Route path="/find-water">
-                <Nav />
-                <Map />
-              </Route>
+          <Route path="/find-water">
+            <Nav />
+            <Map />
+          </Route>
 
-              <Route path="/admin/awareness-category">
-                <AdminNav />
-                <AwarenessCategory />
-              </Route>
+          <Route path="/admin/awareness">
+            <AdminNav />
+            <AwarenessList />
+          </Route>
 
-              <Route path="/admin/awareness-content">
-                <AdminNav />
-              </Route>
+          <Route path="/admin/awareness-category">
+            <AdminNav />
+            <AwarenessCategory />
+          </Route>
 
-              <Route path="/admin/users">
-                <AdminNav />
-                <AdminUsers />
-              </Route>
+          <Route path="/admin/awareness-content">
+            <AdminNav />
+          </Route>
 
-              <Route path="/admin">
-                <AdminNav />
-                <Admin />
-              </Route>
+          <Route path="/admin/users">
+            <AdminNav />
+            <AdminUsers />
+          </Route>
 
-              <Route path="/">
-                <LandingPage
-                  form={form}
-                  setForm={setForm}
-                  onChange={handleChange}
-                />
-              </Route>
-            </Switch>
-        </Router>
-      </div>
+          <Route path="/admin">
+            <AdminNav />
+            <Admin />
+          </Route>
+
+          <Route path="/">
+            <LandingPage
+              form={form}
+              setForm={setForm}
+              onChange={handleChange}
+            />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

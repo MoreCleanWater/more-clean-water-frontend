@@ -8,9 +8,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { DataGrid } from "@material-ui/data-grid";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { getCategories } from "./../services/categoryServices";
-import { saveCategory } from "./../services/categoryServices";
-import { deleteCategory } from "./../services/categoryServices";
+import { getCategories } from "./../../services/categoryServices";
+import { saveCategory } from "./../../services/categoryServices";
+import { deleteCategory } from "./../../services/categoryServices";
 
 const useStyles = makeStyles(() => ({
   text: {
