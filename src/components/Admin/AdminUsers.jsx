@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import css from "./Admin.module.scss";
 import EditForm from "./EditForm";
 import ListData from "./ListData";
+import TextField from './Inputs/TextField';
 
 function AdminUsers () {
     const columns = [
@@ -18,7 +19,7 @@ function AdminUsers () {
                     className='greenButton'
                     size="small"
                     id={params.getValue('id')}
-                    onClick={handleUpdateRow}
+                    onClick={handleEditRow}
                     disableElevation
                 >
                     Edit
@@ -38,62 +39,86 @@ function AdminUsers () {
         },
     ];
 
-    const fields = [
-        {label: 'Email', name: 'email', type: 'text'},
-        {label: 'First Name', name: 'firstName', type: 'text'},
-        {label: 'Last Name', name: 'lastName', type: 'text'},
-        {label: 'County', name: 'county', type: 'combobox'},
-        {label: 'Post Code', name: 'postcode', type: 'text'},
-        {label: 'Password', name: 'password', type: 'password'},
-        {label: 'Confirm Password', name: 'confirm-password', type: 'password'},
+    const inputItems = [
+        {label: 'Email', name: 'email', type: 'text', component: TextField},
+        {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
+        {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
+        {label: 'County', name: 'county', type: 'combobox', component: TextField},
+        {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
+        {label: 'Password', name: 'password', type: 'password', component: TextField},
+        {label: 'Confirm Password', name: 'confirm-password', type: 'password', component: TextField},
     ]
-        
-    const [users, setUsers] = useState();
-    const [mode, setMode] = useState('retrieve');
-    const [row, setRow] = useState();
 
+    const [data, setData] = useState();
+
+    const newData = () => {
+        let newData = {};
+        inputItems.forEach(i => {
+            newData[i.name] = ''
+        })
+       
+        return {id: '', ...newData};
+    }
+
+    
+    const [mode, setMode] = useState('retrieve');
+    
+    const [formData, setFormData] = useState(newData);
+    
     useEffect(() => {
         fetch('/users.json')
         .then(res => res.json())
-        .then(data => setUsers(Array.from(data)))
+        .then(data => setData(Array.from(data)))
     }, []);
-    
-    
-    const handleCreate = (e) => {
-        setMode('create');
-    };
-
+   
     const handleSelection = (rowId) => {
         console.log(rowId)
     }
 
-    const handleDeleteSelection = (e) => {
-        console.log()
-    };
-
     const handleDeleteRow = (e) => {
-        setUsers(users.filter(i => i.id !== e.currentTarget.id));
+        setData(data.filter(i => i.id !== e.currentTarget.id));
     };
 
-    const handleUpdateRow = (e) => {
-        // console.log()
-        setRow(users.filter(i => i.id === e.currentTarget.id)[0]);
+    const handleEditRow = (e) => {
+        setFormData(data.filter(i => i.id === e.currentTarget.id)[0]);
         setMode('update');
     };
 
-    const handleCancel = (e) => setMode('retrieve');
-
-    const handleSubmit = (e, data) => {
-        console.log(data)
-        if (mode==='create') create(data);
-        if (mode==='update') update(data);
+    const handleFormChange = (e) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
     }
 
-    const create = (e) => console.log(e);
+    const handleCancel = (e) => {
+        setMode('retrieve');
+    }
+
+    const handleSubmit = (e) => {
+        if (mode==='create') create(formData);
+        if (mode==='update') update(formData);
+    }
+
+    const handleCreate = (e) => {
+        setFormData(newData);
+        setMode('create');
+    };
+
+    const handleDeleteSelection = (e) => {
+        //delete
+    };
+
+    const create = (newData) => {
+        setData([...data, newData]);
+        setMode('retrieve');
+    };
     
-    const update = (e) => console.log(e);
-   
-    if (!users) return (<div className="full-height"></div>);
+    const update = (updatedData) => {
+        const newData = [...data];
+        newData[newData.findIndex(i => i.id === updatedData.id)] = updatedData;
+        setData(newData);
+        setMode('retrieve');
+    }
+    
+    if (!data) return (<div className="full-height"></div>);
 
     return (
         <Grid container justify="center">
@@ -105,7 +130,7 @@ function AdminUsers () {
                 <ListData 
                     className={css.dataGrid} 
                     style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
-                    rows={users} 
+                    rows={data} 
                     columns={columns}
                     handleCreate={handleCreate}
                     handleSelection={handleSelection}
@@ -115,11 +140,12 @@ function AdminUsers () {
                 <EditForm
                     className={css.editForm} 
                     mode={mode}
-                    fields={fields}
+                    inputItems={inputItems}
+                    handleFormChange={handleFormChange}
                     handleSubmit={handleSubmit}
                     handleCancel={handleCancel}
                     style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
-                    row={mode === 'update' ? row : ''}
+                    formData={formData}
                 />
             </Grid>
         </Grid>

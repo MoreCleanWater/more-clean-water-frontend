@@ -1,33 +1,38 @@
 import { Button } from "@material-ui/core";
+import { useState } from "react";
 import css from "./Admin.module.scss";
 
 function EditForm (props) {
-
     const {
         mode,
-        fields,
-        row,
+        inputItems,
+        formData,
+        handleFormChange,
         handleSubmit,
         handleCancel,
         className,
         style
     } = props;
+    
+    const [data, setData] = useState(formData);
+
+    console.log(data)
 
     return (
         <div className={className} style={style}>
-            {row && <p>ID:{row.id}</p>}
+            {mode === 'update' && <p>ID:{formData.id}</p>}
             <form action="" className={css.form}>
-                {fields.map(f => {
+                {inputItems.map((i, index) => {
+                    const Component = i.component;
+                    const value = formData[i.name] ? formData[i.name] : '';
                     return (
-                        <div style={{marginTop: 10}}>
-                            <label for={f.name}>{f.label}</label>
-                            <input 
-                                type={f.type} 
-                                name={f.name} 
-                                id={f.name}
-                                value={row && row[f.name]}
-                                style={{marginLeft: 10}}
-                            ></input>
+                        <div style={{marginTop: 10}} key={index}>
+                            <Component {...i} 
+                                value={value}
+                                variant='outlined' 
+                                onChange={handleFormChange}
+                                className={className}
+                            />
                         </div>
                     )
                 })}

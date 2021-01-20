@@ -25,7 +25,6 @@ function App() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.id]: e.target.value });
-    console.log(form);
   };
 
   return (
