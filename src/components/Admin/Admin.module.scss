@@ -4,7 +4,7 @@
     height: 100vh;
 }
 
-.dataGrid, .editForm {
+.dataGrid {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -13,9 +13,11 @@
 
 .editForm {
     display: flex;
-    // justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-between;
     height: 80%;
 }
+
     
 .content {
     height: 90%;
@@ -32,4 +34,9 @@
 
 .menuItem__nested {
     padding-left: 1rem
+}
+
+
+.textfield {
+    padding: 0;
 }
