@@ -119,7 +119,7 @@ export default function AwarenessCategory() {
           <TextField
             required
             id="standard-basic-category"
-            label="Category"
+            label="Category name"
             value={catText}
             className={classes.text}
             onChange={(e) => {
