@@ -70,6 +70,15 @@ function AdminUsers () {
         .then(res => res.json())
         .then(data => setData(Array.from(data)))
     }, []);
+
+    const handleCreate = (e) => {
+        setFormData(newData);
+        setMode('create');
+    };
+
+    const handleDeleteSelection = (e) => {
+        //delete
+    };
    
     const handleSelection = (rowId) => {
         console.log(rowId)
@@ -83,32 +92,21 @@ function AdminUsers () {
         setFormData(data.filter(i => i.id === e.currentTarget.id)[0]);
         setMode('update');
     };
-
-    const handleFormChange = (e) => {
-        setFormData({ ...formData, [e.target.id]: e.target.value });
+   
+    const handleSubmit = (data) => {
+        if (mode==='create') create(data);
+        if (mode==='update') update(data);
     }
 
-    const handleCancel = (e) => {
+    const handleCancel = () => {
         setMode('retrieve');
-    }
-
-    const handleSubmit = (e) => {
-        if (mode==='create') create(formData);
-        if (mode==='update') update(formData);
-    }
-
-    const handleCreate = (e) => {
         setFormData(newData);
-        setMode('create');
-    };
-
-    const handleDeleteSelection = (e) => {
-        //delete
-    };
-
+    }
+   
     const create = (newData) => {
         setData([...data, newData]);
         setMode('retrieve');
+        setFormData(newData);
     };
     
     const update = (updatedData) => {
@@ -116,6 +114,7 @@ function AdminUsers () {
         newData[newData.findIndex(i => i.id === updatedData.id)] = updatedData;
         setData(newData);
         setMode('retrieve');
+        setFormData(newData);
     }
     
     if (!data) return (<div className="full-height"></div>);
@@ -141,9 +140,8 @@ function AdminUsers () {
                     className={css.editForm} 
                     mode={mode}
                     inputItems={inputItems}
-                    handleFormChange={handleFormChange}
-                    handleSubmit={handleSubmit}
-                    handleCancel={handleCancel}
+                    onSubmit={handleSubmit}
+                    onCancel={handleCancel}
                     style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
                     formData={formData}
                 />

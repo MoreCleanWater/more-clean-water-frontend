@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import css from "./Admin.module.scss";
 
 function EditForm (props) {
@@ -7,30 +7,40 @@ function EditForm (props) {
         mode,
         inputItems,
         formData,
-        handleFormChange,
-        handleSubmit,
-        handleCancel,
+        onSubmit,
+        onCancel,
         className,
         style
     } = props;
     
     const [data, setData] = useState(formData);
+    useEffect(() => { setData(formData)}, [formData] )
 
-    console.log(data)
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.id]: e.target.value });
+    }
+
+    const handleSubmit = (e) => {
+        onSubmit(data);
+    }
+
+    const handleCancel = (e) => {
+        onCancel();
+    }
 
     return (
         <div className={className} style={style}>
-            {mode === 'update' && <p>ID:{formData.id}</p>}
+            {mode === 'update' && <p>ID:{data.id}</p>}
             <form action="" className={css.form}>
                 {inputItems.map((i, index) => {
                     const Component = i.component;
-                    const value = formData[i.name] ? formData[i.name] : '';
+                    const value = data[i.name] ? data[i.name] : '';
                     return (
                         <div style={{marginTop: 10}} key={index}>
                             <Component {...i} 
                                 value={value}
                                 variant='outlined' 
-                                onChange={handleFormChange}
+                                onChange={handleChange}
                                 className={className}
                             />
                         </div>
