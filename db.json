@@ -1,6 +1,19 @@
 {
-    "category": [
-      { "id": 1, "category": "hygiene", "description": "safety" },
-      { "id": 2, "category": "preventive" , "description":"practices"}
-    ]
-  }
+  "category": [
+    {
+      "id": 1,
+      "category": "hygiene",
+      "description": "safety"
+    },
+    {
+      "id": 2,
+      "category": "preventive",
+      "description": "practices"
+    },
+    {
+      "category": "general",
+      "description": "",
+      "id": 3
+    }
+  ]
+}

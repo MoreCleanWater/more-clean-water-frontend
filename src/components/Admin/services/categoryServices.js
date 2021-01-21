@@ -29,3 +29,16 @@ export async function deleteCategory(id) {
     ? await response.json()
     : console.log(response.status, response.statusText);
 }
+
+export async function saveContent(formData) {
+  const response = await fetch("http://localhost:3333/content", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(Object.fromEntries(formData)),
+  });
+  return response.status >= 200 && response.status <= 299
+    ? await response.json()
+    : console.log(response.status, response.statusText);
+}
