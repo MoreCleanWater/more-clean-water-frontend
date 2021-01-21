@@ -1,39 +1,32 @@
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import css from "./Admin.module.scss";
 import EditForm from "./EditForm";
 import ListData from "./ListData";
 import TextField from './Inputs/TextField';
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 function AdminUsers () {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
-        { field: 'email', headerName: 'Email', width: 230, flex: 1 },
-        { field: 'actions', headerName: 'Actions', sortable: false, width: 200,
+        { field: 'firstName', headerName: 'First name', width: 160 },
+        { field: 'lastName', headerName: 'Last name', width: 160 },
+        { field: 'email', headerName: 'Email', width: 250, flex: 1 },
+        { field: 'actions', headerName: 'Actions', sortable: false, width: 110,
             renderCell: (params) => (
-                <div>
-                    <Button
-                    variant="contained"
-                    className='greenButton'
-                    size="small"
-                    id={params.getValue('id')}
-                    onClick={handleEditRow}
-                    disableElevation
-                >
-                    Edit
-                </Button>
-                <Button
-                    variant="text"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                    id={params.getValue('id')}
-                    onClick={handleDeleteRow}
-                    disableElevation
-                >
-                    Delete
-                </Button>
+                <div style={{display: 'flex', height: '100%', alignItems: 'center'}}>
+                    <EditIcon
+                        id={params.getValue('id')}
+                        onClick={handleEditRow}
+                        style={{cursor: "pointer", color: "#78787c", marginLeft: '.2rem'}}
+                    />
+
+                    <DeleteIcon
+                        id={params.getValue('id')}
+                        onClick={handleDeleteRow}
+                        style={{cursor: "pointer", color: "#78787c", marginLeft: '1rem'}}
+                    />
                 </div>
             ),
         },
