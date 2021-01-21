@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import SignUp from "./components/SignUp/SignUp";
 import Updates from "./components/Updates/Updates";
