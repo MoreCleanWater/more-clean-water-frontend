@@ -1,3 +1,12 @@
+# Getting started with More-Clean-Water application 
+
+## Overall Goal: 
+An application to tackle water issues and scarcity. Please visit the project wiki page to read more.
+
+## How to access the application: 
+The main application can be accessed via http://localhost:3000/
+The admin console can be accessed via http://localhost:3000/#admin
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
