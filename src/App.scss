@@ -32,13 +32,6 @@ li {
 }
 
 
-.MuiButton-contained {
-  background-color: $primary!important;
-}
-
-.MuiButton-textPrimary {
-  color: $primary!important;
-}
 
 
 //helpers
@@ -46,16 +39,12 @@ li {
   text-align: center;
 }
 
-.hidden {
-  display: none!important;
-}
-
-.active-flex {
-  display: flex!important;
-}
-
 .full-height {
   height: 100vh;
+}
+
+.full-width {
+  width: 100vw;
 }
 
 @media screen and (max-width:679px) {
@@ -99,4 +88,65 @@ form {
 
 h1, h2, h3 {
   color: $text;
+}
+
+
+.hidden {
+  display: none!important;
+}
+
+.show {
+  display: block!important;
+}
+
+.active-flex {
+  display: flex!important;
+}
+
+.active > * {
+  color: #c82a29;
+}
+
+
+.alertColor {
+  color: $alert!important;
+}
+
+.primaryColor {
+  color: $primary!important;
+}
+
+.greenButton {
+  background-color: $green!important;
+  color: #fff!important;
+}
+
+.primaryButton {
+  color: #fff!important;
+  background-color: $primary!important;
+}
+
+.MuiButton-contained {
+  // background-color: $primary!important;
+}
+
+.MuiButton-textPrimary {
+  // color: $primary!important;
+}
+
+
+.alignRight {
+  text-align: right;
+}
+
+.expandWidth {
+  width: 100%;
+}
+
+.absolute {
+  position: absolute!important;
+}
+
+.mt10 {
+  margin-top: 1rem!important;
 }

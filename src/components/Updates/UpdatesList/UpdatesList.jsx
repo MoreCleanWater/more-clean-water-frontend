@@ -6,11 +6,9 @@ function UpdatesList() {
   const [updates, setUpdates] = useState();
 
   useEffect(() => {
-    fetch('updates.json')
+    fetch('/updates.json')
     .then(res => res.json())
-    .then((data) => {
-      setUpdates(Array.from(data))
-    })
+    .then(data => setUpdates(Array.from(data)))
   }, []);
 
   const markAsRead = id => {
