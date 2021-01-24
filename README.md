@@ -4,7 +4,7 @@
 An application to tackle water issues and scarcity. Please visit the project wiki page to read more.
 
 ## How to access the application: 
-The main application can be accessed via http://localhost:3000/
+The main application can be accessed via http://localhost:3000/   
 The admin console can be accessed via http://localhost:3000/#admin
 
 # Getting Started with Create React App
