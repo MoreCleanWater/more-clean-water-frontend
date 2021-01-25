@@ -35,6 +35,7 @@ function AdminUsers () {
     ];
 
     const inputItems = [
+        {label: 'Username', name: 'username', type: 'text', component: TextField},
         {label: 'Email', name: 'email', type: 'text', component: TextField},
         {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
         {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
@@ -115,7 +116,7 @@ function AdminUsers () {
 
     return (
         <Grid container justify="center">
-            <Grid item xs={10} md={8} className={css.container} >
+            <Grid item xs={12} md={8} className={css.container} >
                 <h2 className="center">
                     Users
                 </h2>

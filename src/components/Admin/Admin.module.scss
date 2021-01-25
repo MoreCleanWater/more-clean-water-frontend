@@ -9,6 +9,9 @@
     flex-direction: column;
     justify-content: space-between;
     height: 80%;
+    padding: 0 2rem;
+    flex-grow: 1;
+    padding: 0 2rem 1.5rem;
 }
 
 .editForm {
@@ -16,6 +19,9 @@
     flex-direction: column;
     justify-content: space-between;
     height: 80%;
+    flex-grow: 1;
+    overflow: auto;
+    padding: 0 2rem 1.5rem;
 }
 
     
@@ -39,4 +45,17 @@
 
 .textfield {
     padding: 0;
+}
+
+.input {
+    width: 100%;
+    margin: .6rem 0 0!important;    
+}
+
+.id {
+    margin: 0;
+}
+
+.buttons {
+    margin-top: 1rem;
 }
