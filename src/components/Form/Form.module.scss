@@ -1,0 +1,33 @@
+.textfield {
+    padding: 0;
+}
+
+.input {
+    width: 100%;
+    margin: .6rem 0 0!important;    
+}
+
+.signUpInput {
+    width: 100%;
+    margin: 1rem 0!important;    
+}
+
+.signUpForm {
+    width: 100%;
+    margin: 2.5rem auto;
+
+    @media screen and (min-width: 1024px) {
+        margin: 5rem auto;
+    }
+}
+
+.adminForm {
+    flex-grow: 1;
+    margin: 0;
+}
+
+
+.buttons {
+    margin-top: 1rem;
+}
+

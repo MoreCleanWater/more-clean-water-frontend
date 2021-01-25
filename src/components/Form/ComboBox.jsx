@@ -6,7 +6,6 @@ function ComboBox (props) {
         label,
         value,
         dataProvider,
-        options,
         variant,
         className,
         onChange,
@@ -26,7 +25,7 @@ function ComboBox (props) {
                 <MenuItem value="">
                     &nbsp;
                 </MenuItem>
-                {[...dataProvider].map((data, index) => <MenuItem key={index} value={data.name}>{data.name}</MenuItem>)}
+                {[...dataProvider].map(data => <MenuItem key={data.countyId} value={data.county}>{data.county}</MenuItem>)}
             </Select>
         </FormControl>
     )

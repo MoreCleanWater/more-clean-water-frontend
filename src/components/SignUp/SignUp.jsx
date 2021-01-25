@@ -3,6 +3,7 @@ import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {Account, Personal, Confirmation} from './SignUpSteps'
+import {signUpForm} from '../Form/Form.module.scss';
 import {container} from './SignUp.module.scss';
 
 function SignUp({form, onChange}) {
@@ -26,12 +27,13 @@ function SignUp({form, onChange}) {
         className={container}
         >
             <Grid item xs={10}>
-                <h2 class="center">
+                <h2 className="center">
                     Registration
                 </h2>
-                <form>
+                <form className={signUpForm}>
                     <ul>
                         <Account isActive={step === 1} 
+                            userid={form.userid}
                             email={form.email}
                             password={form.password}
                             onChange={onChange}

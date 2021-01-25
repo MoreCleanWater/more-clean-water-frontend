@@ -1,10 +1,10 @@
 import { Grid } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import css from "./Admin.module.scss";
+import adminStyle from "./Admin.module.scss";
 import EditForm from "./EditForm";
 import ListData from "./ListData";
-import TextField from './Inputs/TextField';
-import ComboBox from './Inputs/ComboBox';
+import TextField from '../Form/TextField';
+import ComboBox from '../Form/ComboBox';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import CountyList from "../CountyList";
@@ -39,9 +39,9 @@ function AdminUsers () {
         {label: 'Email', name: 'email', type: 'text', component: TextField},
         {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
         {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
-        {label: 'County', name: 'county', type: 'combobox', component: ComboBox, dataProvider: CountyList},
-        {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
-        {label: 'Obs', name: 'obs', type: 'text', component: TextField, options:{multiline: true, rows:2}},
+        {label: 'County', name: 'county', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
+        {label: 'Post Code', name: 'postCode', type: 'text', component: TextField},
+        {label: 'Additional Info', name: 'additionalInfo', type: 'text', component: TextField, options:{multiline: true, rows:4}},
     ]
 
     const [data, setData] = useState();
@@ -116,13 +116,13 @@ function AdminUsers () {
 
     return (
         <Grid container justify="center">
-            <Grid item xs={12} md={8} className={css.container} >
+            <Grid item xs={12} md={8} className={adminStyle.container} >
                 <h2 className="center">
                     Users
                 </h2>
 
                 <ListData 
-                    className={css.dataGrid} 
+                    className={adminStyle.dataGrid} 
                     style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
                     rows={data} 
                     columns={columns}
@@ -132,7 +132,7 @@ function AdminUsers () {
                 />
 
                 <EditForm
-                    className={css.editForm} 
+                    className={adminStyle.editForm} 
                     mode={mode}
                     inputItems={inputItems}
                     onSubmit={handleSubmit}

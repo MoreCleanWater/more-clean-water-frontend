@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import css from "./Admin.module.scss";
+import formStyles from "../Form/Form.module.scss";
+import {idLabel} from "../Admin/Admin.module.scss";
 
 function EditForm (props) {
     const {
@@ -16,10 +17,7 @@ function EditForm (props) {
     const [data, setData] = useState(formData);
     useEffect(() => { setData(formData)}, [formData] )
 
-    const handleChange = (e) => {
-        console.log(e.target)
-        setData({ ...data, [e.target.name]: e.target.value });
-    }
+    const handleChange = (e) => setData({ ...data, [e.target.name]: e.target.value });
 
     const handleSubmit = (e) => {
         onSubmit(data);
@@ -31,8 +29,8 @@ function EditForm (props) {
 
     return (
         <div className={className} style={style}>
-            {mode === 'update' && <p className={css.id}>ID:{data.id}</p>}
-            <form action="" className={css.form}>
+            {mode === 'update' && <p className={idLabel}>ID:{data.id}</p>}
+            <form action="" className={formStyles.adminForm}>
                 {inputItems.map((i, index) => {
                     const Component = i.component;
                     const value = data[i.name] ? data[i.name] : '';
@@ -46,14 +44,14 @@ function EditForm (props) {
                                 onChange={handleChange}
                                 dataProvider={dataProvider}
                                 options={options}
-                                className={css.input}
+                                className={formStyles.input}
                             />
                         </div>
                     )
                 })}
             </form>
 
-            <div className={css.buttons}>
+            <div className={formStyles.buttons}>
                 <Button variant="contained"
                     className='primaryButton'
                     size="small"

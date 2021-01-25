@@ -1,12 +1,2 @@
-const CountyList = [
-    {
-        "id": "greater-london",
-        "name": "Greater London"
-    },
-    {
-        "id": "manchester",
-        "name": "Manchester"
-    }
-];
+const CountyList = {};
 export default CountyList;
-

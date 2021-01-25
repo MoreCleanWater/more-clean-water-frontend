@@ -12,11 +12,13 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import AwarenessAddContent from "./components/Admin/Awareness/AwarenessContent/AwarenessAddContent";
-import axios from 'axios'
+import CountyList from "./components/CountyList";
+import axios from 'axios';
 import "./App.scss";
 
 function App() {
   const [form, setForm] = useState({
+    userid: "",
     email: "",
     password: "",
     firstName: "",
@@ -25,22 +27,24 @@ function App() {
     postcode: "",
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.id]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.id]: e.target.value });
 
-  //  const [county, setCounty] = useState();
+  const [isDataLoaded, setDataLoaded] = useState('idle');
 
-  //   useEffect(() => {
-  //     axios
-  //     fetch('county.json')
-  //     .then(res => res.json())
-  //     .then(data => setCounty(Array.from(data)))
-  //   }, []);
+  useEffect(() => {
+    setDataLoaded('loading');
+    axios
+    .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list')
+    .then(response => {
+      CountyList.data = response.data;
+      if (isDataLoaded==='loaded') {
+        Object.freeze(CountyList)
+        setDataLoaded('loaded');
+      }
+    })
+    .catch(error => console.log(error))
+  }, [isDataLoaded]);
   
-  //   console.log([...dataProvider])
-  
-
   return (
     <div className="App">
       <Router>

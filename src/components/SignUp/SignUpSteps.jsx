@@ -1,36 +1,57 @@
-import { TextField, Select, InputLabel, FormControl } from '@material-ui/core';
-import {select} from './SignUp.module.scss';
+import { TextField } from '@material-ui/core';
+import ComboBox from '../Form/ComboBox';
+import {signUpInput} from '../Form/Form.module.scss';
+import CountyList from "../CountyList";
 
-function Account({isActive, onChange, email, password}) {
+
+function Account({isActive, onChange, userid, email, password}) {
     return (
         <li className={`account${isActive ? ' active-flex' : ''}`}>
-            <FormControl>
                 <TextField
                     autoComplete="on"
-                    required id='email'
+                    id='userid'
+                    name='userid'
+                    label='User ID'
+                    value={userid}
+                    onChange={onChange}
+                    variant="outlined"
+                    className={signUpInput}
+                    required
+                />
+                <TextField
+                    autoComplete="on"
+                    id='email'
+                    name='email'
                     label='Email'
                     value={email}
                     onChange={onChange}
                     variant="outlined"
+                    className={signUpInput}
+                    required
                 />
                 <TextField
                     autoComplete="on"
-                    required id='password'
+                    id='password'
+                    name='password'
                     label='Password'
                     type="password"
                     value={password}
                     onChange={onChange}
                     variant="outlined"
+                    className={signUpInput}
+                    required
                 />
                 <TextField
                     autoComplete="on"
-                    required id='confirm-password'
+                    id='confirm-password'
+                    name='confirm-password'
                     label='Confirm password'
                     type="password"
                     onChange={onChange}
                     variant="outlined"
+                    className={signUpInput}
+                    required
                 />
-            </FormControl>
         </li>
     )
 }
@@ -40,54 +61,57 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
         <li className={`personal${isActive ? ' active-flex' : ''}`}>
                 <TextField
                     autoComplete="on"
-                    required id='firstName'
+                    id='firstName'
+                    name='firstName'
                     label='First name'
                     value={firstName}
                     onChange={onChange}
                     variant="outlined"
+                    className={signUpInput}
+                    required
                 />
                 <TextField
                     autoComplete="on"
                     id='lastName'
+                    name='lastName'
                     label='Last name'
                     value={lastName}
                     onChange={onChange}
-                    required 
                     variant="outlined"
+                    className={signUpInput}
+                    required 
                 />
-                <FormControl>
-                    <InputLabel htmlFor="county" className={select}>County</InputLabel>
-                    <Select
-                    native
+                <ComboBox 
+                    id='county'
+                    name='county'
+                    label='County'
                     value={county}
                     onChange={onChange}
-                    inputProps={{
-                        name: 'county',
-                        id: 'county',
-                    }}
-                    variant="outlined"  
-                    >
-                        <option aria-label="None" value="" />
-                        <option value="Great London">Great London</option>
-                    </Select>
-                </FormControl>
+                    variant='outlined' 
+                    className={signUpInput}
+                    dataProvider={CountyList.data ? CountyList.data : ''}
+                    required
+                />
                 <TextField
                     autoComplete="on"
                     id='postCode'
+                    name='postCode'
                     label='Post code'
                     onChange={onChange}
-                    required 
                     variant="outlined"
+                    className={signUpInput}
+                    required
                 />
             
         </li>
     )
 }
 
-function Confirmation({isActive, email, firstName, lastName, county, postCode}) {
+function Confirmation({isActive, userid, email, firstName, lastName, county, postCode}) {
     return (
         <li className={`confirmation${isActive ? ' active-flex' : ''}`}>
             <ul>
+                <li>User ID: {userid}</li>
                 <li>Email: {email}</li>
                 <li>First name: {firstName}</li>
                 <li>Last Name: {lastName}</li>
