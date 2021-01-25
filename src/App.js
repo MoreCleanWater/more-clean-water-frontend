@@ -1,5 +1,5 @@
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SignUp from "./components/SignUp/SignUp";
 import Updates from "./components/Updates/Updates";
 import Admin from "./components/Admin/Admin";
@@ -11,8 +11,9 @@ import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
-import "./App.scss";
 import AwarenessAddContent from "./components/Admin/Awareness/AwarenessContent/AwarenessAddContent";
+import axios from 'axios'
+import "./App.scss";
 
 function App() {
   const [form, setForm] = useState({
@@ -28,60 +29,72 @@ function App() {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
+  //  const [county, setCounty] = useState();
+
+  //   useEffect(() => {
+  //     axios
+  //     fetch('county.json')
+  //     .then(res => res.json())
+  //     .then(data => setCounty(Array.from(data)))
+  //   }, []);
+  
+  //   console.log([...dataProvider])
+  
+
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/awareness">
+          <Route exact path="/awareness">
             <Nav />
             <AwarenessList />
           </Route>
 
-          <Route path="/signup">
+          <Route exact path="/signup">
             <SignUp form={form} setForm={setForm} onChange={handleChange} />
           </Route>
 
-          <Route path="/profile">
+          <Route exact path="/profile">
             <Nav />
             <Profile form={form} setForm={setForm} onChange={handleChange} />
           </Route>
 
-          <Route path="/updates">
+          <Route exact path="/updates">
             <Nav />
             <Updates />
           </Route>
 
-          <Route path="/find-water">
+          <Route exact path="/find-water">
             <Nav />
             <Map />
           </Route>
 
-          <Route path="/admin/awareness">
+          <Route exact path="/admin/awareness">
             <AdminNav />
             <AwarenessList />
           </Route>
 
-          <Route path="/admin/awareness-category">
+          <Route exact path="/admin/awareness-category">
             <AdminNav />
             <AwarenessCategory />
           </Route>
 
-          <Route path="/admin/awareness-content">
+          <Route exact path="/admin/awareness-content">
             <AdminNav />
             <AwarenessAddContent />
           </Route>
 
-          <Route path="/admin/users">
+          <Route exact path="/admin/users">
             <AdminNav />
             <AdminUsers />
           </Route>
 
-          <Route path="/admin">
+          <Route exact path="/admin">
             <AdminNav />
             <Admin />
           </Route>
 
-          <Route path="/">
+          <Route exact path="/">
             <LandingPage
               form={form}
               setForm={setForm}

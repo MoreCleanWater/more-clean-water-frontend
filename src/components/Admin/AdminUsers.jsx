@@ -4,8 +4,10 @@ import css from "./Admin.module.scss";
 import EditForm from "./EditForm";
 import ListData from "./ListData";
 import TextField from './Inputs/TextField';
+import ComboBox from './Inputs/ComboBox';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import CountyList from "../CountyList";
 
 function AdminUsers () {
     const columns = [
@@ -36,10 +38,8 @@ function AdminUsers () {
         {label: 'Email', name: 'email', type: 'text', component: TextField},
         {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
         {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
-        {label: 'County', name: 'county', type: 'combobox', component: TextField},
+        {label: 'County', name: 'county', type: 'combobox', component: ComboBox, dataProvider: CountyList},
         {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
-        {label: 'Password', name: 'password', type: 'password', component: TextField},
-        {label: 'Confirm Password', name: 'confirm-password', type: 'password', component: TextField},
     ]
 
     const [data, setData] = useState();

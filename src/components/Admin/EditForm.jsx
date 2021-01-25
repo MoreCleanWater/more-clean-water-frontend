@@ -1,6 +1,14 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import css from "./Admin.module.scss";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: '100%',
+    },
+ }));
 
 function EditForm (props) {
     const {
@@ -12,12 +20,15 @@ function EditForm (props) {
         className,
         style
     } = props;
+
+    const classes = useStyles();
     
     const [data, setData] = useState(formData);
     useEffect(() => { setData(formData)}, [formData] )
 
     const handleChange = (e) => {
-        setData({ ...data, [e.target.id]: e.target.value });
+        console.log(e.target)
+        setData({ ...data, [e.target.name]: e.target.value });
     }
 
     const handleSubmit = (e) => {
@@ -35,13 +46,15 @@ function EditForm (props) {
                 {inputItems.map((i, index) => {
                     const Component = i.component;
                     const value = data[i.name] ? data[i.name] : '';
+                    const dataProvider = i.dataProvider ? i.dataProvider : '';
                     return (
                         <div style={{marginTop: 10}} key={index}>
                             <Component {...i} 
                                 value={value}
                                 variant='outlined' 
                                 onChange={handleChange}
-                                className={className}
+                                dataProvider={dataProvider}
+                                className={classes.formControl}
                             />
                         </div>
                     )
