@@ -40,6 +40,7 @@ function AdminUsers () {
         {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
         {label: 'County', name: 'county', type: 'combobox', component: ComboBox, dataProvider: CountyList},
         {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
+        {label: 'Obs', name: 'obs', type: 'text', component: TextField, options:{multiline: true, rows:2}},
     ]
 
     const [data, setData] = useState();

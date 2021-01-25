@@ -6,6 +6,7 @@ function ComboBox (props) {
         label,
         value,
         dataProvider,
+        options,
         variant,
         className,
         onChange,

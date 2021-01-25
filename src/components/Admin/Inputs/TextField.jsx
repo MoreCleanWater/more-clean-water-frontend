@@ -6,12 +6,15 @@ function TextField (props) {
         label,
         value,
         variant,
+        options,
         className,
         onChange,
     } = props;
+    
 
     return (
         <TextInput
+            {...options}
             name={name}
             id={name}
             label={label}
