@@ -1,17 +1,17 @@
 import { TextField } from '@material-ui/core';
 import ComboBox from '../Form/ComboBox';
+import CheckBox from '../Form/CheckBox';
 import {signUpInput} from '../Form/Form.module.scss';
 import CountyList from "../Form/CountyList";
-
 
 function Account({isActive, onChange, userid, email, password}) {
     return (
         <li className={`account${isActive ? ' active-flex' : ''}`}>
                 <TextField
                     autoComplete="on"
-                    id='userid'
-                    name='userid'
-                    label='User ID'
+                    id='userName'
+                    name='userName'
+                    label='Username'
                     value={userid}
                     onChange={onChange}
                     variant="outlined"
@@ -30,7 +30,6 @@ function Account({isActive, onChange, userid, email, password}) {
                     required
                 />
                 <TextField
-                    autoComplete="on"
                     id='password'
                     name='password'
                     label='Password'
@@ -42,9 +41,8 @@ function Account({isActive, onChange, userid, email, password}) {
                     required
                 />
                 <TextField
-                    autoComplete="on"
-                    id='confirm-password'
-                    name='confirm-password'
+                    id='confirmPassword'
+                    name='confirmPassword'
                     label='Confirm password'
                     type="password"
                     onChange={onChange}
@@ -56,7 +54,7 @@ function Account({isActive, onChange, userid, email, password}) {
     )
 }
 
-function Personal({isActive, county, onChange, firstName, lastName}) {
+function Personal({isActive, countyId, onChange, firstName, lastName, isSubscriber}) {
     return (
         <li className={`personal${isActive ? ' active-flex' : ''}`}>
                 <TextField
@@ -82,10 +80,10 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                     required 
                 />
                 <ComboBox 
-                    id='county'
-                    name='county'
-                    label='County'
-                    value={county}
+                    id='countyId'
+                    name='countyId'
+                    label='County *'
+                    value={countyId}
                     onChange={onChange}
                     variant='outlined' 
                     className={signUpInput}
@@ -94,29 +92,40 @@ function Personal({isActive, county, onChange, firstName, lastName}) {
                 />
                 <TextField
                     autoComplete="on"
-                    id='postCode'
-                    name='postCode'
+                    id='postcode'
+                    name='postcode'
                     label='Post code'
                     onChange={onChange}
                     variant="outlined"
                     className={signUpInput}
                     required
                 />
+                <CheckBox
+                    id='isSubscriber'
+                    name='isSubscriber'
+                    label='Receive water alerts?'
+                    value={isSubscriber}
+                    onChange={onChange}
+                    required
+                />
+
             
         </li>
     )
 }
 
-function Confirmation({isActive, userid, email, firstName, lastName, county, postCode}) {
+function Confirmation({isActive, userName, email, password, firstName, lastName, countyId, postcode, isSubscriber}) {
     return (
         <li className={`confirmation${isActive ? ' active-flex' : ''}`}>
             <ul>
-                <li>User ID: {userid}</li>
+                <li>Username: {userName}</li>
                 <li>Email: {email}</li>
+                <li>Password: {password ? password.split('').map(i => '•') : ''}</li>
                 <li>First name: {firstName}</li>
                 <li>Last Name: {lastName}</li>
-                <li>County: {county}</li>
-                <li>Post code: {postCode}</li>
+                <li>Receive water alerts? {isSubscriber ? 'Yes' : 'No'}</li>
+                <li>County: {CountyList.data && countyId ? CountyList.data.find(i => i.countyId === countyId)['county']: ''}</li>
+                <li>Post code: {postcode}</li>
             </ul>
         </li>
     )

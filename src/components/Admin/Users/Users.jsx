@@ -58,7 +58,7 @@ function Users () {
                     columns={columns}
                     disableColumnSelector
                     disableSelectionOnClick
-                    disableDensitySelector
+                    // disableDensitySelector
                     showToolbar
                     autoPageSize
                 >

@@ -1,4 +1,4 @@
-import TextInput from '@material-ui/core/TextField';
+import TextFieldMaterial from '@material-ui/core/TextField';
 
 function TextField (props) {
     const {
@@ -13,7 +13,7 @@ function TextField (props) {
     
 
     return (
-        <TextInput
+        <TextFieldMaterial
             {...options}
             name={name}
             id={name}

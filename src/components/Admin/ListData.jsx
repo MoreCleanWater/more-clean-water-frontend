@@ -18,6 +18,8 @@ function ListData (props) {
             <div className={css.content}>
                 <DataGrid 
                     {...props}
+                    className=''
+                    style={{}}
                 />
             </div>
 

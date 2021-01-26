@@ -18,18 +18,6 @@ import axios from 'axios';
 import "./App.scss";
 
 function App() {
-  const [form, setForm] = useState({
-    userid: "",
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    county: "",
-    postcode: "",
-  });
-
-  const handleChange = (e) => setForm({ ...form, [e.target.id]: e.target.value });
-
   const [isDataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
@@ -50,60 +38,56 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/awareness">
-            <Nav />
-            <AwarenessList />
+            <Nav/>
+            <AwarenessList/>
           </Route>
 
           <Route exact path="/signup">
-            <SignUp form={form} setForm={setForm} onChange={handleChange} />
+            <SignUp/>
           </Route>
 
           <Route exact path="/profile">
-            <Nav />
-            <Profile form={form} setForm={setForm} onChange={handleChange} />
+            <Nav/>
+            <Profile/>
           </Route>
 
           <Route exact path="/updates">
-            <Nav />
-            <Updates />
+            <Nav/>
+            <Updates/>
           </Route>
 
           <Route exact path="/find-water">
-            <Nav />
-            <Map />
+            <Nav/>
+            <Map/>
           </Route>
 
           <Route exact path="/admin/awareness-category">
-            <AdminNav />
-            <AwarenessCategory />
+            <AdminNav/>
+            <AwarenessCategory/>
           </Route>
 
           <Route exact path="/admin/awareness-content">
-            <AdminNav />
-            <AwarenessAddContent />
+            <AdminNav/>
+            <AwarenessAddContent/>
           </Route>
 
           <Route exact path="/admin/users">
-            <AdminNav />
-            <AdminUsers />
+            <AdminNav/>
+            <AdminUsers/>
           </Route>
 
           <Route exact path="/admin/water-stations">
-            <AdminNav />
-            <AdminWaterStations />
+            <AdminNav/>
+            <AdminWaterStations/>
           </Route>
 
           <Route exact path="/admin">
-            <AdminNav />
-            <Admin />
+            <AdminNav/>
+            <Admin/>
           </Route>
 
           <Route exact path="/">
-            <LandingPage
-              form={form}
-              setForm={setForm}
-              onChange={handleChange}
-            />
+            <LandingPage/>
           </Route>
         </Switch>
       </Router>

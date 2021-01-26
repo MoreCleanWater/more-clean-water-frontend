@@ -138,7 +138,7 @@ function WaterStations () {
 
     return (
         <Grid container justify="center">
-            <Grid item xs={12} md={8} className={adminStyle.container} >
+            <Grid item xs={12} md={10} className={adminStyle.container} >
                 <h2 className="center">
                     Water Stations
                 </h2>
@@ -151,7 +151,8 @@ function WaterStations () {
                     onSelectionChange={onSelectionChange}
                     checkboxSelection
                     disableSelectionOnClick
-                    disableDensitySelector
+                    // disableDensitySelector
+                    disableColumnSelector
                     showToolbar
                     autoPageSize
                     // handleCreate={handleCreate}

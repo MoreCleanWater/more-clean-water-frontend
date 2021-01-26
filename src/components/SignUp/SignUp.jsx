@@ -1,24 +1,127 @@
-import {Redirect} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {Account, Personal, Confirmation} from './SignUpSteps'
 import {signUpForm} from '../Form/Form.module.scss';
 import {container} from './SignUp.module.scss';
+import axios from 'axios';
+import CachedIcon from '@material-ui/icons/Cached';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
 
-function SignUp({form, onChange}) {
+function SignUp() {
+
+    const [form, setForm] = useState({
+        userName: "",
+        postcode: "",
+        countyId: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        email: "",
+        isSubscriber: "",
+    });
+
+    const [status, setStatus] = useState('idle');
+
+    const handleChange = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setForm({ ...form, [e.target.name]: value })
+    };
+
+    const handleBackClick = (e) => {
+        setStatus('idle');
+    }
     
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(1);
 
-    const [redirect, setRedirect] = useState(null);
+    const prev = (e) => setStep(step > 1 ? step - 1 : step);
 
-    const prev = (e) => setStep(step > 1 ? step - 1 : step)
+    const next = (e) => setStep(step < 3 ? step + 1 : 3);
 
-    const next = (e) => setStep(step < 3 ? step + 1 : 3)
+    const submit = (e) => {
+        const newUser = {...form}
+        delete newUser.confirmPassword;
+        setStatus('submiting');
+        axios
+            .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
+            .then((response) => {
+                console.log(response.data)
+                return (response.data === '' ? setStatus('error') : setStatus('sucesss'))
+            })
+            .catch(error => {
+                setStatus('error');
+                console.log(error)
+            })
+    }
 
-    const submit = (e) => setRedirect("/find-water")
+    if (status==="submiting") 
+        return (
+            <Grid
+                container
+                alignContent="center"
+                justify="center"
+                className="fullHeight"
+            >
+                <CachedIcon className="loading"/>
+            </Grid>
+        );
 
-    if (redirect!=null) return (<Redirect to={redirect} />)
+    if (status==="error") 
+        return (
+            <Grid
+                container
+                alignContent="center"
+                justify="center"
+                className="fullHeight"
+            >
+                <div style={{textAlign: 'center'}}>
+                    <ErrorIcon className="alertColor" style={{fontSize: '5rem'}}/>
+                    <h2 style={{margin:0}}>Uh oh!</h2>
+                    <p>Something weird happened. Keep calm and try again.</p>
+                    <div>
+                        <Button 
+                            variant="contained"
+                            // className="alertColor" 
+                            disableElevation
+                            onClick={handleBackClick}
+                            style={{marginTop: '1rem'}}
+                        >
+                            BACK
+                        </Button>
+                    </div>
+                </div>
+            </Grid>
+        );
+
+    if (status==="success") 
+        return (
+            <Grid
+                container
+                alignContent="center"
+                justify="center"
+                className="fullHeight"
+            >
+                <div style={{textAlign: 'center'}}>
+                    <CheckCircleIcon color="primary" style={{fontSize: '5rem'}}/>
+                    <h2 style={{margin:0}}>Woo hoo!</h2>
+                    <p>Welcome! You account has been created</p>
+                    <div>
+                        <Button 
+                            variant="contained"
+                            color="primary"
+                            disableElevation
+                            component={NavLink}
+                            to="/find-water"
+                            style={{marginTop: '1rem'}}
+                        >
+                            GO TO APP
+                        </Button>
+                    </div>
+                </div>
+            </Grid>
+        );
     
     return (
         <Grid 
@@ -26,30 +129,33 @@ function SignUp({form, onChange}) {
         justify="center"
         className={container}
         >
-            <Grid item xs={10}>
+            <Grid item xs={10} md={5}>
                 <h2 className="center">
-                    Registration
+                    New User
                 </h2>
                 <form className={signUpForm}>
                     <ul>
                         <Account isActive={step === 1} 
-                            userid={form.userid}
+                            username={form.username}
                             email={form.email}
                             password={form.password}
-                            onChange={onChange}
+                            onChange={handleChange}
                         />
                         <Personal isActive={step === 2}
                             firstName={form.firstName}
                             lastName={form.lastName}
-                            county={form.county}
-                            onChange={onChange}
+                            countyId={form.countyId}
+                            onChange={handleChange}
                         />
                         <Confirmation isActive={step === 3} 	
+                            userName={form.userName}
                             email={form.email}
+                            password={form.password}
                             firstName={form.firstName}
                             lastName={form.lastName}
-                            county={form.county}
-                            postCode={form.postCode}
+                            countyId={form.countyId}
+                            postcode={form.postcode}
+                            isSubscriber={form.isSubscriber}
                         />
                     </ul>
                     <div className="center">
