@@ -48,10 +48,10 @@ function AdminNav() {
                     </ListItem>
 
                     <ListItem button component={NavLink} to="/admin/water-stations">
-                        <ListItemText primary="Water Station"/>
+                        <ListItemText primary="Water Stations"/>
                     </ListItem>
 
-                    <ListItem button component={NavLink} to="/admin/awareness">
+                    <ListItem>
                         <ListItemText primary="Awareness"/>
                     </ListItem>
 

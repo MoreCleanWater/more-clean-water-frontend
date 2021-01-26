@@ -29,7 +29,6 @@ function EditForm (props) {
 
     return (
         <div className={className} style={style}>
-            {mode === 'update' && <p className={idLabel}>ID:{data.id}</p>}
             <form action="" className={formStyles.adminForm}>
                 {inputItems.map((i, index) => {
                     const Component = i.component;

@@ -1,6 +1,6 @@
 function Admin () {
     return (
-        <div className="full-height">
+        <div className="fullHight">
 
         </div>
     )

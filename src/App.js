@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import SignUp from "./components/SignUp/SignUp";
 import Updates from "./components/Updates/Updates";
 import Admin from "./components/Admin/Admin";
-import AdminUsers from "./components/Admin/AdminUsers";
+import AdminUsers from "./components/Admin/Users/Users";
+import AdminWaterStations from "./components/Admin/WaterStations/WaterStations";
 import AdminNav from "./components/Admin/AdminNav/AdminNav";
 import Profile from "./components/Profile/Profile";
 import Map from "./components/WaterQuality/Map";
@@ -12,7 +13,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import AwarenessAddContent from "./components/Admin/Awareness/AwarenessContent/AwarenessAddContent";
-import CountyList from "./components/CountyList";
+import CountyList from "./components/Form/CountyList";
 import axios from 'axios';
 import "./App.scss";
 
@@ -29,22 +30,21 @@ function App() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.id]: e.target.value });
 
-  const [isDataLoaded, setDataLoaded] = useState('idle');
+  const [isDataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    setDataLoaded('loading');
+    if (isDataLoaded) return;
     axios
     .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list')
     .then(response => {
       CountyList.data = response.data;
-      if (isDataLoaded==='loaded') {
-        Object.freeze(CountyList)
-        setDataLoaded('loaded');
-      }
+      Object.freeze(CountyList)
+      setDataLoaded(true);
     })
     .catch(error => console.log(error))
   }, [isDataLoaded]);
   
+  // console.log(CountyList)
   return (
     <div className="App">
       <Router>
@@ -73,11 +73,6 @@ function App() {
             <Map />
           </Route>
 
-          <Route exact path="/admin/awareness">
-            <AdminNav />
-            <AwarenessList />
-          </Route>
-
           <Route exact path="/admin/awareness-category">
             <AdminNav />
             <AwarenessCategory />
@@ -91,6 +86,11 @@ function App() {
           <Route exact path="/admin/users">
             <AdminNav />
             <AdminUsers />
+          </Route>
+
+          <Route exact path="/admin/water-stations">
+            <AdminNav />
+            <AdminWaterStations />
           </Route>
 
           <Route exact path="/admin">

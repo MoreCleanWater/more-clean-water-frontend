@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import ComboBox from '../Form/ComboBox';
 import {signUpInput} from '../Form/Form.module.scss';
-import CountyList from "../CountyList";
+import CountyList from "../Form/CountyList";
 
 
 function Account({isActive, onChange, userid, email, password}) {

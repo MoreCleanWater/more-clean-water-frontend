@@ -1,5 +1,7 @@
 @import 'styles/_colors';
 
+
+
 // set basic styling
 body {
     margin: 0;
@@ -82,7 +84,7 @@ form {
   text-align: center;
 }
 
-.full-height {
+.fullHeight {
   height: 100vh;
 }
 
@@ -91,7 +93,7 @@ form {
 }
 
 @media screen and (max-width:679px) {
-  .full-height-mobile {
+  .fullHeightMobile {
     height: 100vh;
   } 
 }
@@ -126,4 +128,15 @@ form {
 
 .mt10 {
   margin-top: 1rem!important;
+}
+
+
+.loading {
+  font-size: 2rem!important;
+  animation: rotation 1s infinite linear;
+
+  @keyframes rotation {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(359deg);}
+  }
 }
