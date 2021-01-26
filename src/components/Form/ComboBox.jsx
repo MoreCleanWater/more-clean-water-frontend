@@ -3,26 +3,34 @@ import CachedIcon from '@material-ui/icons/Cached';
 
 function ComboBox (props) {
     const {
-        id,
         name,
         label,
         value,
         variant,
+        color,
+        options,
         className,
-        onChange,
         dataProvider,
+        onChange,
+        required
     } = props;
 
     return (
-        <FormControl className={className} variant={variant}>
+        <FormControl 
+            variant={variant ? variant : 'outlined'}
+            color={color ? color : 'primary'} 
+            className={className}
+        >
             {dataProvider !== '' ? '' : <CachedIcon className="loading absolute" style={{right:'-2.5rem', top: '.8rem'}}/>}
             <InputLabel id={`${name}-label`}>{label}</InputLabel>
             <Select
-                id={id}
+                id={name}
                 name={name}
                 label={label}
                 labelId={`${name}-label`}
                 value={value}
+                required={required}
+                {...options}
                 onChange={onChange}
             >   
                 <MenuItem value={null}>

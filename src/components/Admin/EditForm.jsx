@@ -32,17 +32,14 @@ function EditForm (props) {
             <form action="" className={formStyles.adminForm}>
                 {inputItems.map((i, index) => {
                     const Component = i.component;
-                    const value = data[i.name] ? data[i.name] : '';
-                    const dataProvider = i.dataProvider ? i.dataProvider : '';
-                    const options = i.options ? i.options : '';
                     return (
                         <div style={{marginTop: 10}} key={index}>
                             <Component {...i} 
-                                value={value}
+                                value={data[i.name] ? data[i.name] : ''}
                                 variant='outlined' 
                                 onChange={handleChange}
-                                dataProvider={dataProvider}
-                                options={options}
+                                dataProvider={i.dataProvider ? i.dataProvider : ''}
+                                options={i.options ? i.options : ''}
                                 className={formStyles.input}
                             />
                         </div>

@@ -4,7 +4,7 @@ import CheckBox from '../Form/CheckBox';
 import {signUpInput} from '../Form/Form.module.scss';
 import CountyList from "../Form/CountyList";
 
-function Account({isActive, onChange, userid, email, password}) {
+function Account({isActive, onChange, userName, email, password}) {
     return (
         <li className={`account${isActive ? ' active-flex' : ''}`}>
                 <TextField
@@ -12,7 +12,7 @@ function Account({isActive, onChange, userid, email, password}) {
                     id='userName'
                     name='userName'
                     label='Username'
-                    value={userid}
+                    value={userName}
                     onChange={onChange}
                     variant="outlined"
                     className={signUpInput}

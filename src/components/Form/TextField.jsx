@@ -6,21 +6,24 @@ function TextField (props) {
         label,
         value,
         variant,
+        color,
         options,
         className,
         onChange,
+        required
     } = props;
     
-
     return (
         <TextFieldMaterial
-            {...options}
             name={name}
             id={name}
             label={label}
             value={value}
-            variant={variant}
+            variant={variant ? variant : 'outlined'}
+            color={color ? color : 'primary'}
             className={className}
+            required={required}
+            {...options}
             onChange={onChange}
         />
     )

@@ -7,8 +7,8 @@ function CheckBox (props) {
         name,
         label,
         value,
+        color,
         options,
-        className,
         onChange,
         required
     } = props;
@@ -18,14 +18,13 @@ function CheckBox (props) {
         <FormControlLabel
             control={
                 <CheckBoxMaterial
-                    {...options}
                     name={name}
                     id={name}
                     checked={value}
-                    className={className}
-                    onChange={onChange}
+                    color={color ? color : 'primary'}
                     required={required}
-                    color="primary"
+                    {...options}
+                    onChange={onChange}
                 />
             }
             label={label}
