@@ -5,24 +5,27 @@ function TextField (props) {
         name,
         label,
         value,
+        error,
+        helperText,
         variant,
         color,
         options,
         className,
         onChange,
-        required
     } = props;
     
     return (
         <TextFieldMaterial
+            autoComplete={options.autoComplete ? options.autoComplete : 'on'}
             name={name}
             id={name}
             label={label}
             value={value}
+            error={error}
+            helperText={helperText}
             variant={variant ? variant : 'outlined'}
             color={color ? color : 'primary'}
             className={className}
-            required={required}
             {...options}
             onChange={onChange}
         />

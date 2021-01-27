@@ -22,27 +22,30 @@ function SignUp() {
         firstName: "",
         lastName: "",
         password: "",
+        confirmPassword: "",
         email: "",
         isSubscriber: "",
     });
 
-    const [status, setStatus] = useState('error');
+    const [status, setStatus] = useState('idle');
 
     const inputItems = [
-        {label: 'Username', name: 'userName', component: TextField, step: 0},
-        {label: 'Email', name: 'email', component: TextField, step: 0},
-        {label: 'Password', name: 'password', type: 'password', component: TextField, options: {type: 'password'}, step: 0},
-        {label: 'Confirm Password', name: 'confirmPassword', component: TextField, options: {type: 'password'}, step: 0},
-        {label: 'First Name', name: 'firstName', component: TextField, step: 1},
-        {label: 'Last Name', name: 'lastName', component: TextField, step: 1},
-        {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data, step: 1},
-        {label: 'Post Code', name: 'postcode', component: TextField, step: 1},
-        {label: 'Receive water alerts?', name: 'isSubscriber', component: CheckBox, options:{multiline: true, rows:4}, step: 1},
+        {label: 'Username', name: 'userName', required: true, component: TextField, step: 0},
+        {label: 'Email', name: 'email', required: true, component: TextField, options:{autoComplete: 'off'}, step: 0},
+        {label: 'Password', name: 'password', required: true, component: TextField, options: {type: 'password'}, step: 0},
+        {label: 'Confirm Password', name: 'confirmPassword', required: true, component: TextField, options: {type: 'password'}, step: 0},
+        {label: 'First Name', name: 'firstName', required: true, component: TextField, step: 1},
+        {label: 'Last Name', name: 'lastName', required: true, component: TextField, step: 1},
+        {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: CountyList.data, step: 1},
+        {label: 'Post Code', name: 'postcode', required: true, component: TextField, step: 1},
+        {label: 'Receive water alerts?', name: 'isSubscriber', required: false, component: CheckBox, step: 1},
     ]
 
     const maxStep = 2;
 
     const formSteps = ['Account', 'Personal'];
+
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -57,10 +60,36 @@ function SignUp() {
 
     const prev = (e) => setStep(step > 0 ? step - 1 : step);
 
-    const next = (e) => setStep(step < maxStep ? step + 1 : maxStep);
+    const next = (e) => {
+        if (!isValidated()) return;
+        setStep(step < maxStep ? step + 1 : maxStep);
+    }
 
     const isValidated = () => {
-        return false;
+        let isValidated = true;
+        const checkFields = inputItems.filter(i => i.required && i.step === step);
+        const newErrors = {...errors};
+        checkFields.forEach(i => {
+            newErrors[i.name] = '';
+            if (form[i.name] === '') {
+                newErrors[i.name] = 'Ops! This field is required';
+                isValidated = false;
+            } 
+        })
+
+        if (form.password !== '') {
+            if (form.password !== form.confirmPassword) {
+                newErrors.password = 'Ops Passwords don\'t match';
+                newErrors.confirmPassword = 'Ops Passwords don\'t match';
+                isValidated = false;
+            } else {
+                newErrors.password = '';
+                newErrors.confirmPassword = '';
+            }
+        }
+
+        setErrors({...errors, ...newErrors})
+        return isValidated;
     }
 
     const submit = (e) => {
@@ -72,14 +101,14 @@ function SignUp() {
             .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
             .then((response) => {
                 console.log(response.data)
-                return (response.data === '' ? setStatus('error') : setStatus('sucesss'))
+                return(response.data === '' ? setStatus('error') : setStatus('successs'))
             })
             .catch(error => {
                 setStatus('error');
                 console.log(error)
             })
     }
-
+    
     if (status==="success") 
         return (
             <Grid
@@ -160,16 +189,16 @@ function SignUp() {
                                         const Component = i.component;
                                         return (
                                             <Component
-                                                autoComplete="on"
                                                 id={i.name}
                                                 name={i.name}
                                                 label={i.label}
                                                 value={form[i.name]}
+                                                error={errors[i.name] ? 'error' : ''}
+                                                helperText={errors[i.name]}
                                                 className={signUpInput}
                                                 options={i.options ? i.options : ''}
                                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                                 onChange={handleChange}
-                                                required
                                             />
                                         )
                                     })}
