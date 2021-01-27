@@ -16,7 +16,7 @@ function TextField (props) {
     
     return (
         <TextFieldMaterial
-            autoComplete={options.autoComplete ? options.autoComplete : 'on'}
+            autoComplete='on'
             name={name}
             id={name}
             label={label}

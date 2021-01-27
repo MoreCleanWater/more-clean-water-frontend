@@ -9,16 +9,22 @@
 
 .signUpInput {
     width: 100%;
-    margin: 1rem 0!important;    
+    margin: 0 0 1.5rem!important;    
 }
 
 .signUpForm {
+    flex-grow: 1;
     width: 100%;
-    margin: 2.5rem auto;
+    margin: .5rem auto;
 
     @media screen and (min-width: 1024px) {
         margin: 3rem auto;
     }
+}
+
+.landingForm {
+    width: 70%;
+    margin: 0 auto!important;  
 }
 
 .adminForm {

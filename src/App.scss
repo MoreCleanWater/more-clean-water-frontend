@@ -41,17 +41,24 @@ h1, h2, h3 {
 }
 
 
-form {
-  .MuiFormControl-root {
-    button {
-        width: 10rem;
-        margin: 2rem auto 0;
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-weight: 500;
-    }
-  }
+
+.MuiButton-root {
+    // width: 10rem;
+    margin: 2rem auto 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: .6rem 0 .4rem!important;
+    width: 7rem;
 }
 
+.MuiFormControlLabel-label {
+  padding-top: 3px;
+}
+
+.MuiFormHelperText-root {
+  margin-bottom: -0.8rem!important;
+}
 
 //colors
 
@@ -137,8 +144,4 @@ form {
     from {transform: rotate(0deg);}
     to {transform: rotate(359deg);}
   }
-}
-
-.MuiFormControlLabel-label {
-  padding-top: 3px;
 }

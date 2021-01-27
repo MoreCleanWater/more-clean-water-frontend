@@ -1,7 +1,6 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import formStyles from "../Form/Form.module.scss";
-import {idLabel} from "../Admin/Admin.module.scss";
+import formStyle from "../Form/Form.module.scss";
 
 function EditForm (props) {
     const {
@@ -29,7 +28,7 @@ function EditForm (props) {
 
     return (
         <div className={className} style={style}>
-            <form action="" className={formStyles.adminForm}>
+            <form className={formStyle.adminForm}>
                 {inputItems.map((i, index) => {
                     const Component = i.component;
                     return (
@@ -40,14 +39,14 @@ function EditForm (props) {
                                 onChange={handleChange}
                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                 options={i.options ? i.options : ''}
-                                className={formStyles.input}
+                                className={formStyle.input}
                             />
                         </div>
                     )
                 })}
             </form>
 
-            <div className={formStyles.buttons}>
+            <div className={formStyle.buttons}>
                 <Button variant="contained"
                     className='primaryButton'
                     size="small"

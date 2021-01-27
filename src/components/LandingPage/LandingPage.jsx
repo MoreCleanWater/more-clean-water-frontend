@@ -3,15 +3,12 @@ import {useState} from 'react';
 import { TextField, Button, FormControl } from '@material-ui/core';
 import {NavLink} from "react-router-dom";
 import './LandingPage.scss';
+import {landingForm, signUpInput} from '../Form/Form.module.scss';
 import {Grid} from '@material-ui/core'
 
 function LandingPage ({form, onChange}) {
 
     const [redirect, setRedirect] = useState(null);
-
-    const handleRegister = (e) => setRedirect("/signup");
-
-    if (redirect!=null) return (<Redirect to={redirect} />)
 
     return (
         <div className="landing-page">
@@ -40,13 +37,13 @@ function LandingPage ({form, onChange}) {
                         </h3>
                     </div>
                     
-                    <form action="">
-                        <FormControl>
+                    <form className={landingForm}>
                             <TextField
                                 autoComplete="on"
                                 required id='email'
                                 label='Email'
                                 variant="outlined"
+                                className={signUpInput}
                                 onChange={onChange}
                             />
 
@@ -54,19 +51,32 @@ function LandingPage ({form, onChange}) {
                                 variant="contained"
                                 color="primary"
                                 disableElevation
-                                onClick={handleRegister}
+                                component={NavLink}
+                                to="/signup"
                             >
-                                Register
+                                Sign Up
                             </Button>
-                        </FormControl>
-                    </form>    
-                
-                    <Grid item xs={5}>
+                    
+                        <p>
+                            Are you already registered? 
+                        </p>
+
+                        <Button 
+                            variant="text"
+                            color="primary"
+                            disableElevation
+                            component={NavLink}
+                            to="/signin"
+                        >
+                            Sign in
+                        </Button>
+
                         <NavLink to="/find-water" className="enter">
-                            Or proceed
-                            without sign up
+                            <p>
+                                Or proceed without sign up
+                            </p>
                         </NavLink>
-                    </Grid>
+                    </form>
                 </Grid>
             </div>
         </div>

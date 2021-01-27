@@ -2,8 +2,8 @@ import {NavLink} from 'react-router-dom'
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import {signUpForm, signUpInput} from '../Form/Form.module.scss';
-import {container} from './SignUp.module.scss';
+import {signUpInput} from '../Form/Form.module.scss';
+import signUpStyle from './SignUp.module.scss';
 import axios from 'axios';
 import CachedIcon from '@material-ui/icons/Cached';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -43,7 +43,7 @@ function SignUp() {
 
     const maxStep = 2;
 
-    const formSteps = ['Account', 'Personal'];
+    const formSteps = ['Account details', 'Local information'];
 
     const [errors, setErrors] = useState({});
 
@@ -139,24 +139,23 @@ function SignUp() {
         
     return (
         <Grid 
-            container
             justify="center"
-            className={container}
+            className={signUpStyle.container}
         >
             <Grid
                 container
                 alignContent="center"
                 justify="center"
-                className={`fullHeight ${status==='submiting' ? '' : 'hidden'}`}
+                className={`full-height ${status==='submiting' ? '' : 'hidden'}`}
             >
                 <CachedIcon className="loading"/>
             </Grid>
 
             <Grid
-                container
+            container
                 alignContent="center"
                 justify="center"
-                className={`fullHeight ${status==='error' ? '' : 'hidden'}`}
+                className={`full-height ${status==='error' ? '' : 'hidden'}`}
             >
                 <div style={{textAlign: 'center'}}>
                     <ErrorIcon className="alertColor" style={{fontSize: '5rem'}}/>
@@ -176,15 +175,22 @@ function SignUp() {
                 </div>
             </Grid>
             
-            <Grid item xs={10} md={5} className={status==='idle' ? '' : 'hidden'}>
+            <Grid 
+                item xs={10}
+                md={5}
+                className={`${signUpStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+            >
                 <h2 className="center">
-                    New User
+                    User registration
                 </h2>
-                <form className={signUpForm}>
+                <p className={signUpStyle.subtitle}>
+                    {/* {formSteps[step]} */}
+                </p>
+                <form>
                     <ul>
                         {formSteps.map((formStep, formIndex) => {
                             return (
-                                <li className={`account${step === formIndex ? ' active-flex' : ''}`}>
+                                <li className={step === formIndex ? ' active-flex' : ''}>
                                     {inputItems.filter(i => i.step === formIndex).map(i => {
                                         const Component = i.component;
                                         return (
@@ -206,8 +212,8 @@ function SignUp() {
                             )
                         })}
 
-                        <li className={`confirmation${step === maxStep ? ' active-flex' : ''}`}>
-                            <ul>
+                        <li className={step === maxStep ? ' active-flex' : ''}>
+                            <ul className={signUpStyle.confirmation}>
                                 <li>Username: {form.userName}</li>
                                 <li>Email: {form.email}</li>
                                 <li>Password: {form.password ? form.password.split('').map(i => '•') : ''}</li>
@@ -220,7 +226,7 @@ function SignUp() {
                         </li>
                     </ul>
 
-                    <div className="center">
+                    <div className={signUpStyle.buttons}>
                         {step === 0 ? '' : 
                             <Button 
                                 variant="text"

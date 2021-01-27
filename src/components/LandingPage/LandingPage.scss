@@ -72,7 +72,7 @@
         z-index: 1;
 
         .content {
-            height: 80vh;
+            height: 95vh;
             max-width: 30rem;
             margin: 0 auto;
             padding: 1rem 0;
@@ -117,13 +117,18 @@
             form {
                 margin: 0 auto;
 
+                p {
+                    margin: 1.7rem 0 .5rem;
+                    color: #222222;
+                }
+
                 .MuiFormControl-root {
                     width: 90%;
                     margin: 0 auto;
     
                     button {
-                        width: 10rem;
-                        margin: 2rem auto 0;
+                        // width: 10rem;
+                        // margin: 2rem auto 0;
                     }
                 }
             }
