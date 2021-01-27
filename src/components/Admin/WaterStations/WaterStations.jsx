@@ -40,7 +40,7 @@ function WaterStations () {
         {label: 'Email', name: 'email', type: 'text', component: TextField},
         {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
         {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
-        {label: 'County', name: 'county', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
+        {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
         {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
         {label: 'Additional Info', name: 'additionalInfo', type: 'text', component: TextField, options:{multiline: true, rows:4}},
     ]

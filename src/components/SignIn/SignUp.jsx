@@ -96,6 +96,7 @@ function SignUp() {
         const newUser = {...form}
         delete newUser.confirmPassword;
         setStatus('submiting');
+        console.log(newUser);
         axios
             .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
             .then((response) => {

@@ -1,59 +1,176 @@
-import Button from '@material-ui/core/Button';
+import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TextField, FormControl } from '@material-ui/core';
-import './Profile.css';
+import Button from '@material-ui/core/Button';
+import {signUpInput} from '../Form/Form.module.scss';
+import signInStyle from '../SignIn/SignIn.module.scss';
+import axios from 'axios';
+import CachedIcon from '@material-ui/icons/Cached';
+import ErrorIcon from '@material-ui/icons/Error';
+import TextField from '../Form/TextField';
+import ComboBox from '../Form/ComboBox';
+import CountyList from '../Form/CountyList'
+import UserId from '../Form/UserId'
+import { useEffect } from 'react';
 
-function Profile({form, onChange}) {
+function Profile() {
 
-  return (
-	<Grid 
-		container
-		justify="center"
-		className="profile-container"
-	>
-		<Grid item xs={10}>
-			<form action="">	
-				<FormControl> 
-						<div className="input">
-							<TextField
-								autoComplete="on"
-								required id='email'
-								label='Email'
-								variant="outlined"
-								value={form.email}
-								onChange={onChange}
-							/>
-							<TextField
-								autoComplete="on"
-								required id='firstName'
-								label='First name'
-								variant="outlined"
-								value={form.firstName}
-								onChange={form.onChange}
-							/>
-							<TextField
-								autoComplete="on"
-								id='lastName'
-								label='Last name'
-								variant="outlined"
-								value={form.lastName}
-								onChange={onChange}
-								required 
-							/>
-						</div>
-						<Button
-							variant="contained"
-							color="primary"
-							disableElevation
-						>
-							SAVE  
-						</Button>
-				</FormControl>
-			</form>
-		</Grid>
-    </Grid>
-  )
+    const [form, setForm] = useState({
+        postcode: "",
+        countyId: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        email: "",
+    });
+
+    console.log(form)
+
+    const [status, setStatus] = useState('idle');
+
+	
+	const inputItems = [
+        {label: 'Email', name: 'email', type: 'text', component: TextField},
+        {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
+        {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
+        {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
+        {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
+	];
+	
+	useEffect(() => {
+        axios
+        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + UserId.value)
+        .then(response => {
+            let newData = {};
+            Object.entries(form).forEach(i => newData[i[0]] = response.data[0][i[0]])
+            setForm(newData);
+        })
+        .catch(error => console.log(error))
+    }, []);
+
+    const [errors, setErrors] = useState({});
+
+    const handleBackClick = (e) => setStatus('idle');
+
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+
+    const isValidated = () => {
+        let isValidated = true;
+        const checkFields = inputItems.filter(i => i.required);
+        const newErrors = {...errors};
+        checkFields.forEach(i => {
+            newErrors[i.name] = '';
+            if (form[i.name] === '') {
+                newErrors[i.name] = 'Ops! This field is required';
+                isValidated = false;
+            } 
+        })
+        
+        setErrors({...errors, ...newErrors})
+        return isValidated;
+    }
+
+    const submit = (e) => {
+        if (!isValidated()) return;
+        // setStatus('submiting');
+        axios
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, form)
+            .then((response) => {
+                console.log(response)
+                // if (response.data === 'Invalid email or password') {
+                //     setStatus('error');
+                // } else {
+                //     UserId.value = response.data;
+                //     console.log(UserId.value)
+                //     setStatus('success');
+                // }
+            })
+            .catch(error => {
+                console.log(error)
+                // setStatus('error');
+            })
+    }
+    
+    return (
+        <Grid 
+            justify="center"
+            className={signInStyle.container}
+            
+        >
+            <Grid
+                container
+                alignContent="center"
+                justify="center"
+                className={`full-height ${status==='submiting' ? '' : 'hidden'}`}
+            >
+                <CachedIcon className="loading"/>
+            </Grid>
+
+            <Grid
+                container
+                alignContent="center"
+                justify="center"
+                className={`full-height ${status==='error' ? '' : 'hidden'}`}
+            >
+                <div style={{textAlign: 'center'}}>
+                    <ErrorIcon className="alertColor" style={{fontSize: '5rem'}}/>
+                    <h2 style={{margin:0}}>Uh oh!</h2>
+                    <p>Invalid email or password. Please try again.</p>
+                    <div>
+                        <Button 
+                            variant="contained"
+                            // className="alertColor" 
+                            disableElevation
+                            onClick={handleBackClick}
+                            style={{marginTop: '1rem'}}
+                        >
+                            BACK
+                        </Button>
+                    </div>
+                </div>
+            </Grid>
+            
+            <Grid 
+                item xs={10}
+                md={5}
+                className={`${signInStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+            >
+                <h2 className="center">
+                    Profile
+                </h2>
+               
+                <form className={signInStyle.profileForm}>
+                    {inputItems.map(i => {
+                        const Component = i.component;
+                        return (
+                            <Component
+                                id={i.name}
+                                name={i.name}
+                                label={i.label}
+                                value={form[i.name]}
+                                error={errors[i.name] ? 'error' : ''}
+                                helperText={errors[i.name]}
+                                className={signUpInput}
+                                options={i.options ? i.options : ''}
+                                dataProvider={i.dataProvider ? i.dataProvider : ''}
+                                onChange={handleChange}
+                            />
+                        )
+                    })}
+
+                    <div className={signInStyle.buttons}>
+                        <Button 
+                            variant="contained"
+                            color="primary"
+                            disableElevation
+                            onClick={submit}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </form>
+            </Grid>
+        </Grid>
+    )
 }
 
 export default Profile;
-   

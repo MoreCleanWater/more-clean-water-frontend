@@ -1,9 +1,10 @@
-import {NavLink} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import {useState} from "react";
 import Grid from '@material-ui/core/Grid';
 import UpdatesList from '../../Updates/UpdatesList/UpdatesList';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import UserId from '../../Form/UserId';
 import "./TopMenu.scss"
 
 function TopMenu() {
@@ -11,12 +12,16 @@ function TopMenu() {
 
     const handleClick = (e) => toggleUpdate(isUpdateActive ? false : true);
 
+    const profileLink = UserId.value ? '/profile' : '/signin';
+
+    console.log(UserId.value, profileLink);
+
     return (
         <div>
             <div className="profileMenuMobile">
-                <NavLink to="/profile">
+                <Link to={profileLink}>
                     <AccountCircleIcon className="profileIcon" />
-                </NavLink>
+                </Link>
             </div>
             <div className="top-menu">
                 <Grid container justify="space-around">

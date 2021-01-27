@@ -48,6 +48,7 @@ function SignIn() {
 
     const submit = (e) => {
         if (!isValidated()) return;
+        setStatus('submiting');
         axios
             .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', form)
             .then((response) => {
