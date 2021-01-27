@@ -1,5 +1,8 @@
 import "./SideMenuBar.css";
 import {NavLink} from 'react-router-dom';
+import RoomIcon from '@material-ui/icons/Room';
+import InfoIcon from '@material-ui/icons/Info';
+import WavesIcon from '@material-ui/icons/Waves';
 
 function SideMenuBar({isActive, onClick}) {
     return (
@@ -11,19 +14,27 @@ function SideMenuBar({isActive, onClick}) {
             </h1>
             <ul className="sidemenu__maplabels">
                 <li className="sidemenu__item station">
-                <div className="map-labels__icon material-icons">room</div>
+                <div className="map-labels__icon material-icons">
+                    <RoomIcon/>
+                </div>
                 <h5>Clean Water Station</h5>
                 </li>
                 <li className="sidemenu__item natural">
-                <div className="map-labels__icon material-icons">room</div>
+                <div className="map-labels__icon material-icons">
+                    <RoomIcon/>
+                </div>
                 <h5>Natural Water Source</h5>
                 </li>
                 <li className="sidemenu__item alerts">
-                <div className="map-labels__icon material-icons">info</div>
+                <div className="map-labels__icon material-icons">
+                    <InfoIcon/>
+                </div>
                 <h5>Alerts</h5>
                 </li>
                 <li className="sidemenu__item groundwater">
-                <div className="map-labels__icon material-icons">waves</div>
+                <div className="map-labels__icon material-icons">
+                    <WavesIcon/>
+                </div>
                 <h5>Groundwater</h5>
                 </li>
             </ul>

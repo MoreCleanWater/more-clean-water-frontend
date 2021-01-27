@@ -1,17 +1,18 @@
 import BottomMenu from "./BottomMenu/BottomMenu";
-import SideMenu from "./SideMenu/SideMenu";
 import TopMenu from "./TopMenu/TopMenu";
 import BottomMenuItem from "./BottomMenu/BottomMenuItem/BottomMenuItem";
+import InfoIcon from '@material-ui/icons/Info';
+import RoomIcon from '@material-ui/icons/Room';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 function Nav() {
     return (
         <div>
             <TopMenu/>
-            <SideMenu/>
             <BottomMenu>
-                <BottomMenuItem icon="info" title="Awareness" to="/awareness"/>
-                <BottomMenuItem icon="room" title="Find Water" to="/find-water"/>
-                <BottomMenuItem icon="notifications" title="Updates" to="/updates"/>
+                <BottomMenuItem icon={<InfoIcon/>} title="Awareness" to="/awareness"/>
+                <BottomMenuItem icon={<RoomIcon/>} title="Find Water" to="/find-water"/>
+                <BottomMenuItem icon={<NotificationsIcon/>} title="Updates" to="/updates"/>
             </BottomMenu>
         </div>
     )
