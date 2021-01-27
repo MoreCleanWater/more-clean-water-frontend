@@ -12,7 +12,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import "./App.scss";
-import AwarenessAddContent from "./components/Admin/Awareness/AwarenessContent/AwarenessAddContent";
+import UploadContent from "./components/Admin/Awareness/AwarenessContent/UploadContent";
 
 function App() {
   const [form, setForm] = useState({
@@ -69,7 +69,7 @@ function App() {
 
           <Route path="/admin/awareness-content">
             <AdminNav />
-            <AwarenessAddContent />
+            <UploadContent />
           </Route>
 
           <Route path="/admin/users">
