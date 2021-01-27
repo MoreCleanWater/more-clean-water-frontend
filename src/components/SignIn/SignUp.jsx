@@ -3,7 +3,7 @@ import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {signUpInput} from '../Form/Form.module.scss';
-import signUpStyle from './SignUp.module.scss';
+import signUpStyle from '../SignIn/SignIn.module.scss';
 import axios from 'axios';
 import CachedIcon from '@material-ui/icons/Cached';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -12,6 +12,7 @@ import TextField from '../Form/TextField';
 import ComboBox from '../Form/ComboBox';
 import CheckBox from '../Form/CheckBox';
 import CountyList from "../Form/CountyList";
+import Email from '../Form/Email'
 
 function SignUp() {
 
@@ -23,15 +24,15 @@ function SignUp() {
         lastName: "",
         password: "",
         confirmPassword: "",
-        email: "",
+        email: Email.value,
         isSubscriber: "",
     });
-
+    
     const [status, setStatus] = useState('idle');
 
     const inputItems = [
-        {label: 'Username', name: 'userName', required: true, component: TextField, step: 0},
         {label: 'Email', name: 'email', required: true, component: TextField, options:{autoComplete: 'off'}, step: 0},
+        {label: 'Username', name: 'userName', required: true, component: TextField, step: 0},
         {label: 'Password', name: 'password', required: true, component: TextField, options: {type: 'password'}, step: 0},
         {label: 'Confirm Password', name: 'confirmPassword', required: true, component: TextField, options: {type: 'password'}, step: 0},
         {label: 'First Name', name: 'firstName', required: true, component: TextField, step: 1},
@@ -52,9 +53,7 @@ function SignUp() {
         setForm({ ...form, [e.target.name]: value })
     };
 
-    const handleBackClick = (e) => {
-        setStatus('idle');
-    }
+    const handleBackClick = (e) => setStatus('idle');
     
     const [step, setStep] = useState(0);
 
@@ -77,7 +76,7 @@ function SignUp() {
             } 
         })
 
-        if (form.password !== '') {
+        if (form.password !== '' && form.confirmPassword !== '') {
             if (form.password !== form.confirmPassword) {
                 newErrors.password = 'Ops Passwords don\'t match';
                 newErrors.confirmPassword = 'Ops Passwords don\'t match';
@@ -101,11 +100,11 @@ function SignUp() {
             .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
             .then((response) => {
                 console.log(response.data)
-                return(response.data === '' ? setStatus('error') : setStatus('successs'))
+                response.data === 'User is created successfully' ? setStatus('success') : setStatus('error')
             })
             .catch(error => {
-                setStatus('error');
                 console.log(error)
+                setStatus('error');
             })
     }
     
@@ -139,6 +138,7 @@ function SignUp() {
         
     return (
         <Grid 
+            container
             justify="center"
             className={signUpStyle.container}
         >
@@ -152,7 +152,7 @@ function SignUp() {
             </Grid>
 
             <Grid
-            container
+                container
                 alignContent="center"
                 justify="center"
                 className={`full-height ${status==='error' ? '' : 'hidden'}`}
@@ -190,11 +190,12 @@ function SignUp() {
                     <ul>
                         {formSteps.map((formStep, formIndex) => {
                             return (
-                                <li className={step === formIndex ? ' active-flex' : ''}>
+                                <li key={formIndex} className={step === formIndex ? ' active-flex' : ''}>
                                     {inputItems.filter(i => i.step === formIndex).map(i => {
                                         const Component = i.component;
                                         return (
                                             <Component
+                                                key={i.name}
                                                 id={i.name}
                                                 name={i.name}
                                                 label={i.label}

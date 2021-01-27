@@ -1,6 +1,7 @@
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import SignUp from "./components/SignUp/SignUp";
+import SignUp from "./components/SignIn/SignUp";
+import SignIn from "./components/SignIn/SignIn";
 import Updates from "./components/Updates/Updates";
 import Admin from "./components/Admin/Admin";
 import AdminUsers from "./components/Admin/Users/Users";
@@ -26,7 +27,9 @@ function App() {
     .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list')
     .then(response => {
       CountyList.data = response.data;
-      Object.freeze(CountyList)
+      if (CountyList.data) CountyList.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
+      Object.freeze(CountyList);
+      console.log(CountyList.data);
       setDataLoaded(true);
     })
     .catch(error => console.log(error))
@@ -44,6 +47,10 @@ function App() {
 
           <Route exact path="/signup">
             <SignUp/>
+          </Route>
+
+          <Route exact path="/signin">
+            <SignIn/>
           </Route>
 
           <Route exact path="/profile">

@@ -1,14 +1,47 @@
-import {Redirect} from 'react-router-dom'
-import {useState} from 'react';
-import { TextField, Button, FormControl } from '@material-ui/core';
-import {NavLink} from "react-router-dom";
+import { TextField, Button } from '@material-ui/core';
+import {NavLink, Redirect} from "react-router-dom";
 import './LandingPage.scss';
 import {landingForm, signUpInput} from '../Form/Form.module.scss';
 import {Grid} from '@material-ui/core'
+import { useState } from 'react';
+import Email from '../Form/Email'
 
-function LandingPage ({form, onChange}) {
+function LandingPage () {
+    const inputItems = [
+        {label: 'Email', name: 'email', required: true, component: TextField},
+    ];
 
+    const [form, setForm] = useState({email: ""});
+    
     const [redirect, setRedirect] = useState(null);
+
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+    const handleSignUp = e => {
+        if (!isValidated()) return;
+        Email.value = form.email;
+        setRedirect('/signup');
+    }
+
+    const [errors, setErrors] = useState({});
+
+    const isValidated = () => {
+        let isValidated = true;
+        const checkFields = inputItems.filter(i => i.required);
+        const newErrors = {...errors};
+        checkFields.forEach(i => {
+            newErrors[i.name] = '';
+            if (form[i.name] === '') {
+                newErrors[i.name] = 'Ops! This field is required';
+                isValidated = false;
+            } 
+        })
+        
+        setErrors({...errors, ...newErrors});
+        return isValidated;
+    }
+
+    if (redirect) return <Redirect push to={redirect}/>
 
     return (
         <div className="landing-page">
@@ -40,26 +73,30 @@ function LandingPage ({form, onChange}) {
                     <form className={landingForm}>
                             <TextField
                                 autoComplete="on"
-                                required id='email'
+                                id='email'
+                                name='email'
                                 label='Email'
-                                variant="outlined"
+                                variant='outlined'
+                                value={form.email}
+                                error={errors.email ? 'error' : ''}
+                                helperText={errors.email}
                                 className={signUpInput}
-                                onChange={onChange}
+                                onChange={handleChange}
                             />
 
                             <Button 
                                 variant="contained"
                                 color="primary"
                                 disableElevation
-                                component={NavLink}
-                                to="/signup"
+                                onClick={handleSignUp}
                             >
                                 Sign Up
                             </Button>
                     
-                        <p>
+                        <p className='more'>
                             Are you already registered? 
                         </p>
+                        
 
                         <Button 
                             variant="text"
@@ -72,7 +109,7 @@ function LandingPage ({form, onChange}) {
                         </Button>
 
                         <NavLink to="/find-water" className="enter">
-                            <p>
+                            <p className='more'>
                                 Or proceed without sign up
                             </p>
                         </NavLink>

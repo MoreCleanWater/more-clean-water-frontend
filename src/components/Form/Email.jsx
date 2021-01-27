@@ -1,2 +1,2 @@
-const Email = "";
+const Email = {value: ""};
 export default Email;
