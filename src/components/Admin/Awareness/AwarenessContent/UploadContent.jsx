@@ -108,15 +108,16 @@ export default function UploadContent() {
   };
 
   const saveArticle = (url) => {
-    const article = {
+    var dataRef = database.child(`${title}`);
+    dataRef.set({
       categoryId: selectedCategory.id,
       categoryName: selectedCategory.name,
       title: title,
       body: body,
       image: url,
       video: videoUrl,
-    };
-    database.push(article);
+    });
+    // database.push(article);
     // retrieveArticle();
   };
   // const retrieveArticle = () => {
@@ -136,7 +137,9 @@ export default function UploadContent() {
             options={category}
             // value={selectedCategory}
             getOptionLabel={(option) => option.name}
-            onChange={(value) => setSelectedCategory(value)}
+            onChange={(e, value) => {
+              setSelectedCategory(value);
+            }}
             className={classes.text}
             renderInput={(params) => (
               <TextField required {...params} label="Category" />
