@@ -31,7 +31,7 @@ function LandingPage () {
         const newErrors = {...errors};
         checkFields.forEach(i => {
             newErrors[i.name] = '';
-            if (form[i.name] === '') {
+            if (!form[i.name]) {
                 newErrors[i.name] = 'Ops! This field is required';
                 isValidated = false;
             } 

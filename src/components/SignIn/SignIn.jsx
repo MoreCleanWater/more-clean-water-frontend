@@ -36,7 +36,7 @@ function SignIn() {
         const newErrors = {...errors};
         checkFields.forEach(i => {
             newErrors[i.name] = '';
-            if (form[i.name] === '') {
+            if (!form[i.name]) {
                 newErrors[i.name] = 'Ops! This field is required';
                 isValidated = false;
             } 
@@ -48,7 +48,7 @@ function SignIn() {
 
     const submit = (e) => {
         if (!isValidated()) return;
-        setStatus('submiting');
+        setStatus('loading');
         axios
             .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', form)
             .then((response) => {
@@ -78,7 +78,7 @@ function SignIn() {
                 container
                 alignContent="center"
                 justify="center"
-                className={`full-height ${status==='submiting' ? '' : 'hidden'}`}
+                className={`full-height ${status==='loading' ? '' : 'hidden'}`}
             >
                 <CachedIcon className="loading"/>
             </Grid>

@@ -70,7 +70,7 @@ function SignUp() {
         const newErrors = {...errors};
         checkFields.forEach(i => {
             newErrors[i.name] = '';
-            if (form[i.name] === '') {
+            if (!form[i.name]) {
                 newErrors[i.name] = 'Ops! This field is required';
                 isValidated = false;
             } 
@@ -95,7 +95,7 @@ function SignUp() {
         if (!isValidated()) return;
         const newUser = {...form}
         delete newUser.confirmPassword;
-        setStatus('submiting');
+        setStatus('loading');
         console.log(newUser);
         axios
             .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
@@ -147,7 +147,7 @@ function SignUp() {
                 container
                 alignContent="center"
                 justify="center"
-                className={`full-height ${status==='submiting' ? '' : 'hidden'}`}
+                className={`full-height ${status==='loading' ? '' : 'hidden'}`}
             >
                 <CachedIcon className="loading"/>
             </Grid>

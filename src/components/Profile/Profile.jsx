@@ -12,6 +12,8 @@ import CountyList from '../Form/CountyList'
 import UserId from '../Form/UserId'
 import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 function Profile() {
 
@@ -20,19 +22,19 @@ function Profile() {
         countyId: "",
         firstName: "",
         lastName: "",
-        password: "",
         email: "",
     });
+    
+    const [status, setStatus] = useState('loading');
 
-    const [status, setStatus] = useState('idle');
+    console.log(status)
 
 	const inputItems = [
-        {label: 'Email', name: 'email', component: TextField},
-        {label: 'First Name', name: 'firstName', component: TextField},
-        {label: 'Last Name', name: 'lastName', component: TextField},
-        {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
-        {label: 'Post Code', name: 'postcode', component: TextField},
-        // {label: 'Password', name: 'password', component: TextField, options: {type: 'password'}},
+        {label: 'Email', name: 'email', required: true, component: TextField},
+        {label: 'First Name', name: 'firstName', required: true, component: TextField},
+        {label: 'Last Name', name: 'lastName', required: true, component: TextField},
+        {label: 'County', name: 'countyId', required: true, type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
+        {label: 'Post Code', name: 'postcode', required: true, component: TextField},
 	];
 	
 	useEffect(() => {
@@ -42,8 +44,12 @@ function Profile() {
             let newData = {};
             Object.entries(form).forEach(i => newData[i[0]] = response.data[0][i[0]])
             setForm(newData);
+            setStatus('idle');
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            setStatus('error');
+            console.log(error)
+        })
     }, []);
 
     const [errors, setErrors] = useState({});
@@ -58,7 +64,7 @@ function Profile() {
         const newErrors = {...errors};
         checkFields.forEach(i => {
             newErrors[i.name] = '';
-            if (form[i.name] === '') {
+            if (!form[i.name]) {
                 newErrors[i.name] = 'Ops! This field is required';
                 isValidated = false;
             } 
@@ -70,7 +76,6 @@ function Profile() {
 
     const submit = (e) => {
         if (!isValidated()) return;
-        setStatus('submiting');
         axios
             .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, form)
             .then((response) => {
@@ -87,6 +92,11 @@ function Profile() {
             })
     }
 
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') return;
+        setStatus('idle');
+    };
+
     if (!UserId.value) return <Redirect to="/find-water"/>
     
     return (
@@ -99,7 +109,7 @@ function Profile() {
                 container
                 alignContent="center"
                 justify="center"
-                className={`full-height ${status==='submiting' ? '' : 'hidden'}`}
+                className={`full-height ${status==='loading' ? '' : 'hidden'}`}
             >
                 <CachedIcon className="loading"/>
             </Grid>
@@ -113,11 +123,10 @@ function Profile() {
                 <div style={{textAlign: 'center'}}>
                     <ErrorIcon className="alertColor" style={{fontSize: '5rem'}}/>
                     <h2 style={{margin:0}}>Uh oh!</h2>
-                    <p>Invalid email or password. Please try again.</p>
+                    <p>Something weird happened. <br/> Please try again later.</p>
                     <div>
                         <Button 
                             variant="contained"
-                            // className="alertColor" 
                             disableElevation
                             onClick={handleBackClick}
                             style={{marginTop: '1rem'}}
@@ -131,8 +140,14 @@ function Profile() {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${signInStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+                className={`${signInStyle.content} ${status==='idle' || status==='success' ? '' : 'hidden'}`}
             >
+                <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+                    <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    Profile updated successfully!
+                    </Alert>
+                </Snackbar>
+
                 <h2 className="center">
                     Profile
                 </h2>

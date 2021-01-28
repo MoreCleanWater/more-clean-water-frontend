@@ -1,23 +1,43 @@
 import {Link, NavLink} from 'react-router-dom';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Grid from '@material-ui/core/Grid';
 import UpdatesList from '../../Updates/UpdatesList/UpdatesList';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import UserId from '../../Form/UserId';
 import "./TopMenu.scss"
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 function TopMenu() {
+    const [status, setStatus] = useState('idle');
+
+    const [profileLink, setProfileLink] = useState('/signin')
+
+    useEffect(() => {
+        if (UserId.value) {
+            setStatus('success');
+            setProfileLink('/profile')
+        }
+    }, [])
+
     const [isUpdateActive, toggleUpdate] = useState(false);
 
     const handleClick = (e) => toggleUpdate(isUpdateActive ? false : true);
 
-    const profileLink = UserId.value ? '/profile' : '/signin';
-
-    console.log(UserId.value, profileLink);
-
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') return;
+        setStatus('idle');
+    };
+    
     return (
         <div>
+            <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+                <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    User logged successfully!
+                </Alert>
+            </Snackbar>
+            
             <div className="profileMenuMobile">
                 <Link to={profileLink}>
                     <AccountCircleIcon className="profileIcon" />
