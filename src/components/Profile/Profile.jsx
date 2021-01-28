@@ -11,6 +11,7 @@ import ComboBox from '../Form/ComboBox';
 import CountyList from '../Form/CountyList'
 import UserId from '../Form/UserId'
 import { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 function Profile() {
 
@@ -23,17 +24,15 @@ function Profile() {
         email: "",
     });
 
-    console.log(form)
-
     const [status, setStatus] = useState('idle');
 
-	
 	const inputItems = [
-        {label: 'Email', name: 'email', type: 'text', component: TextField},
-        {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
-        {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
+        {label: 'Email', name: 'email', component: TextField},
+        {label: 'First Name', name: 'firstName', component: TextField},
+        {label: 'Last Name', name: 'lastName', component: TextField},
         {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
-        {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
+        {label: 'Post Code', name: 'postcode', component: TextField},
+        // {label: 'Password', name: 'password', component: TextField, options: {type: 'password'}},
 	];
 	
 	useEffect(() => {
@@ -71,24 +70,24 @@ function Profile() {
 
     const submit = (e) => {
         if (!isValidated()) return;
-        // setStatus('submiting');
+        setStatus('submiting');
         axios
             .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, form)
             .then((response) => {
                 console.log(response)
-                // if (response.data === 'Invalid email or password') {
-                //     setStatus('error');
-                // } else {
-                //     UserId.value = response.data;
-                //     console.log(UserId.value)
-                //     setStatus('success');
-                // }
+                if (response.data === 'User is updated successfully') {
+                    setStatus('success');
+                } else {
+                    setStatus('error');
+                }
             })
             .catch(error => {
                 console.log(error)
-                // setStatus('error');
+                setStatus('error');
             })
     }
+
+    if (!UserId.value) return <Redirect to="/find-water"/>
     
     return (
         <Grid 
