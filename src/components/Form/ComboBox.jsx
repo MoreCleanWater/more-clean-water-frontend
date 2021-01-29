@@ -24,7 +24,7 @@ function ComboBox (props) {
             className={className}
             error={error}
         >
-            {dataProvider !== '' ? '' : <CachedIcon className="loading absolute" style={{right:'-2.5rem', top: '.8rem'}}/>}
+            {!dataProvider && <CachedIcon className="loading absolute" style={{right:'-2.5rem', top: '.8rem'}}/>}
             <InputLabel id={`${name}-label`}>{label}</InputLabel>
             <Select
                 id={name}

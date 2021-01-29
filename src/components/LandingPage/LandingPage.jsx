@@ -1,7 +1,7 @@
 import { TextField, Button } from '@material-ui/core';
 import {NavLink, Redirect} from "react-router-dom";
 import './LandingPage.scss';
-import {landingForm, signUpInput} from '../Form/Form.module.scss';
+import formStyle from '../Form/Form.module.scss';
 import {Grid} from '@material-ui/core'
 import { useState } from 'react';
 import Email from '../Form/Email'
@@ -70,49 +70,48 @@ function LandingPage () {
                         </h3>
                     </div>
                     
-                    <form className={landingForm}>
-                            <TextField
-                                autoComplete="on"
-                                id='email'
-                                name='email'
-                                label='Email'
-                                variant='outlined'
-                                value={form.email}
-                                error={errors.email ? 'error' : ''}
-                                helperText={errors.email}
-                                className={signUpInput}
-                                onChange={handleChange}
-                            />
-
-                            <Button 
-                                variant="contained"
-                                color="primary"
-                                disableElevation
-                                onClick={handleSignUp}
-                            >
-                                Sign Up
-                            </Button>
-                    
-                        <p className='more'>
-                            Are you already registered? 
-                        </p>
-                        
+                    <form className={formStyle.landingForm}>
+                        <TextField
+                            autoComplete="on"
+                            id='email'
+                            name='email'
+                            label='Email'
+                            variant='outlined'
+                            value={form.email}
+                            error={errors.email ? 'error' : ''}
+                            helperText={errors.email}
+                            className={formStyle.formInput}
+                            onChange={handleChange}
+                        />
 
                         <Button 
-                            variant="text"
+                            variant="contained"
                             color="primary"
                             disableElevation
-                            component={NavLink}
-                            to="/signin"
+                            onClick={handleSignUp}
                         >
-                            Sign in
+                            Sign Up
                         </Button>
-
-                        <NavLink to="/find-water" className="enter">
-                            <p className='more'>
-                                Or proceed without sign up
+                    
+                        <div className={formStyle.actions}>
+                            <p>
+                                Are you already registered? 
                             </p>
-                        </NavLink>
+
+                            <Button 
+                                variant="text"
+                                color="primary"
+                                disableElevation
+                                component={NavLink}
+                                to="/signin"
+                            >
+                                Sign in
+                            </Button>
+
+                            <NavLink to="/find-water" className={formStyle.link}>
+                                Or proceed without sign up
+                            </NavLink>
+                        </div>
                     </form>
                 </Grid>
             </div>

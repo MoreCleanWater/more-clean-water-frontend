@@ -9,17 +9,16 @@
     flex-direction: column;
     justify-content: space-between;
     height: 80%;
-    padding: 0 2rem;
     flex-grow: 1;
     padding: 0 2rem 1.5rem;
 }
 
 .editForm {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
     height: 80%;
-    flex-grow: 1;
     overflow: auto;
     padding: 0 2rem 1.5rem;
 }

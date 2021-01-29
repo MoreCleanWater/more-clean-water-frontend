@@ -27,26 +27,24 @@ function EditForm (props) {
     }
 
     return (
-        <div className={className} style={style}>
-            <form className={formStyle.adminForm}>
-                {inputItems.map((i, index) => {
-                    const Component = i.component;
-                    return (
-                        <div style={{marginTop: 10}} key={index}>
-                            <Component {...i} 
-                                value={data[i.name] ? data[i.name] : ''}
-                                variant='outlined' 
-                                onChange={handleChange}
-                                dataProvider={i.dataProvider ? i.dataProvider : ''}
-                                options={i.options ? i.options : ''}
-                                className={formStyle.input}
-                            />
-                        </div>
-                    )
-                })}
-            </form>
+        <form className={formStyle.adminForm} style={style}>
+            {inputItems.map((i, index) => {
+                const Component = i.component;
+                return (
+                    <Component 
+                        {...i} 
+                        key={index}
+                        value={data[i.name] ? data[i.name] : ''}
+                        variant='outlined' 
+                        onChange={handleChange}
+                        dataProvider={i.dataProvider ? i.dataProvider : ''}
+                        options={i.options ? i.options : ''}
+                        className={formStyle.formInput}
+                    />
+                )
+            })}
 
-            <div className={formStyle.buttons}>
+            <div className={`${formStyle.buttons} ${formStyle.admin}`}>
                 <Button variant="contained"
                     className='primaryButton'
                     size="small"
@@ -67,7 +65,7 @@ function EditForm (props) {
                     Cancel
                 </Button>
             </div>
-        </div>
+        </form>
     )
 }
 

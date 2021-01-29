@@ -1,21 +1,26 @@
 import { Button, Grid } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import adminStyle from "../Admin.module.scss";
+import formStyle from "../../Form/Form.module.scss";
 import EditForm from "../EditForm";
 import ListData from "../ListData";
 import TextField from '../../Form/TextField';
 import ComboBox from '../../Form/ComboBox';
+import CheckBox from '../../Form/CheckBox';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import CountyList from "../../Form/CountyList";
 import CachedIcon from '@material-ui/icons/Cached';
 import axios from 'axios';
 
 function WaterStations () {
+    const [countyData, setCountyData] = useState();
+
     const columns = [
-        { field: 'firstName', headerName: 'First name', width: 160 },
-        { field: 'lastName', headerName: 'Last name', width: 160 },
-        { field: 'email', headerName: 'Email', width: 250, flex: 1 },
+        { field: 'county', headerName: 'County', width: 250, flex: 1 },
+        { field: 'postcode', headerName: 'Post Code', width: 250, flex: 1 },
+        { field: 'size', headerName: 'Size', width: 160 },
+        { field: 'capacity', headerName: 'Capacity', width: 160 },
+        { field: 'isWorking', headerName: 'Is working?', width: 250, flex: 1 },
         { field: 'actions', headerName: 'Actions', sortable: false, width: 110,
             renderCell: (params) => (
                 <div style={{display: 'flex', height: '100%', alignItems: 'center'}}>
@@ -36,13 +41,12 @@ function WaterStations () {
     ];
 
     const inputItems = [
-        {label: 'Username', name: 'userName', type: 'text', component: TextField},
-        {label: 'Email', name: 'email', type: 'text', component: TextField},
-        {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
-        {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
-        {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
-        {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
-        {label: 'Additional Info', name: 'additionalInfo', type: 'text', component: TextField, options:{multiline: true, rows:4}},
+        {label: 'County', name: 'countyId', component: ComboBox, dataProvider: countyData},
+        {label: 'Post Code', name: 'postcode', component: TextField},
+        {label: 'Size', name: 'size', component: TextField},
+        {label: 'Capacity', name: 'capacity', component: TextField},
+        {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
+        {label: 'Is working?', name: 'isWorking', component: CheckBox},
     ]
 
     const [data, setData] = useState();
@@ -57,16 +61,25 @@ function WaterStations () {
     }
     
     const [mode, setMode] = useState('retrieve');
+
+    const [status, setStatus] = useState('idle');
     
     const [formData, setFormData] = useState(newData);
 
     useEffect(() => {
-        axios
-        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
-        .then(response => {
-            const loadedData = response.data.map(i => ({id: String(i.userId), ...i}))
-            setData(loadedData);
-        })
+        axios.all([
+            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list'),
+            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/list')
+        ])
+        .then(axios.spread((county, stations) => {
+            const loadedData = stations.data.map(i => ({
+                ...i, 
+                id: String(i.stationId), 
+                county: county.data.find(c => i.countyId === c.countyId)['county']
+            }));
+            setCountyData(county.data);
+            setData(loadedData)
+        }))
         .catch(error => console.log(error))
     }, []);
 
@@ -123,7 +136,7 @@ function WaterStations () {
         handleSelection(e.rowIds);
     }
     
-    if (!data) 
+    if (!data || status === 'loading') 
         return (
             <Grid
                 container
@@ -137,9 +150,9 @@ function WaterStations () {
 
 
     return (
-        <Grid container justify="center">
-            <Grid item xs={12} md={10} className={adminStyle.container} >
-                <h2 className="center">
+        <Grid container justify="center" className={formStyle.container} >
+            <Grid item xs={12} md={10}  className={formStyle.content}>
+                <h2 className={formStyle.admin}>
                     Water Stations
                 </h2>
 
@@ -181,11 +194,11 @@ function WaterStations () {
                 </ListData>
 
                 <EditForm
-                    className={adminStyle.editForm} 
                     mode={mode}
                     inputItems={inputItems}
                     onSubmit={handleSubmit}
                     onCancel={handleCancel}
+                    className={adminStyle.dataGrid}
                     style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
                     formData={formData}
                 />

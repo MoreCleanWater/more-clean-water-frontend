@@ -2,8 +2,7 @@ import {NavLink} from 'react-router-dom'
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import {signUpInput} from '../Form/Form.module.scss';
-import signUpStyle from '../SignIn/SignIn.module.scss';
+import formStyle from '../Form/Form.module.scss';
 import axios from 'axios';
 import CachedIcon from '@material-ui/icons/Cached';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -11,10 +10,9 @@ import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import ComboBox from '../Form/ComboBox';
 import CheckBox from '../Form/CheckBox';
-import CountyList from "../Form/CountyList";
 import Email from '../Form/Email'
 
-function SignUp() {
+function SignUp({countyData}) {
 
     const [form, setForm] = useState({
         userName: "",
@@ -37,7 +35,7 @@ function SignUp() {
         {label: 'Confirm Password', name: 'confirmPassword', required: true, component: TextField, options: {type: 'password'}, step: 0},
         {label: 'First Name', name: 'firstName', required: true, component: TextField, step: 1},
         {label: 'Last Name', name: 'lastName', required: true, component: TextField, step: 1},
-        {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: CountyList.data, step: 1},
+        {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: countyData, step: 1},
         {label: 'Post Code', name: 'postcode', required: true, component: TextField, step: 1},
         {label: 'Receive water alerts?', name: 'isSubscriber', required: false, component: CheckBox, step: 1},
     ]
@@ -141,7 +139,7 @@ function SignUp() {
         <Grid 
             container
             justify="center"
-            className={signUpStyle.container}
+            className={formStyle.container}
         >
             <Grid
                 container
@@ -179,12 +177,12 @@ function SignUp() {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${signUpStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+                className={`${formStyle.content} ${status==='idle' ? '' : 'hidden'}`}
             >
                 <h2 className="center">
                     User registration
                 </h2>
-                <p className={signUpStyle.subtitle}>
+                <p className={formStyle.subtitle}>
                     {/* {formSteps[step]} */}
                 </p>
                 <form>
@@ -203,7 +201,7 @@ function SignUp() {
                                                 value={form[i.name]}
                                                 error={errors[i.name] ? 'error' : ''}
                                                 helperText={errors[i.name]}
-                                                className={signUpInput}
+                                                className={formStyle.formInput}
                                                 options={i.options ? i.options : ''}
                                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                                 onChange={handleChange}
@@ -215,20 +213,20 @@ function SignUp() {
                         })}
 
                         <li className={step === maxStep ? ' active-flex' : ''}>
-                            <ul className={signUpStyle.confirmation}>
+                            <ul className={formStyle.confirmation}>
                                 <li>Username: {form.userName}</li>
                                 <li>Email: {form.email}</li>
                                 <li>Password: {form.password ? form.password.split('').map(i => '•') : ''}</li>
                                 <li>First name: {form.firstName}</li>
                                 <li>Last Name: {form.lastName}</li>
                                 <li>Receive water alerts? {form.isSubscriber ? 'Yes' : 'No'}</li>
-                                <li>County: {CountyList.data && form.countyId ? CountyList.data.find(i => i.countyId === form.countyId)['county']: ''}</li>
+                                <li>County: {countyData && form.countyId ? countyData.find(i => i.countyId === form.countyId)['county']: ''}</li>
                                 <li>Post code: {form.postcode}</li>
                             </ul>
                         </li>
                     </ul>
 
-                    <div className={signUpStyle.buttons}>
+                    <div className={formStyle.buttons}>
                         {step === 0 ? '' : 
                             <Button 
                                 variant="text"
