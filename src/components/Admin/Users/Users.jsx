@@ -7,22 +7,29 @@ import axios from 'axios';
 
 function Users () {
     const columns = [
-        { field: 'userName', headerName: 'Username', width: 120 },
-        { field: 'firstName', headerName: 'First name', width: 200 },
-        { field: 'lastName', headerName: 'Last name', width: 200 },
-        { field: 'email', headerName: 'Email', width: 230, flex: 1 },
-        { field: 'postcode', headerName: 'Post code', width: 160, flex: 1 },
+        { field: 'userName', headerName: 'Username', width: 120, flex: 1 },
+        { field: 'firstName', headerName: 'First name', width: 200, flex: 1.5 },
+        { field: 'lastName', headerName: 'Last name', width: 200, flex: 1.5 },
+        { field: 'email', headerName: 'Email', width: 230, flex: 2 },
+        { field: 'county', headerName: 'County', width: 230, flex: 1.5 },
+        { field: 'postcode', headerName: 'Post code', width: 160,  },
     ];
 
     const [data, setData] = useState();
 
     useEffect(() => {
-        axios
-        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
-        .then(response => {
-            const loadedData = response.data.map(i => ({id: String(i.userId), ...i}))
-            setData(loadedData);
-        })
+        axios.all([
+            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list'),
+            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
+        ])
+        .then(axios.spread((county, users) => {
+            const loadedData = users.data.map(i => ({
+                ...i, 
+                id: String(i.userId), 
+                county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
+            }));
+            setData(loadedData)
+        }))
         .catch(error => console.log(error))
     }, []);
 
@@ -37,7 +44,6 @@ function Users () {
                 <CachedIcon className="loading"/>
             </Grid>
         );
-
 
     return (
         <Grid container justify="center">

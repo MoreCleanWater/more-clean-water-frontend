@@ -16,22 +16,24 @@ function WaterStations () {
     const [countyData, setCountyData] = useState();
 
     const columns = [
-        { field: 'county', headerName: 'County', width: 250, flex: 1 },
-        { field: 'postcode', headerName: 'Post Code', width: 250, flex: 1 },
-        { field: 'size', headerName: 'Size', width: 160 },
-        { field: 'capacity', headerName: 'Capacity', width: 160 },
-        { field: 'isWorking', headerName: 'Is working?', width: 250, flex: 1 },
-        { field: 'actions', headerName: 'Actions', sortable: false, width: 110,
+        { field: 'county', headerName: 'County', width: 250, flex: 1.5 },
+        { field: 'postcode', headerName: 'Post Code', width: 130, flex: 1,},
+        { field: 'size', headerName: 'Size', width: 90, flex: 1, },
+        { field: 'capacity', headerName: 'Capacity', width: 110, flex: 1, },
+        { field: 'isWorking', headerName: 'Is working?', width: 140, 
+            renderCell: (params) => <CheckBox value={params.row.isWorking}  disabled='disabled'/>
+        },
+        { field: 'actions', headerName: 'Actions', sortable: false, width: 110, 
             renderCell: (params) => (
                 <div style={{display: 'flex', height: '100%', alignItems: 'center'}}>
                     <EditIcon
-                        id={params.getValue('id')}
+                        id={params.row.id}
                         onClick={handleEditRow}
                         style={{cursor: "pointer", color: "#78787c", marginLeft: '.2rem'}}
                     />
 
                     <DeleteIcon
-                        id={params.getValue('id')}
+                        id={params.row.id}
                         onClick={handleDeleteRow}
                         style={{cursor: "pointer", color: "#78787c", marginLeft: '1rem'}}
                     />
@@ -72,10 +74,11 @@ function WaterStations () {
             axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/list')
         ])
         .then(axios.spread((county, stations) => {
+            console.log(county.data, stations.data)
             const loadedData = stations.data.map(i => ({
                 ...i, 
                 id: String(i.stationId), 
-                county: county.data.find(c => i.countyId === c.countyId)['county']
+                county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
             }));
             setCountyData(county.data);
             setData(loadedData)

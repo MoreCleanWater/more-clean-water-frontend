@@ -16,7 +16,10 @@ function EditForm (props) {
     const [data, setData] = useState(formData);
     useEffect(() => { setData(formData)}, [formData] )
 
-    const handleChange = (e) => setData({ ...data, [e.target.name]: e.target.value });
+    const handleChange = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setData({ ...data, [e.target.name]: value })
+    };
 
     const handleSubmit = (e) => {
         onSubmit(data);
