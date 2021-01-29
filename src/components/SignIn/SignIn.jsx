@@ -26,11 +26,11 @@ function SignIn() {
 
     const [errors, setErrors] = useState({});
 
-    const handleBackClick = (e) => setStatus('idle');
+    const handleBackClick = e => setStatus('idle');
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems);
         setErrors(errors);
         return (isValidated ? submitData() : isValidated)

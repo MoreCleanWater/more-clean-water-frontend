@@ -53,9 +53,9 @@ function Profile({countyData}) {
 
     const [errors, setErrors] = useState({});
 
-    const handleBackClick = (e) => setStatus('idle');
+    const handleBackClick = e => setStatus('idle');
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const isValidated = () => {
         let isValidated = true;
@@ -73,13 +73,13 @@ function Profile({countyData}) {
         return isValidated;
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems);
         setErrors(errors);
         return (isValidated ? submitData() : isValidated)
     }
 
-    const submitData = (e) => {
+    const submitData = e => {
         if (!isValidated()) return;
         setStatus('loading');
         axios
@@ -115,7 +115,7 @@ function Profile({countyData}) {
                 container
                 alignContent="center"
                 justify="center"
-                className={`full-height ${status==='loading' ? '' : 'hidden'}`}
+                className={`fullHeight ${status==='loading' ? '' : 'hidden'}`}
             >
                 <CachedIcon className="loading"/>
             </Grid>

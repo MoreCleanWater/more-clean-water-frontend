@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 function SideMenu () {
     const [isActive, toggleMenu] = useState(false);
 
-    const handleClick = (e) => toggleMenu(isActive ? false : true);
+    const handleClick = e => toggleMenu(isActive ? false : true);
 
     return (
         <div className="sidemenu">

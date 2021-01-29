@@ -15,7 +15,7 @@ function LandingPage () {
     
     const [redirect, setRedirect] = useState(null);
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSignUp = e => {
         if (!isValidated()) return;

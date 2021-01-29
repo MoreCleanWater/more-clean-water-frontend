@@ -23,7 +23,7 @@ function TopMenu() {
 
     const [isUpdateActive, toggleUpdate] = useState(false);
 
-    const handleClick = (e) => toggleUpdate(isUpdateActive ? false : true);
+    const handleClick = e => toggleUpdate(isUpdateActive ? false : true);
 
     const handleCloseSnackBar = (event, reason) => {
         if (reason === 'clickaway') return;

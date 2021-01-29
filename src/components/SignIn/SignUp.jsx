@@ -48,24 +48,24 @@ function SignUp({countyData}) {
 
     const [errors, setErrors] = useState({});
 
-    const handleChange = (e) => {
+    const handleChange = e => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
         setFormData({ ...formData, [e.target.name]: value })
     };
 
-    const handleBackClick = (e) => setStatus('idle');
+    const handleBackClick = e => setStatus('idle');
     
     const [step, setStep] = useState(0);
 
-    const handlePrevious = (e) => setStep(step > 0 ? step - 1 : step);
+    const handlePrevious = e => setStep(step > 0 ? step - 1 : step);
 
-    const handleNext = (e) => {
+    const handleNext = e => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems, step);
         setErrors(errors);
         return (isValidated ? setStep(step < maxStep ? step + 1 : maxStep) : isValidated)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems);
         setErrors(errors);
         return (isValidated ? submitData() : isValidated)
