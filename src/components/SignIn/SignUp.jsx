@@ -75,22 +75,32 @@ function SignUp({countyData}) {
         const newUser = {...formData}
         delete newUser.confirmPassword;
         setStatus('loading');
-        console.log(newUser);
+
         axios
-            .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
-            .then((response) => {
-                console.log(response.data)
-                response.data === 'User is created successfully' ? setStatus('success') : setStatus('error')
-            })
-            .catch(error => {
-                console.log(error)
-                setStatus('error');
-            })
+        .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newUser)
+        .then((sigin) => {
+            if (sigin.data === 'User is created successfully') {
+                axios
+                .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', {userName: newUser.userName, password: newUser.password})
+                .then((signup) => {
+                    if (signup !== 'Invalid email or password') UserId.value = signup.data;
+                    setStatus('success');
+                })
+                .catch(error => {
+                    console.log(error)
+                    setStatus('error');
+                })
+            } else {
+                setStatus('error')
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
 
     }
 
-    if (UserId.value) return <Redirect to="/find-water"/>
-    
     if (status==="success") 
         return (
             <Grid
@@ -102,7 +112,7 @@ function SignUp({countyData}) {
                 <div style={{textAlign: 'center'}}>
                     <CheckCircleIcon color="primary" style={{fontSize: '5rem'}}/>
                     <h2 style={{margin:0}}>Woo hoo!</h2>
-                    <p>Welcome! <br/> You account has been created</p>
+                    <p style={{lineHeight: 1.5}}>Welcome! <br/> You account has been created</p>
                     <div>
                         <Button 
                             variant="contained"
@@ -112,13 +122,15 @@ function SignUp({countyData}) {
                             to="/find-water"
                             style={{marginTop: '1rem'}}
                         >
-                            SIGN IN
+                            GO TO APP
                         </Button>
                     </div>
                 </div>
             </Grid>
         );
-        
+
+    if (UserId.value) return <Redirect to="/find-water"/>
+    
     return (
         <Grid 
             container
@@ -143,7 +155,7 @@ function SignUp({countyData}) {
                 <div style={{textAlign: 'center'}}>
                     <ErrorIcon className="alertColor" style={{fontSize: '5rem'}}/>
                     <h2 style={{margin:0}}>Uh oh!</h2>
-                    <p>Something weird happened. Keep calm and try again.</p>
+                    <p style={{lineHeight: 1.5}}>Something weird happened. <br/> Keep calm and try again.</p>
                     <div>
                         <Button 
                             variant="contained"
