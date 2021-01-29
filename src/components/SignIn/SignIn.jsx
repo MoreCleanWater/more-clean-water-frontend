@@ -8,10 +8,11 @@ import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import { Redirect, NavLink } from 'react-router-dom';
 import UserId from '../Form/UserId'
+import Validation from '../Form/Validation';
 
 function SignIn() {
     
-    const [form, setForm] = useState({
+    const [formData, setFormData] = useState({
         userName: "",
         password: "",
     });
@@ -27,29 +28,18 @@ function SignIn() {
 
     const handleBackClick = (e) => setStatus('idle');
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-    const isValidated = () => {
-        let isValidated = true;
-        const checkFields = inputItems.filter(i => i.required);
-        const newErrors = {...errors};
-        checkFields.forEach(i => {
-            newErrors[i.name] = '';
-            if (!form[i.name]) {
-                newErrors[i.name] = 'Ops! This field is required';
-                isValidated = false;
-            } 
-        })
-        
-        setErrors({...errors, ...newErrors})
-        return isValidated;
+    const handleSubmit = (e) => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? submitData() : isValidated)
     }
 
-    const submit = (e) => {
-        if (!isValidated()) return;
+    const submitData = () => {
         setStatus('loading');
         axios
-            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', form)
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', formData)
             .then((response) => {
                 if (response.data === 'Invalid email or password') {
                     setStatus('error');
@@ -123,7 +113,7 @@ function SignIn() {
                                 id={i.name}
                                 name={i.name}
                                 label={i.label}
-                                value={form[i.name]}
+                                value={formData[i.name]}
                                 error={errors[i.name] ? 'error' : ''}
                                 helperText={errors[i.name]}
                                 className={formStyle.formInput}
@@ -139,7 +129,7 @@ function SignIn() {
                             variant="contained"
                             color="primary"
                             disableElevation
-                            onClick={submit}
+                            onClick={handleSubmit}
                         >
                             Submit
                         </Button>

@@ -1,4 +1,4 @@
-import {NavLink} from 'react-router-dom'
+import {NavLink, Redirect} from 'react-router-dom'
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -11,10 +11,12 @@ import TextField from '../Form/TextField';
 import ComboBox from '../Form/ComboBox';
 import CheckBox from '../Form/CheckBox';
 import Email from '../Form/Email'
+import Validation from '../Form/Validation';
+import UserId from '../Form/UserId';
 
 function SignUp({countyData}) {
 
-    const [form, setForm] = useState({
+    const [formData, setFormData] = useState({
         userName: "",
         postcode: "",
         countyId: "",
@@ -48,50 +50,29 @@ function SignUp({countyData}) {
 
     const handleChange = (e) => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        setForm({ ...form, [e.target.name]: value })
+        setFormData({ ...formData, [e.target.name]: value })
     };
 
     const handleBackClick = (e) => setStatus('idle');
     
     const [step, setStep] = useState(0);
 
-    const prev = (e) => setStep(step > 0 ? step - 1 : step);
+    const handlePrevious = (e) => setStep(step > 0 ? step - 1 : step);
 
-    const next = (e) => {
-        if (!isValidated()) return;
-        setStep(step < maxStep ? step + 1 : maxStep);
+    const handleNext = (e) => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems, step);
+        setErrors(errors);
+        return (isValidated ? setStep(step < maxStep ? step + 1 : maxStep) : isValidated)
     }
 
-    const isValidated = () => {
-        let isValidated = true;
-        const checkFields = inputItems.filter(i => i.required && i.step === step);
-        const newErrors = {...errors};
-        checkFields.forEach(i => {
-            newErrors[i.name] = '';
-            if (!form[i.name]) {
-                newErrors[i.name] = 'Ops! This field is required';
-                isValidated = false;
-            } 
-        })
-
-        if (form.password !== '' && form.confirmPassword !== '') {
-            if (form.password !== form.confirmPassword) {
-                newErrors.password = 'Ops Passwords don\'t match';
-                newErrors.confirmPassword = 'Ops Passwords don\'t match';
-                isValidated = false;
-            } else {
-                newErrors.password = '';
-                newErrors.confirmPassword = '';
-            }
-        }
-
-        setErrors({...errors, ...newErrors})
-        return isValidated;
+    const handleSubmit = (e) => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? submitData() : isValidated)
     }
 
-    const submit = (e) => {
-        if (!isValidated()) return;
-        const newUser = {...form}
+    const submitData = () => {
+        const newUser = {...formData}
         delete newUser.confirmPassword;
         setStatus('loading');
         console.log(newUser);
@@ -105,7 +86,10 @@ function SignUp({countyData}) {
                 console.log(error)
                 setStatus('error');
             })
+
     }
+
+    if (UserId.value) return <Redirect to="/find-water"/>
     
     if (status==="success") 
         return (
@@ -118,7 +102,7 @@ function SignUp({countyData}) {
                 <div style={{textAlign: 'center'}}>
                     <CheckCircleIcon color="primary" style={{fontSize: '5rem'}}/>
                     <h2 style={{margin:0}}>Woo hoo!</h2>
-                    <p>Welcome! You account has been created</p>
+                    <p>Welcome! <br/> You account has been created</p>
                     <div>
                         <Button 
                             variant="contained"
@@ -128,7 +112,7 @@ function SignUp({countyData}) {
                             to="/find-water"
                             style={{marginTop: '1rem'}}
                         >
-                            GO TO APP
+                            SIGN IN
                         </Button>
                     </div>
                 </div>
@@ -198,7 +182,7 @@ function SignUp({countyData}) {
                                                 id={i.name}
                                                 name={i.name}
                                                 label={i.label}
-                                                value={form[i.name]}
+                                                value={formData[i.name]}
                                                 error={errors[i.name] ? 'error' : ''}
                                                 helperText={errors[i.name]}
                                                 className={formStyle.formInput}
@@ -214,14 +198,14 @@ function SignUp({countyData}) {
 
                         <li className={step === maxStep ? ' active-flex' : ''}>
                             <ul className={formStyle.confirmation}>
-                                <li>Username: {form.userName}</li>
-                                <li>Email: {form.email}</li>
-                                <li>Password: {form.password ? form.password.split('').map(i => '•') : ''}</li>
-                                <li>First name: {form.firstName}</li>
-                                <li>Last Name: {form.lastName}</li>
-                                <li>Receive water alerts? {form.isSubscriber ? 'Yes' : 'No'}</li>
-                                <li>County: {countyData && form.countyId ? countyData.find(i => i.countyId === form.countyId)['county']: ''}</li>
-                                <li>Post code: {form.postcode}</li>
+                                <li>Username: {formData.userName}</li>
+                                <li>Email: {formData.email}</li>
+                                <li>Password: {formData.password ? formData.password.split('').map(i => '•') : ''}</li>
+                                <li>First name: {formData.firstName}</li>
+                                <li>Last Name: {formData.lastName}</li>
+                                <li>Receive water alerts? {formData.isSubscriber ? 'Yes' : 'No'}</li>
+                                <li>County: {countyData && formData.countyId ? countyData.find(i => i.countyId === formData.countyId)['county']: ''}</li>
+                                <li>Post code: {formData.postcode}</li>
                             </ul>
                         </li>
                     </ul>
@@ -232,7 +216,7 @@ function SignUp({countyData}) {
                                 variant="text"
                                 color="primary"
                                 disableElevation
-                                onClick={prev}
+                                onClick={handlePrevious}
                             >
                                 Previous
                             </Button>
@@ -243,7 +227,7 @@ function SignUp({countyData}) {
                                 variant="contained"
                                 color="primary"
                                 disableElevation
-                                onClick={next}
+                                onClick={handleNext}
                             >
                                 Next
                             </Button>
@@ -255,7 +239,7 @@ function SignUp({countyData}) {
                                 variant="contained"
                                 color="primary"
                                 disableElevation
-                                onClick={submit}
+                                onClick={handleSubmit}
                             >
                                 Submit
                             </Button>

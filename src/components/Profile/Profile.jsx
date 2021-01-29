@@ -12,10 +12,11 @@ import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import Validation from '../Form/Validation';
 
 function Profile({countyData}) {
 
-    const [form, setForm] = useState({
+    const [formData, setFormData] = useState({
         postcode: "",
         countyId: "",
         firstName: "",
@@ -40,8 +41,8 @@ function Profile({countyData}) {
         .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + UserId.value)
         .then(response => {
             let newData = {};
-            Object.entries(form).forEach(i => newData[i[0]] = response.data[0][i[0]])
-            setForm(newData);
+            Object.entries(formData).forEach(i => newData[i[0]] = response.data[0][i[0]])
+            setFormData(newData);
             setStatus('idle');
         })
         .catch(error => {
@@ -54,7 +55,7 @@ function Profile({countyData}) {
 
     const handleBackClick = (e) => setStatus('idle');
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const isValidated = () => {
         let isValidated = true;
@@ -62,7 +63,7 @@ function Profile({countyData}) {
         const newErrors = {...errors};
         checkFields.forEach(i => {
             newErrors[i.name] = '';
-            if (!form[i.name]) {
+            if (!formData[i.name]) {
                 newErrors[i.name] = 'Ops! This field is required';
                 isValidated = false;
             } 
@@ -72,11 +73,17 @@ function Profile({countyData}) {
         return isValidated;
     }
 
-    const submit = (e) => {
+    const handleSubmit = (e) => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? submitData() : isValidated)
+    }
+
+    const submitData = (e) => {
         if (!isValidated()) return;
         setStatus('loading');
         axios
-            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, form)
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, formData)
             .then((response) => {
                 console.log(response)
                 if (response.data === 'User is updated successfully') {
@@ -159,7 +166,7 @@ function Profile({countyData}) {
                                 id={i.name}
                                 name={i.name}
                                 label={i.label}
-                                value={form[i.name]}
+                                value={formData[i.name]}
                                 error={errors[i.name] ? 'error' : ''}
                                 helperText={errors[i.name]}
                                 className={formStyle.formInput}
@@ -175,7 +182,7 @@ function Profile({countyData}) {
                             variant="contained"
                             color="primary"
                             disableElevation
-                            onClick={submit}
+                            onClick={handleSubmit}
                         >
                             Submit
                         </Button>

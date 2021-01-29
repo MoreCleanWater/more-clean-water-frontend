@@ -14,8 +14,8 @@ const Validation = {
                 isValidated = false;
             } 
         })
-
-        if (data.password !== '' && data.confirmPassword !== '') {
+        
+        if (data.confirmPassword && data.password !== '' && data.confirmPassword !== '') {
             if (data.password !== data.confirmPassword) {
                 newErrors.password = 'Ops Passwords don\'t match';
                 newErrors.confirmPassword = 'Ops Passwords don\'t match';
