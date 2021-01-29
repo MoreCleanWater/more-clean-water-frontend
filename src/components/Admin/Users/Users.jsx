@@ -23,12 +23,16 @@ function Users () {
             axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
         ])
         .then(axios.spread((county, users) => {
-            const loadedData = users.data.map(i => ({
-                ...i, 
-                id: String(i.userId), 
-                county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
-            }));
-            setData(loadedData)
+            if (county && users) {
+                const loadedData = users.data.map(i => ({
+                    ...i, 
+                    id: String(i.userId), 
+                    county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
+                }));
+                setData(loadedData)
+            } else {
+                console.log(county, users)
+            }
         }))
         .catch(error => console.log(error))
     }, []);

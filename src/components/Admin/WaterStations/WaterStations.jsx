@@ -1,4 +1,4 @@
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Snackbar } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import adminStyle from "../Admin.module.scss";
 import formStyle from "../../Form/Form.module.scss";
@@ -11,6 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import CachedIcon from '@material-ui/icons/Cached';
 import axios from 'axios';
+import { Alert } from "@material-ui/lab";
 
 function WaterStations () {
     const [countyData, setCountyData] = useState();
@@ -70,22 +71,33 @@ function WaterStations () {
     const [formData, setFormData] = useState(newData);
 
     useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = () => {
+        setStatus('loading');
         axios.all([
             axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list'),
             axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/list')
         ])
         .then(axios.spread((county, stations) => {
-            console.log(county.data, stations.data)
-            const loadedData = stations.data.map(i => ({
-                ...i, 
-                id: String(i.stationId), 
-                county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
-            }));
-            setCountyData(county.data);
-            setData(loadedData)
+            if (county && stations) {
+                const loadedData = stations.data.map(i => ({
+                    ...i, 
+                    id: String(i.stationId), 
+                    county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
+                }));
+                county.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
+                setCountyData(county.data);
+                setData(loadedData);
+                setMode('retrieve');
+                setStatus('success');
+            } else {
+                console.log(county, stations)
+            }
         }))
         .catch(error => console.log(error))
-    }, []);
+    }
 
     const handleCreate = (e) => {
         setFormData(newData);
@@ -101,7 +113,23 @@ function WaterStations () {
     }
 
     const handleDeleteRow = (e) => {
-        setData(data.filter(i => i.id !== e.currentTarget.id));
+        const stationId = data.find(i => i.id === e.currentTarget.id).stationId;
+        axios
+        .delete('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId)
+        .then((response) => {
+            console.log(response.data);
+            setFormData(newData);
+            loadData();
+            // if (response.data === 'User is created successfully') {
+                
+            // } else {
+            //      setStatus('error')
+            // }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
     };
 
     const handleEditRow = (e) => {
@@ -120,17 +148,55 @@ function WaterStations () {
     }
    
     const create = (newData) => {
-        setData([...data, newData]);
-        setMode('retrieve');
-        setFormData(newData);
+        setStatus('loading');
+        delete newData.additionalInfo;
+        delete newData.id;
+        console.log(newData);
+
+        axios
+        .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newData)
+        .then((response) => {
+            console.log(response.data);
+            setFormData(newData);
+            loadData();
+            // if (response.data === 'User is created successfully') {
+                
+            // } else {
+            //      setStatus('error')
+            // }
+        })
+        .catch(error => {
+            console.log(error);
+            setStatus('error');
+        })
     };
     
     const update = (updatedData) => {
-        const newData = [...data];
-        newData[newData.findIndex(i => i.id === updatedData.id)] = updatedData;
-        setData(newData);
-        setMode('retrieve');
-        setFormData(newData);
+        setStatus('loading');
+        delete updatedData.additionalInfo;
+        delete updatedData.id;
+        delete updatedData.county;
+        delete updatedData.installDate;
+        delete updatedData.installationDate;
+        delete updatedData.postcodeId;
+        console.log(updatedData)
+
+        axios
+        .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/edit/' + updatedData.stationId, updatedData)
+        .then((response) => {
+            if (response.data === 'Station is updated successfully') {
+                setFormData(newData);
+                loadData();
+            } else {
+                setStatus('error')
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
+
+        
     }
 
     const [isSelected, setSelected] = useState(false);
@@ -139,6 +205,11 @@ function WaterStations () {
         e.rowIds.length === 0 ? setSelected(false) : setSelected(true);
         handleSelection(e.rowIds);
     }
+
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') return;
+        setStatus('idle');
+    };
     
     if (!data || status === 'loading') 
         return (
@@ -155,7 +226,13 @@ function WaterStations () {
 
     return (
         <Grid container justify="center" className={formStyle.container} >
-            <Grid item xs={12} md={10}  className={formStyle.content}>
+            <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+                <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    Data successfully loaded
+                </Alert>
+            </Snackbar>
+
+            <Grid item xs={10} md={8} className={formStyle.content}>
                 <h2 className={formStyle.admin}>
                     Water Stations
                 </h2>
@@ -166,7 +243,7 @@ function WaterStations () {
                     rows={data} 
                     columns={columns}
                     onSelectionChange={onSelectionChange}
-                    checkboxSelection
+                    // checkboxSelection
                     disableSelectionOnClick
                     // disableDensitySelector
                     disableColumnSelector

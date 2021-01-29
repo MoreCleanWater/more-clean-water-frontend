@@ -22,13 +22,13 @@ function EditForm (props) {
 
     const handleChange = (e) => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        setData({ ...data, [e.target.name]: value })
-    };
+        setData({ ...formData, [e.target.name]: value });
+    }
 
     const handleSubmit = (e) => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems);
         setErrors(errors);
-        return (isValidated ? onSubmit(data) : isValidated)
+        return (isValidated ? onSubmit(formData) : isValidated);
     }
 
     const handleCancel = (e) => {
