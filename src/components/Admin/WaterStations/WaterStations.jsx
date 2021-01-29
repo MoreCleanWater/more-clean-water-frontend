@@ -1,32 +1,41 @@
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Snackbar } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import adminStyle from "../Admin.module.scss";
+import formStyle from "../../Form/Form.module.scss";
 import EditForm from "../EditForm";
 import ListData from "../ListData";
 import TextField from '../../Form/TextField';
 import ComboBox from '../../Form/ComboBox';
+import CheckBox from '../../Form/CheckBox';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import CountyList from "../../Form/CountyList";
 import CachedIcon from '@material-ui/icons/Cached';
 import axios from 'axios';
+import { Alert } from "@material-ui/lab";
 
 function WaterStations () {
+    const [countyData, setCountyData] = useState();
+
+    
     const columns = [
-        { field: 'firstName', headerName: 'First name', width: 160 },
-        { field: 'lastName', headerName: 'Last name', width: 160 },
-        { field: 'email', headerName: 'Email', width: 250, flex: 1 },
-        { field: 'actions', headerName: 'Actions', sortable: false, width: 110,
+        { field: 'county', headerName: 'County', width: 250, flex: 1.5 },
+        { field: 'postcode', headerName: 'Post Code', width: 130, flex: 1,},
+        { field: 'size', headerName: 'Size', width: 90, flex: 1, },
+        { field: 'capacity', headerName: 'Capacity', width: 110, flex: 1, },
+        { field: 'isWorking', headerName: 'Is working?', width: 140, 
+            renderCell: (params) => <CheckBox value={params.row.isWorking}  disabled='disabled'/>
+        },
+        { field: 'actions', headerName: 'Actions', sortable: false, width: 110, 
             renderCell: (params) => (
                 <div style={{display: 'flex', height: '100%', alignItems: 'center'}}>
                     <EditIcon
-                        id={params.getValue('id')}
+                        id={params.row.id}
                         onClick={handleEditRow}
                         style={{cursor: "pointer", color: "#78787c", marginLeft: '.2rem'}}
                     />
 
                     <DeleteIcon
-                        id={params.getValue('id')}
+                        id={params.row.id}
                         onClick={handleDeleteRow}
                         style={{cursor: "pointer", color: "#78787c", marginLeft: '1rem'}}
                     />
@@ -36,13 +45,12 @@ function WaterStations () {
     ];
 
     const inputItems = [
-        {label: 'Username', name: 'userName', type: 'text', component: TextField},
-        {label: 'Email', name: 'email', type: 'text', component: TextField},
-        {label: 'First Name', name: 'firstName', type: 'text', component: TextField},
-        {label: 'Last Name', name: 'lastName', type: 'text', component: TextField},
-        {label: 'County', name: 'countyId', type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
-        {label: 'Post Code', name: 'postcode', type: 'text', component: TextField},
-        {label: 'Additional Info', name: 'additionalInfo', type: 'text', component: TextField, options:{multiline: true, rows:4}},
+        {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: countyData},
+        {label: 'Post Code', name: 'postcode', required: true, component: TextField},
+        {label: 'Size', name: 'size', required: true, component: TextField},
+        {label: 'Capacity', name: 'capacity', required: true, component: TextField},
+        {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
+        {label: 'Is working?', name: 'isWorking', component: CheckBox},
     ]
 
     const [data, setData] = useState();
@@ -57,18 +65,39 @@ function WaterStations () {
     }
     
     const [mode, setMode] = useState('retrieve');
+
+    const [status, setStatus] = useState('idle');
     
     const [formData, setFormData] = useState(newData);
 
     useEffect(() => {
-        axios
-        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
-        .then(response => {
-            const loadedData = response.data.map(i => ({id: String(i.userId), ...i}))
-            setData(loadedData);
-        })
-        .catch(error => console.log(error))
+        loadData();
     }, []);
+
+    const loadData = () => {
+        setStatus('loading');
+        axios.all([
+            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list'),
+            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/list')
+        ])
+        .then(axios.spread((county, stations) => {
+            if (county && stations) {
+                const loadedData = stations.data.map(i => ({
+                    ...i, 
+                    id: String(i.stationId), 
+                    county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
+                }));
+                county.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
+                setCountyData(county.data);
+                setData(loadedData);
+                setMode('retrieve');
+                setStatus('success');
+            } else {
+                console.log(county, stations)
+            }
+        }))
+        .catch(error => console.log(error))
+    }
 
     const handleCreate = (e) => {
         setFormData(newData);
@@ -84,7 +113,23 @@ function WaterStations () {
     }
 
     const handleDeleteRow = (e) => {
-        setData(data.filter(i => i.id !== e.currentTarget.id));
+        const stationId = data.find(i => i.id === e.currentTarget.id).stationId;
+        axios
+        .delete('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId)
+        .then((response) => {
+            console.log(response.data);
+            setFormData(newData);
+            loadData();
+            // if (response.data === 'User is created successfully') {
+                
+            // } else {
+            //      setStatus('error')
+            // }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
     };
 
     const handleEditRow = (e) => {
@@ -103,17 +148,55 @@ function WaterStations () {
     }
    
     const create = (newData) => {
-        setData([...data, newData]);
-        setMode('retrieve');
-        setFormData(newData);
+        setStatus('loading');
+        delete newData.additionalInfo;
+        delete newData.id;
+        console.log(newData);
+
+        axios
+        .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newData)
+        .then((response) => {
+            console.log(response.data);
+            setFormData(newData);
+            loadData();
+            // if (response.data === 'User is created successfully') {
+                
+            // } else {
+            //      setStatus('error')
+            // }
+        })
+        .catch(error => {
+            console.log(error);
+            setStatus('error');
+        })
     };
     
     const update = (updatedData) => {
-        const newData = [...data];
-        newData[newData.findIndex(i => i.id === updatedData.id)] = updatedData;
-        setData(newData);
-        setMode('retrieve');
-        setFormData(newData);
+        setStatus('loading');
+        delete updatedData.additionalInfo;
+        delete updatedData.id;
+        delete updatedData.county;
+        delete updatedData.installDate;
+        delete updatedData.installationDate;
+        delete updatedData.postcodeId;
+        console.log(updatedData)
+
+        axios
+        .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/edit/' + updatedData.stationId, updatedData)
+        .then((response) => {
+            if (response.data === 'Station is updated successfully') {
+                setFormData(newData);
+                loadData();
+            } else {
+                setStatus('error')
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
+
+        
     }
 
     const [isSelected, setSelected] = useState(false);
@@ -122,8 +205,13 @@ function WaterStations () {
         e.rowIds.length === 0 ? setSelected(false) : setSelected(true);
         handleSelection(e.rowIds);
     }
+
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') return;
+        setStatus('idle');
+    };
     
-    if (!data) 
+    if (!data || status === 'loading') 
         return (
             <Grid
                 container
@@ -137,9 +225,15 @@ function WaterStations () {
 
 
     return (
-        <Grid container justify="center">
-            <Grid item xs={12} md={10} className={adminStyle.container} >
-                <h2 className="center">
+        <Grid container justify="center" className={formStyle.container} >
+            <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+                <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    Data successfully loaded
+                </Alert>
+            </Snackbar>
+
+            <Grid item xs={10} md={8} className={formStyle.content}>
+                <h2 className={formStyle.admin}>
                     Water Stations
                 </h2>
 
@@ -149,7 +243,7 @@ function WaterStations () {
                     rows={data} 
                     columns={columns}
                     onSelectionChange={onSelectionChange}
-                    checkboxSelection
+                    // checkboxSelection
                     disableSelectionOnClick
                     // disableDensitySelector
                     disableColumnSelector
@@ -181,13 +275,12 @@ function WaterStations () {
                 </ListData>
 
                 <EditForm
-                    className={adminStyle.editForm} 
                     mode={mode}
                     inputItems={inputItems}
+                    data={formData}
+                    style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
                     onSubmit={handleSubmit}
                     onCancel={handleCancel}
-                    style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
-                    formData={formData}
                 />
             </Grid>
         </Grid>

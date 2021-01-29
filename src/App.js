@@ -14,28 +14,22 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import AwarenessAddContent from "./components/Admin/Awareness/AwarenessContent/AwarenessAddContent";
-import CountyList from "./components/Form/CountyList";
 import axios from 'axios';
 import "./App.scss";
 
 function App() {
-  const [isDataLoaded, setDataLoaded] = useState(false);
+  const [countyData, setCountyData] = useState();
 
   useEffect(() => {
-    if (isDataLoaded) return;
     axios
     .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list')
     .then(response => {
-      CountyList.data = response.data;
-      if (CountyList.data) CountyList.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
-      Object.freeze(CountyList);
-      console.log(CountyList.data);
-      setDataLoaded(true);
+      if (response.data) response.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
+      setCountyData(response.data);
     })
     .catch(error => console.log(error))
-  }, [isDataLoaded]);
+  }, []);
   
-  // console.log(CountyList)
   return (
     <div className="App">
       <Router>
@@ -46,7 +40,7 @@ function App() {
           </Route>
 
           <Route exact path="/signup">
-            <SignUp/>
+            <SignUp countyData={countyData}/>
           </Route>
 
           <Route exact path="/signin">
@@ -55,7 +49,7 @@ function App() {
 
           <Route exact path="/profile">
             <Nav/>
-            <Profile/>
+            <Profile countyData={countyData}/>
           </Route>
 
           <Route exact path="/updates">

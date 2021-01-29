@@ -1,2 +1,2 @@
-const CountyList = {};
-export default CountyList;
+const countyList = {};
+export default countyList;

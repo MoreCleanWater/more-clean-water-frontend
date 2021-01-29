@@ -12,11 +12,12 @@ function CheckBox (props) {
         helperText,
         color,
         options,
+        className,
         onChange,
     } = props;
     
     return (
-        <div>
+        <div className={className}>
              <FormControlLabel
                 control={
                     <CheckBoxMaterial

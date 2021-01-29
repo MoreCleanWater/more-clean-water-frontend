@@ -1,18 +1,18 @@
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import {signUpInput} from '../Form/Form.module.scss';
-import signInStyle from './SignIn.module.scss';
+import formStyle from '../Form/Form.module.scss';
 import axios from 'axios';
 import CachedIcon from '@material-ui/icons/Cached';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import { Redirect, NavLink } from 'react-router-dom';
 import UserId from '../Form/UserId'
+import Validation from '../Form/Validation';
 
 function SignIn() {
     
-    const [form, setForm] = useState({
+    const [formData, setFormData] = useState({
         userName: "",
         password: "",
     });
@@ -28,29 +28,18 @@ function SignIn() {
 
     const handleBackClick = (e) => setStatus('idle');
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-    const isValidated = () => {
-        let isValidated = true;
-        const checkFields = inputItems.filter(i => i.required);
-        const newErrors = {...errors};
-        checkFields.forEach(i => {
-            newErrors[i.name] = '';
-            if (!form[i.name]) {
-                newErrors[i.name] = 'Ops! This field is required';
-                isValidated = false;
-            } 
-        })
-        
-        setErrors({...errors, ...newErrors})
-        return isValidated;
+    const handleSubmit = (e) => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? submitData() : isValidated)
     }
 
-    const submit = (e) => {
-        if (!isValidated()) return;
+    const submitData = () => {
         setStatus('loading');
         axios
-            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', form)
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', formData)
             .then((response) => {
                 if (response.data === 'Invalid email or password') {
                     setStatus('error');
@@ -71,7 +60,7 @@ function SignIn() {
     return (
         <Grid 
             justify="center"
-            className={signInStyle.container}
+            className={formStyle.container}
             
         >
             <Grid
@@ -110,13 +99,13 @@ function SignIn() {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${signInStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+                className={`${formStyle.content} ${status==='idle' ? '' : 'hidden'}`}
             >
                 <h2 className="center">
                     Sign in
                 </h2>
                
-                <form className={signInStyle.signInForm}>
+                <form className={formStyle.signInForm}>
                     {inputItems.map(i => {
                         const Component = i.component;
                         return (
@@ -124,10 +113,10 @@ function SignIn() {
                                 id={i.name}
                                 name={i.name}
                                 label={i.label}
-                                value={form[i.name]}
+                                value={formData[i.name]}
                                 error={errors[i.name] ? 'error' : ''}
                                 helperText={errors[i.name]}
-                                className={signUpInput}
+                                className={formStyle.formInput}
                                 options={i.options ? i.options : ''}
                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                 onChange={handleChange}
@@ -135,17 +124,17 @@ function SignIn() {
                         )
                     })}
 
-                    <div className={signInStyle.buttons}>
+                    <div className={formStyle.buttons}>
                         <Button 
                             variant="contained"
                             color="primary"
                             disableElevation
-                            onClick={submit}
+                            onClick={handleSubmit}
                         >
                             Submit
                         </Button>
 
-                        <div className={signInStyle.more}>
+                        <div className={formStyle.actions}>
                             <p>
                                 Don't have an account yet?
                             </p>

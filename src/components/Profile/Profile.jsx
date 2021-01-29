@@ -1,23 +1,22 @@
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import {signUpInput} from '../Form/Form.module.scss';
-import signInStyle from '../SignIn/SignIn.module.scss';
+import formStyle from '../Form/Form.module.scss';
 import axios from 'axios';
 import CachedIcon from '@material-ui/icons/Cached';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import ComboBox from '../Form/ComboBox';
-import CountyList from '../Form/CountyList'
 import UserId from '../Form/UserId'
 import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import Validation from '../Form/Validation';
 
-function Profile() {
+function Profile({countyData}) {
 
-    const [form, setForm] = useState({
+    const [formData, setFormData] = useState({
         postcode: "",
         countyId: "",
         firstName: "",
@@ -33,7 +32,7 @@ function Profile() {
         {label: 'Email', name: 'email', required: true, component: TextField},
         {label: 'First Name', name: 'firstName', required: true, component: TextField},
         {label: 'Last Name', name: 'lastName', required: true, component: TextField},
-        {label: 'County', name: 'countyId', required: true, type: 'combobox', component: ComboBox, dataProvider: CountyList.data},
+        {label: 'County', name: 'countyId', required: true, type: 'combobox', component: ComboBox, dataProvider: countyData},
         {label: 'Post Code', name: 'postcode', required: true, component: TextField},
 	];
 	
@@ -42,8 +41,8 @@ function Profile() {
         .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + UserId.value)
         .then(response => {
             let newData = {};
-            Object.entries(form).forEach(i => newData[i[0]] = response.data[0][i[0]])
-            setForm(newData);
+            Object.entries(formData).forEach(i => newData[i[0]] = response.data[0][i[0]])
+            setFormData(newData);
             setStatus('idle');
         })
         .catch(error => {
@@ -56,7 +55,7 @@ function Profile() {
 
     const handleBackClick = (e) => setStatus('idle');
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const isValidated = () => {
         let isValidated = true;
@@ -64,7 +63,7 @@ function Profile() {
         const newErrors = {...errors};
         checkFields.forEach(i => {
             newErrors[i.name] = '';
-            if (!form[i.name]) {
+            if (!formData[i.name]) {
                 newErrors[i.name] = 'Ops! This field is required';
                 isValidated = false;
             } 
@@ -74,10 +73,17 @@ function Profile() {
         return isValidated;
     }
 
-    const submit = (e) => {
+    const handleSubmit = (e) => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? submitData() : isValidated)
+    }
+
+    const submitData = (e) => {
         if (!isValidated()) return;
+        setStatus('loading');
         axios
-            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, form)
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, formData)
             .then((response) => {
                 console.log(response)
                 if (response.data === 'User is updated successfully') {
@@ -102,7 +108,7 @@ function Profile() {
     return (
         <Grid 
             justify="center"
-            className={signInStyle.container}
+            className={formStyle.container}
             
         >
             <Grid
@@ -140,7 +146,7 @@ function Profile() {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${signInStyle.content} ${status==='idle' || status==='success' ? '' : 'hidden'}`}
+                className={`${formStyle.content} ${status==='idle' || status==='success' ? '' : 'hidden'}`}
             >
                 <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
                     <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
@@ -152,7 +158,7 @@ function Profile() {
                     Profile
                 </h2>
                
-                <form className={signInStyle.profileForm}>
+                <form className={formStyle.profileForm}>
                     {inputItems.map(i => {
                         const Component = i.component;
                         return (
@@ -160,10 +166,10 @@ function Profile() {
                                 id={i.name}
                                 name={i.name}
                                 label={i.label}
-                                value={form[i.name]}
+                                value={formData[i.name]}
                                 error={errors[i.name] ? 'error' : ''}
                                 helperText={errors[i.name]}
-                                className={signUpInput}
+                                className={formStyle.formInput}
                                 options={i.options ? i.options : ''}
                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                 onChange={handleChange}
@@ -171,12 +177,12 @@ function Profile() {
                         )
                     })}
 
-                    <div className={signInStyle.buttons}>
+                    <div className={formStyle.buttons}>
                         <Button 
                             variant="contained"
                             color="primary"
                             disableElevation
-                            onClick={submit}
+                            onClick={handleSubmit}
                         >
                             Submit
                         </Button>

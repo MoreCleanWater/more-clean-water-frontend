@@ -1,25 +1,34 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import formStyle from "../Form/Form.module.scss";
+import Validation from "../Form/Validation";
 
 function EditForm (props) {
     const {
         mode,
         inputItems,
-        formData,
+        data,
         onSubmit,
         onCancel,
+        variant,
         className,
         style
     } = props;
 
-    const [data, setData] = useState(formData);
-    useEffect(() => { setData(formData)}, [formData] )
+    const [formData, setData] = useState(data);
+    useEffect(() => { setData(data)}, [data] )
 
-    const handleChange = (e) => setData({ ...data, [e.target.name]: e.target.value });
+    const [errors, setErrors] = useState({});
+
+    const handleChange = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setData({ ...formData, [e.target.name]: value });
+    }
 
     const handleSubmit = (e) => {
-        onSubmit(data);
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? onSubmit(formData) : isValidated);
     }
 
     const handleCancel = (e) => {
@@ -27,26 +36,29 @@ function EditForm (props) {
     }
 
     return (
-        <div className={className} style={style}>
-            <form className={formStyle.adminForm}>
-                {inputItems.map((i, index) => {
-                    const Component = i.component;
-                    return (
-                        <div style={{marginTop: 10}} key={index}>
-                            <Component {...i} 
-                                value={data[i.name] ? data[i.name] : ''}
-                                variant='outlined' 
-                                onChange={handleChange}
-                                dataProvider={i.dataProvider ? i.dataProvider : ''}
-                                options={i.options ? i.options : ''}
-                                className={formStyle.input}
-                            />
-                        </div>
-                    )
-                })}
-            </form>
+        <form className={formStyle.adminForm} style={style}>
+            {inputItems.map((i, index) => {
+                const Component = i.component;
+                return (
+                    <Component 
+                        key={i.name}
+                        id={i.name}
+                        name={i.name}
+                        label={i.label}
+                        value={formData[i.name] ? formData[i.name]  : ''}
+                        error={errors[i.name] ? 'error' : ''}
+                        helperText={errors[i.name]}
+                        className={`${className} ${formStyle.formInput}`}
+                        style={{style}}
+                        variant={variant ? variant : 'outlined' }
+                        options={i.options ? i.options : ''}
+                        dataProvider={i.dataProvider ? i.dataProvider : ''}
+                        onChange={handleChange}
+                    />
+                )
+            })}
 
-            <div className={formStyle.buttons}>
+            <div className={`${formStyle.buttons} ${formStyle.admin}`}>
                 <Button variant="contained"
                     className='primaryButton'
                     size="small"
@@ -67,7 +79,7 @@ function EditForm (props) {
                     Cancel
                 </Button>
             </div>
-        </div>
+        </form>
     )
 }
 
