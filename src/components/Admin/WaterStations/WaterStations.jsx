@@ -15,6 +15,7 @@ import axios from 'axios';
 function WaterStations () {
     const [countyData, setCountyData] = useState();
 
+    
     const columns = [
         { field: 'county', headerName: 'County', width: 250, flex: 1.5 },
         { field: 'postcode', headerName: 'Post Code', width: 130, flex: 1,},
@@ -43,10 +44,10 @@ function WaterStations () {
     ];
 
     const inputItems = [
-        {label: 'County', name: 'countyId', component: ComboBox, dataProvider: countyData},
-        {label: 'Post Code', name: 'postcode', component: TextField},
-        {label: 'Size', name: 'size', component: TextField},
-        {label: 'Capacity', name: 'capacity', component: TextField},
+        {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: countyData},
+        {label: 'Post Code', name: 'postcode', required: true, component: TextField},
+        {label: 'Size', name: 'size', required: true, component: TextField},
+        {label: 'Capacity', name: 'capacity', required: true, component: TextField},
         {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
         {label: 'Is working?', name: 'isWorking', component: CheckBox},
     ]
@@ -199,11 +200,10 @@ function WaterStations () {
                 <EditForm
                     mode={mode}
                     inputItems={inputItems}
+                    data={formData}
+                    style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
                     onSubmit={handleSubmit}
                     onCancel={handleCancel}
-                    className={adminStyle.dataGrid}
-                    style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
-                    formData={formData}
                 />
             </Grid>
         </Grid>

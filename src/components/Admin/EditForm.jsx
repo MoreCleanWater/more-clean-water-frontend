@@ -1,20 +1,24 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import formStyle from "../Form/Form.module.scss";
+import Validation from "../Form/Validation";
 
 function EditForm (props) {
     const {
         mode,
         inputItems,
-        formData,
+        data,
         onSubmit,
         onCancel,
+        variant,
         className,
         style
     } = props;
 
-    const [data, setData] = useState(formData);
-    useEffect(() => { setData(formData)}, [formData] )
+    const [formData, setData] = useState(data);
+    useEffect(() => { setData(data)}, [data] )
+
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -22,7 +26,9 @@ function EditForm (props) {
     };
 
     const handleSubmit = (e) => {
-        onSubmit(data);
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? onSubmit(data) : isValidated)
     }
 
     const handleCancel = (e) => {
@@ -35,14 +41,19 @@ function EditForm (props) {
                 const Component = i.component;
                 return (
                     <Component 
-                        {...i} 
-                        key={index}
-                        value={data[i.name] ? data[i.name] : ''}
-                        variant='outlined' 
-                        onChange={handleChange}
-                        dataProvider={i.dataProvider ? i.dataProvider : ''}
+                        key={i.name}
+                        id={i.name}
+                        name={i.name}
+                        label={i.label}
+                        value={formData[i.name] ? formData[i.name]  : ''}
+                        error={errors[i.name] ? 'error' : ''}
+                        helperText={errors[i.name]}
+                        className={`${className} ${formStyle.formInput}`}
+                        style={{style}}
+                        variant={variant ? variant : 'outlined' }
                         options={i.options ? i.options : ''}
-                        className={formStyle.formInput}
+                        dataProvider={i.dataProvider ? i.dataProvider : ''}
+                        onChange={handleChange}
                     />
                 )
             })}
