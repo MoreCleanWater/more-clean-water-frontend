@@ -14,6 +14,7 @@
 
         h2 {
             margin: 1.5rem 0 0;
+            text-align: center;
 
             @media screen and (min-width:769px) {
                 margin: 5rem 0 0;
@@ -81,6 +82,7 @@ form {
     
     &.adminForm {
         margin: 0;
+        padding-top: 2rem;
     }
     
     &.landingForm {
@@ -109,7 +111,11 @@ form {
     .formInput {
         width: 100%;
         min-height: 3.5rem;
-        margin: 0 0 1.5rem!important;    
+        margin: 0 auto 1.5rem!important;   
+
+        @media screen and (min-width:769px) {
+            width: 100%;
+        } 
     }
 
     .buttons {
