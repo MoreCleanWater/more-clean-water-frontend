@@ -20,7 +20,7 @@ function WaterStations () {
         { field: 'postcode', headerName: 'Post Code', width: 130,},
         { field: 'size', headerName: 'Size', width: 90,  },
         { field: 'capacity', headerName: 'Capacity', width: 110, },
-        { field: 'isWorking', headerName: 'Is working?', width: 130, 
+        { field: 'isWorking', headerName: 'Active?', width: 110, 
             renderCell: (params) => <div style={{height:'100%',  width: '100%', textAlign: 'center'}}><CheckBox value={params.row.isWorking}  disabled='disabled'/></div>
         },
         { field: 'actions', headerName: 'Actions', sortable: false, width: 110, 
@@ -48,7 +48,7 @@ function WaterStations () {
         {label: 'Size', name: 'size', required: true, component: TextField},
         {label: 'Capacity', name: 'capacity', required: true, component: TextField},
         // {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
-        {label: 'Is working?', name: 'isWorking', component: CheckBox},
+        {label: 'Active?', name: 'isWorking', component: CheckBox},
     ]
 
     const [data, setData] = useState();
@@ -113,15 +113,14 @@ function WaterStations () {
     const handleDeleteRow = e => {
         const stationId = data.find(i => i.id === e.currentTarget.id).stationId;
         axios
-        .delete('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId)
+        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId)
         .then((response) => {
-            console.log(response.data);
-            loadData();
-            // if (response.data === 'User is created successfully') {
-                
-            // } else {
-            //      setStatus('error')
-            // }
+            if (response.data === 'Station is deactivated successfully') {
+                loadData();
+            } else {
+                console.log(response.data);
+                setStatus('error')
+            }
         })
         .catch(error => {
             console.log(error)
@@ -151,15 +150,14 @@ function WaterStations () {
         console.log(newData);
 
         axios
-        .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/add', newData)
+        .post('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/add', newData)
         .then((response) => {
-            console.log(response.data);
-            loadData();
-            // if (response.data === 'User is created successfully') {
-                
-            // } else {
-            //      setStatus('error')
-            // }
+            if (response.data === 'Stations is created successfully') {
+                loadData();
+            } else {
+                setStatus('error')
+                console.log(response.data);
+            }
         })
         .catch(error => {
             console.log(error);
