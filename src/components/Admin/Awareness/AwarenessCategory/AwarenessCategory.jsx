@@ -8,9 +8,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { DataGrid } from "@material-ui/data-grid";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { getCategories } from "./../../services/categoryServices";
-import { saveCategory } from "./../../services/categoryServices";
-import { deleteCategory } from "./../../services/categoryServices";
+import axios from "axios";
 
 const useStyles = makeStyles(() => ({
   text: {
@@ -32,6 +30,8 @@ export default function AwarenessCategory() {
   const [descText, setDescText] = useState("");
   const [catText, setCatText] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorAlert, setErrorAlert] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [category, setCategory] = useState([]);
   const [deletedRows, setDeletedRows] = useState([]);
@@ -39,18 +39,35 @@ export default function AwarenessCategory() {
   let rows = [];
 
   const handleSave = () => {
-    saveCategory(catText, descText).then(() => {
-      setAlertMessage("Category created successfully");
-      setSuccessMessage(true);
-      handleReset();
-    });
+    axios
+      .post(process.env.REACT_APP_POST_CATEGORY_API, {
+        name: catText,
+        description: descText,
+      })
+      .then(() => {
+        setAlertMessage("Section is created successfully");
+        setSuccessMessage(true);
+        handleReset();
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+        setErrorAlert(true);
+        console.log(error + " error");
+      });
   };
 
   const handleDelete = () => {
-    deleteCategory(deletedRows[0].id).then(() => {
-      setAlertMessage("Category deleted successfully");
-      setSuccessMessage(true);
-    });
+    axios
+      .delete(process.env.REACT_APP_DELETE_CATEGORY_API + deletedRows[0].id)
+      .then(() => {
+        setAlertMessage("Section is deleted successfully");
+        setSuccessMessage(true);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+        setErrorAlert(true);
+        console.log(error + " error");
+      });
   };
 
   const handleReset = () => {
@@ -65,16 +82,22 @@ export default function AwarenessCategory() {
     setSuccessMessage(false);
   };
 
+  const handleErrorClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorAlert(false);
+  };
+
   const handleRowSelection = (e) => {
     console.log(e.data.id);
-    // setDeletedRows([...deletedRows, ...rows.filter((r) => r.id === e.data.id)]);
     setDeletedRows(rows.filter((r) => r.id === e.data.id));
   };
 
   const columns = [
     { field: "id", hide: true },
     {
-      field: "category",
+      field: "name",
       headerClassName: "super-app-theme--header",
       headerName: <strong>Category</strong>,
       flex: 0.5,
@@ -97,12 +120,12 @@ export default function AwarenessCategory() {
   ];
 
   useEffect(() => {
-    getCategories().then((items) => {
-      setCategory(items);
-    });
+    axios
+      .get(process.env.REACT_APP_GET_CATEGORY_LIST_API)
+      .then((response) => setCategory(response.data))
+      .catch((error) => console.log(error));
   }, [successMessage]);
 
-  //console.log(category);
   if (typeof category !== "undefined" && category.length > 0)
     rows = category.map((item) => (rows[item] = item));
 
@@ -152,6 +175,15 @@ export default function AwarenessCategory() {
           >
             <Alert onClose={handleClose} severity="success">
               {alertMessage}
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={errorAlert}
+            autoHideDuration={4000}
+            onClose={handleErrorClose}
+          >
+            <Alert onClose={handleErrorClose} severity="error">
+              {errorMessage}
             </Alert>
           </Snackbar>
         </Grid>

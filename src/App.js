@@ -13,7 +13,7 @@ import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
-import AwarenessAddContent from "./components/Admin/Awareness/AwarenessContent/AwarenessAddContent";
+import UploadContent from "./components/Admin/Awareness/AwarenessContent/UploadContent";
 import axios from 'axios';
 import "./App.scss";
 
@@ -67,9 +67,9 @@ function App() {
             <AwarenessCategory/>
           </Route>
 
-          <Route exact path="/admin/awareness-content">
-            <AdminNav/>
-            <AwarenessAddContent/>
+          <Route path="/admin/awareness-content">
+            <AdminNav />
+            <UploadContent />
           </Route>
 
           <Route exact path="/admin/users">
