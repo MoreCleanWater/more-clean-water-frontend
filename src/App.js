@@ -67,7 +67,7 @@ function App() {
             <AwarenessCategory/>
           </Route>
 
-          <Route path="/admin/awareness-content">
+          <Route exact path="/admin/awareness-content">
             <AdminNav />
             <UploadContent />
           </Route>
@@ -87,7 +87,7 @@ function App() {
             <Admin/>
           </Route>
 
-          <Route exact path="/">
+          <Route path="/">
             <LandingPage/>
           </Route>
         </Switch>
