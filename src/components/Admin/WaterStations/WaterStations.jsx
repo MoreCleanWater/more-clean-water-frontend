@@ -7,7 +7,6 @@ import ListData from "../ListData";
 import TextField from '../../Form/TextField';
 import ComboBox from '../../Form/ComboBox';
 import CheckBox from '../../Form/CheckBox';
-import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
@@ -21,7 +20,18 @@ function WaterStations () {
         { field: 'size', headerName: 'Size', width: 90,  },
         { field: 'capacity', headerName: 'Capacity', width: 110, },
         { field: 'isWorking', headerName: 'Active?', width: 110, 
-            renderCell: (params) => <div style={{height:'100%',  width: '100%', textAlign: 'center'}}><CheckBox value={params.row.isWorking}  disabled='disabled'/></div>
+            renderCell: (params) => (
+                <div 
+                    style={{height:'100%',  width: '100%', textAlign: 'center'}}
+                    id={params.row.id}
+                    onChange={handleToggleActivation}
+                    className={params.row.isWorking && String(params.row.isWorking)}
+                >
+                    <CheckBox 
+                        value={params.row.isWorking}  
+                    />
+                </div>
+            )
         },
         { field: 'actions', headerName: 'Actions', sortable: false, width: 110, 
             renderCell: (params) => (
@@ -30,12 +40,6 @@ function WaterStations () {
                         id={params.row.id}
                         onClick={handleEditRow}
                         style={{cursor: "pointer", color: "#78787c", marginLeft: '.2rem'}}
-                    />
-
-                    <DeleteIcon
-                        id={params.row.id}
-                        onClick={handleDeleteRow}
-                        style={{cursor: "pointer", color: "#78787c", marginLeft: '1rem'}}
                     />
                 </div>
             ),
@@ -48,7 +52,6 @@ function WaterStations () {
         {label: 'Size', name: 'size', required: true, component: TextField},
         {label: 'Capacity', name: 'capacity', required: true, component: TextField},
         // {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
-        {label: 'Active?', name: 'isWorking', component: CheckBox},
     ]
 
     const [data, setData] = useState();
@@ -110,15 +113,22 @@ function WaterStations () {
         console.log(rowId)
     }
 
-    const handleDeleteRow = e => {
+    const handleToggleActivation = e => {
         const stationId = data.find(i => i.id === e.currentTarget.id).stationId;
+        const action = Boolean(e.currentTarget.className) ? 
+            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId
+            : 
+            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/activate/' + stationId;
+            
         axios
-        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId)
+        .get(action)
         .then((response) => {
-            if (response.data === 'Station is deactivated successfully') {
+            if (response.data === 'Station is deactivated successfully'||
+                                    'Station is activated successfully') 
+            {
                 loadData();
             } else {
-                console.log(response.data);
+                console.log(response);
                 setStatus('error')
             }
         })
@@ -155,8 +165,8 @@ function WaterStations () {
             if (response.data === 'Stations is created successfully') {
                 loadData();
             } else {
+                console.log(response);
                 setStatus('error')
-                console.log(response.data);
             }
         })
         .catch(error => {
@@ -164,7 +174,7 @@ function WaterStations () {
             setStatus('error');
         })
     };
-    
+
     const update = (updatedData) => {
         setStatus('loading');
         delete updatedData.additionalInfo;
@@ -173,7 +183,8 @@ function WaterStations () {
         delete updatedData.installDate;
         delete updatedData.installationDate;
         delete updatedData.postcodeId;
-        console.log(updatedData)
+        delete updatedData.isWorking;
+        console.log(updatedData)    
 
         axios
         .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/edit/' + updatedData.stationId, updatedData)
@@ -181,6 +192,7 @@ function WaterStations () {
             if (response.data === 'Station is updated successfully') {
                 loadData();
             } else {
+                console.log(response)
                 setStatus('error')
             }
         })

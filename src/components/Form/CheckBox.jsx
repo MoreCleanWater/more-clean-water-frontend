@@ -19,10 +19,10 @@ function CheckBox (props) {
     return (
         <div className={className}>
              <FormControlLabel
+                name={name}
+                id={name}
                 control={
                     <CheckBoxMaterial
-                        name={name}
-                        id={name}
                         checked={value}
                         color={color ? color : 'primary'}
                         {...options}
