@@ -1,8 +1,7 @@
-import { Grid } from "@material-ui/core";
+import { Backdrop, CircularProgress, Grid, LinearProgress } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import adminStyle from "../Admin.module.scss";
 import ListData from "../ListData";
-import CachedIcon from '@material-ui/icons/Cached';
 import axios from 'axios';
 
 function Users () {
@@ -39,15 +38,10 @@ function Users () {
 
     if (!data) 
         return (
-            <Grid
-                container
-                alignContent="center"
-                justify="center"
-                className="fullHeight"
-            >
-                <CachedIcon className="loading"/>
-            </Grid>
-        );
+            <Backdrop className='circularProgress' open={!data}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+        )
 
     return (
         <Grid container justify="center">

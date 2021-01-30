@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import SamplePoints from './SamplePoints'
-import Loader from './LocationMarker/Loader'
+import { Backdrop, CircularProgress, LinearProgress } from '@material-ui/core';
 
 function Map () {
 
@@ -19,12 +19,14 @@ useEffect(() => {
 }, []);
   
 return (
-    <div>
+    <div className='fullHeight'>
          {!loading ? (
-              <SamplePoints samplePoint={samplePoint} />
-            ) : (
-              <Loader/>
-            )}
+            <SamplePoints samplePoint={samplePoint} />
+          ) : (
+            <Backdrop className='circularProgress' open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+          )}
     </div>
 )
 }

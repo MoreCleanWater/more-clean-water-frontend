@@ -3,30 +3,21 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import formStyle from '../Form/Form.module.scss';
 import axios from 'axios';
-import CachedIcon from '@material-ui/icons/Cached';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import ComboBox from '../Form/ComboBox';
 import UserId from '../Form/UserId'
 import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Snackbar } from '@material-ui/core';
+import { Backdrop, CircularProgress, LinearProgress, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Validation from '../Form/Validation';
 
 function Profile({countyData}) {
 
-    const [formData, setFormData] = useState({
-        postcode: "",
-        countyId: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-    });
+    const [formData, setFormData] = useState();
     
-    const [status, setStatus] = useState('loading');
-
-    console.log(status)
+    const [status, setStatus] = useState('idle');
 
 	const inputItems = [
         {label: 'Email', name: 'email', required: true, component: TextField},
@@ -37,11 +28,12 @@ function Profile({countyData}) {
 	];
 	
 	useEffect(() => {
+        setStatus('loading');
         axios
         .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + UserId.value)
         .then(response => {
             let newData = {};
-            Object.entries(formData).forEach(i => newData[i[0]] = response.data[0][i[0]])
+            inputItems.map(i => i.name).forEach(i => newData[i] = response.data[0][i]);
             setFormData(newData);
             setStatus('idle');
         })
@@ -57,22 +49,6 @@ function Profile({countyData}) {
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-    const isValidated = () => {
-        let isValidated = true;
-        const checkFields = inputItems.filter(i => i.required);
-        const newErrors = {...errors};
-        checkFields.forEach(i => {
-            newErrors[i.name] = '';
-            if (!formData[i.name]) {
-                newErrors[i.name] = 'Ops! This field is required';
-                isValidated = false;
-            } 
-        })
-        
-        setErrors({...errors, ...newErrors})
-        return isValidated;
-    }
-
     const handleSubmit = e => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems);
         setErrors(errors);
@@ -80,7 +56,6 @@ function Profile({countyData}) {
     }
 
     const submitData = e => {
-        if (!isValidated()) return;
         setStatus('loading');
         axios
             .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, formData)
@@ -103,7 +78,13 @@ function Profile({countyData}) {
         setStatus('idle');
     };
 
-    if (!UserId.value) return <Redirect to="/find-water"/>
+    if (!UserId.value) return <Redirect to="/signin"/>
+
+    if (!formData) return (
+        <Backdrop className='circularProgress' open={!formData}>
+            <CircularProgress color="inherit" />
+        </Backdrop>
+    )
     
     return (
         <Grid 
@@ -111,14 +92,7 @@ function Profile({countyData}) {
             className={formStyle.container}
             
         >
-            <Grid
-                container
-                alignContent="center"
-                justify="center"
-                className={`fullHeight ${status==='loading' ? '' : 'hidden'}`}
-            >
-                <CachedIcon className="loading"/>
-            </Grid>
+            <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
 
             <Grid
                 container
@@ -146,11 +120,16 @@ function Profile({countyData}) {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${formStyle.content} ${status==='idle' || status==='success' ? '' : 'hidden'}`}
+                className={formStyle.content}
             >
-                <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+                <Snackbar 
+                    open={status==='success'} 
+                    autoHideDuration={3000} 
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}} 
+                    onClose={handleCloseSnackBar}
+                >
                     <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
-                    Profile updated successfully!
+                        Profile updated successfully!
                     </Alert>
                 </Snackbar>
 
@@ -183,6 +162,7 @@ function Profile({countyData}) {
                             color="primary"
                             disableElevation
                             onClick={handleSubmit}
+                            disabled={status === 'loading' ? 'disabled' : ''}
                         >
                             Submit
                         </Button>

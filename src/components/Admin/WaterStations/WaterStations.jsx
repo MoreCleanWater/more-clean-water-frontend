@@ -1,4 +1,4 @@
-import { Button, Grid, Snackbar } from "@material-ui/core";
+import { Backdrop, Button, CircularProgress, Grid, LinearProgress, Snackbar } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import adminStyle from "../Admin.module.scss";
 import formStyle from "../../Form/Form.module.scss";
@@ -9,7 +9,6 @@ import ComboBox from '../../Form/ComboBox';
 import CheckBox from '../../Form/CheckBox';
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import CachedIcon from '@material-ui/icons/Cached';
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
 
@@ -48,7 +47,7 @@ function WaterStations () {
         {label: 'Post Code', name: 'postcode', required: true, component: TextField},
         {label: 'Size', name: 'size', required: true, component: TextField},
         {label: 'Capacity', name: 'capacity', required: true, component: TextField},
-        {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
+        // {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
         {label: 'Is working?', name: 'isWorking', component: CheckBox},
     ]
 
@@ -91,6 +90,7 @@ function WaterStations () {
                 setData(loadedData);
                 setMode('retrieve');
                 setStatus('success');
+                setFormData(newData);
             } else {
                 console.log(county, stations)
             }
@@ -206,29 +206,22 @@ function WaterStations () {
     
     if (!data) 
         return (
-            <Grid
-                container
-                alignContent="center"
-                justify="center"
-                className="fullHeight"
-            >
-                <CachedIcon className="loading"/>
-            </Grid>
-        );
+            <Backdrop className='circularProgress' open={!data}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+        )
 
 
     return (
         <div>
-            <Grid
-                container
-                alignContent="center"
-                justify="center"
-                className={`loaderContainer ${status==='loading' ? '' : 'hidden'}`}
-            >
-                <CachedIcon className="loading"/>
-            </Grid>
+            <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
             <Grid container justify="center" className={formStyle.container} >
-                <Snackbar open={status==='success'} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+                <Snackbar
+                    open={status==='success'}
+                    autoHideDuration={3000}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                    onClose={handleCloseSnackBar}
+                >
                     <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
                         Data successfully loaded
                     </Alert>
@@ -255,11 +248,13 @@ function WaterStations () {
                         // handleSelection={handleSelection}
                         // handleDeleteSelection={handleDeleteSelection}
                     >
-                        <Button variant="contained"
+                        <Button 
+                            variant="contained"
                             size="small"
                             onClick={handleCreate}
-                            className='primaryButton'
+                            color="primary"
                             disableElevation
+                            disabled={status === 'loading' ? 'disabled' : ''}
                         >
                             Add
                         </Button>
@@ -271,6 +266,7 @@ function WaterStations () {
                             onClick={handleDeleteSelection}
                             className={isSelected ? '' : 'hidden'}
                             disableElevation
+                            disabled={status === 'loading' ? 'disabled' : ''}
                         >
                             Delete
                         </Button>
@@ -280,6 +276,7 @@ function WaterStations () {
                         mode={mode}
                         inputItems={inputItems}
                         data={formData}
+                        status={status}
                         style={{display: mode !== 'retrieve' ? 'flex' : 'none'}}
                         onSubmit={handleSubmit}
                         onCancel={handleCancel}

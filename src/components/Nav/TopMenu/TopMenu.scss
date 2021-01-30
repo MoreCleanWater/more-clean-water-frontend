@@ -1,8 +1,7 @@
 .profileMenuMobile {
     display: block;
     position: fixed;
-    top: 0.85rem;
-    right: 0.85rem;
+    right: 0;
     z-index: 2;
 
         @media screen and (min-width: 960px) {
@@ -12,6 +11,7 @@
         .profileIcon {
             font-size: 1.7rem;
         }
+        
 }
 
 .top-menu {

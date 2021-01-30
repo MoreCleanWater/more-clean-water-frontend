@@ -3,12 +3,12 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import formStyle from '../Form/Form.module.scss';
 import axios from 'axios';
-import CachedIcon from '@material-ui/icons/Cached';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import { Redirect, NavLink } from 'react-router-dom';
 import UserId from '../Form/UserId'
 import Validation from '../Form/Validation';
+import { LinearProgress } from '@material-ui/core';
 
 function SignIn() {
     
@@ -63,14 +63,7 @@ function SignIn() {
             className={formStyle.container}
             
         >
-            <Grid
-                container
-                alignContent="center"
-                justify="center"
-                className={`full-height ${status==='loading' ? '' : 'hidden'}`}
-            >
-                <CachedIcon className="loading"/>
-            </Grid>
+            <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
 
             <Grid
                 container
@@ -81,7 +74,7 @@ function SignIn() {
                 <div style={{textAlign: 'center'}}>
                     <ErrorIcon className="alertColor" style={{fontSize: '5rem'}}/>
                     <h2 style={{margin:0}}>Uh oh!</h2>
-                    <p>Invalid email or password. Please try again.</p>
+                    <p>Invalid email or password. <br/> Please try again.</p>
                     <div>
                         <Button 
                             variant="contained"
@@ -99,7 +92,7 @@ function SignIn() {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${formStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+                className={`${formStyle.content} ${status==='error' ? 'hidden' : ''}`}
             >
                 <h2 className="center">
                     Sign in
@@ -130,6 +123,7 @@ function SignIn() {
                             color="primary"
                             disableElevation
                             onClick={handleSubmit}
+                            disabled={status === 'loading' ? 'disabled' : ''}
                         >
                             Submit
                         </Button>

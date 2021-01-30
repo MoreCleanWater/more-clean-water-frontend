@@ -8,11 +8,12 @@ function EditForm (props) {
         mode,
         inputItems,
         data,
-        onSubmit,
-        onCancel,
+        status,
         variant,
         className,
-        style
+        style,
+        onSubmit,
+        onCancel,
     } = props;
 
     const [formData, setData] = useState(data);
@@ -63,10 +64,11 @@ function EditForm (props) {
             <div className={`${formStyle.buttons} ${formStyle.admin}`}>
                 <Button 
                     variant="contained"
-                    className='primaryButton'
+                    color="primary"
                     size="small"
                     onClick={handleSubmit}
                     disableElevation
+                    disabled={status === 'loading' ? 'disabled' : ''}
                 >
                     {mode === 'create' && 'Create'}
                     {mode === 'update' && 'Update'}

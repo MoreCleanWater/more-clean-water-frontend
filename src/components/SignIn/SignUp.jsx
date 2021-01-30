@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import formStyle from '../Form/Form.module.scss';
 import axios from 'axios';
-import CachedIcon from '@material-ui/icons/Cached';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
@@ -13,6 +12,7 @@ import CheckBox from '../Form/CheckBox';
 import Email from '../Form/Email'
 import Validation from '../Form/Validation';
 import UserId from '../Form/UserId';
+import { LinearProgress } from '@material-ui/core';
 
 function SignUp({countyData}) {
 
@@ -137,14 +137,7 @@ function SignUp({countyData}) {
             justify="center"
             className={formStyle.container}
         >
-            <Grid
-                container
-                alignContent="center"
-                justify="center"
-                className={`full-height ${status==='loading' ? '' : 'hidden'}`}
-            >
-                <CachedIcon className="loading"/>
-            </Grid>
+            <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
 
             <Grid
                 container
@@ -173,7 +166,7 @@ function SignUp({countyData}) {
             <Grid 
                 item xs={10}
                 md={5}
-                className={`${formStyle.content} ${status==='idle' ? '' : 'hidden'}`}
+                className={formStyle.content}
             >
                 <h2 className="center">
                     User registration
@@ -252,6 +245,7 @@ function SignUp({countyData}) {
                                 color="primary"
                                 disableElevation
                                 onClick={handleSubmit}
+                                disabled={status === 'loading' ? 'disabled' : ''}
                             >
                                 Submit
                             </Button>
