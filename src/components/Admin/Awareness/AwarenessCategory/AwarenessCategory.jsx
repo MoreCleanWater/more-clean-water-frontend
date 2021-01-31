@@ -142,49 +142,53 @@ export default function AwarenessCategory() {
         </Alert>
       </Snackbar>
         
-      <Grid
-        container
-        className={formStyle.container}
-        justify="center" 
-      >
+      <Grid container  justify="center" className={formStyle.container}>
         <Grid item xs={10} md={7} className={formStyle.content}>
-          <div className={`${formStyle.title} ${formStyle.admin}`}>
-            <h2>
-                Awareness / Categories
-            </h2>
-            <Grid container className='fullWidth'>
-              <TextField
-                required
-                id="standard-basic-category"
-                label="Category name"
-                value={catText}
-                onChange={e => setCatText(e.target.value)}
-                variant='outlined'
-                style={{flexGrow:2, padding: '0 20px 0 0'}}
-              />
-              <TextField
-                id="standard-basic-desc"
-                label="Description"
-                value={descText}
-                onChange={e => setDescText(e.target.value)}
-                variant='outlined'
-                style={{flexGrow:2, padding: '0 20px 0 0'}}
-              />
+          <form className={formStyle.adminForm} >
+            <div className={`${formStyle.title} ${formStyle.admin}`}>
+              <h2>
+                  Awareness / Categories
+              </h2>
+              <Grid container className={formStyle.adminContent} justify="space-between" spacing={3}>
+                <Grid item xs={12} sm={5}>
+                  <TextField
+                    required
+                    id="standard-basic-category"
+                    label="Category name"
+                    value={catText}
+                    onChange={e => setCatText(e.target.value)}
+                    variant='outlined'
+                    className = {`${formStyle.formInput}`}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={5}>
+                  <TextField
+                    id="standard-basic-desc"
+                    label="Description"
+                    value={descText}
+                    onChange={e => setDescText(e.target.value)}
+                    variant='outlined'
+                    className = {`${formStyle.formInput}`}
+                  />
+                </Grid>
 
-              <Button
-                  variant="contained"
-                  size="small"
-                  color="primary"
-                  disableElevation
-                  disabled={catText === ""}
-                  onClick={handleSave}
-                  style={{flexGrow:1}}
-                >
-                  SAVE
-              </Button>
-            </Grid>
-          </div>
-          
+                <Grid item xs={12} sm={2}>
+                  <Button
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                      disableElevation
+                      disabled={catText === ""}
+                      className = {`${formStyle.formInput}`}
+                      onClick={handleSave}
+                    >
+                      SAVE
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </form>
+
           <div className={adminStyle.dataGrid}>
             <div className={adminStyle.content}>
               <DataGrid
