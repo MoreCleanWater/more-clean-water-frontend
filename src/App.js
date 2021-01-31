@@ -14,7 +14,8 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import UploadContent from "./components/Admin/Awareness/AwarenessContent/UploadContent";
-import ViewContent from "./components/Admin/Awareness/AwarenessContent/ViewContent";
+import axios from "axios";
+import "./App.scss";
 
 function App() {
   const [countyData, setCountyData] = useState();
