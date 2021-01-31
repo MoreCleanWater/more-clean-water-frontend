@@ -81,6 +81,7 @@ function EditForm (props) {
                     style={{ marginLeft: 16 }}
                     onClick={handleCancel}
                     disableElevation
+                    disabled={status === 'loading' ? 'disabled' : ''}
                 >
                     Cancel
                 </Button>

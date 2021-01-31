@@ -133,7 +133,7 @@ function Profile({countyData}) {
                     </Alert>
                 </Snackbar>
 
-                <h2 className="center">
+                <h2 className={`${formStyle.title} ${formStyle.profile}`}>
                     Profile
                 </h2>
                

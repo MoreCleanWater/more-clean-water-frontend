@@ -168,7 +168,7 @@ function SignUp({countyData}) {
                 md={5}
                 className={formStyle.content}
             >
-                <h2 className="center">
+                <h2 className={formStyle.title}>
                     User registration
                 </h2>
                 <p className={formStyle.subtitle}>
@@ -222,6 +222,7 @@ function SignUp({countyData}) {
                                 color="primary"
                                 disableElevation
                                 onClick={handlePrevious}
+                                disabled={status === 'loading' ? 'disabled' : ''}
                             >
                                 Previous
                             </Button>

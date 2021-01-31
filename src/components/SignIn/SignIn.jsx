@@ -94,7 +94,7 @@ function SignIn() {
                 md={5}
                 className={`${formStyle.content} ${status==='error' ? 'hidden' : ''}`}
             >
-                <h2 className="center">
+                <h2 className={formStyle.title}>
                     Sign in
                 </h2>
                

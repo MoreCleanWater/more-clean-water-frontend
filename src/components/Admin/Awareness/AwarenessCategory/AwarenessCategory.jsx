@@ -9,6 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import adminStyle from "styles/Admin.module.scss";
 import formStyle from "styles/Form.module.scss";
 import axios from "axios";
+import { Backdrop, CircularProgress } from "@material-ui/core";
 
 export default function AwarenessCategory() {
   const [descText, setDescText] = useState("");
@@ -112,6 +113,14 @@ export default function AwarenessCategory() {
 
   if (typeof category !== "undefined" && category.length > 0)
     rows = category.map((item) => (rows[item] = item));
+
+
+  if (category.length==0) 
+        return (
+            <Backdrop className='circularProgress' open={category.length===0}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+        )
 
   return (
     <div>
