@@ -8,8 +8,8 @@ import { DataGrid } from "@material-ui/data-grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import adminStyle from "styles/Admin.module.scss";
 import formStyle from "styles/Form.module.scss";
-import axios from "axios";
 import { Backdrop, CircularProgress } from "@material-ui/core";
+import axios from "axios";
 
 export default function AwarenessCategory() {
   const [descText, setDescText] = useState("");
@@ -83,7 +83,6 @@ export default function AwarenessCategory() {
     { field: "id", hide: true },
     {
       field: "name",
-      headerClassName: "super-app-theme--header",
       headerName: <strong>Category</strong>,
       flex: 0.5,
     },
@@ -115,7 +114,7 @@ export default function AwarenessCategory() {
     rows = category.map((item) => (rows[item] = item));
 
 
-  if (category.length==0) 
+  if (category.length===0) 
         return (
             <Backdrop className='circularProgress' open={category.length===0}>
                 <CircularProgress color="inherit" />
@@ -151,7 +150,7 @@ export default function AwarenessCategory() {
         <Grid item xs={10} md={7} className={formStyle.content}>
           <div className={`${formStyle.title} ${formStyle.admin}`}>
             <h2>
-                Awareness - Categories
+                Awareness / Categories
             </h2>
             <Grid container className='fullWidth'>
               <TextField
@@ -160,7 +159,7 @@ export default function AwarenessCategory() {
                 label="Category name"
                 value={catText}
                 onChange={e => setCatText(e.target.value)}
-                // variant='outlined'
+                variant='outlined'
                 style={{flexGrow:2, padding: '0 20px 0 0'}}
               />
               <TextField
@@ -168,7 +167,7 @@ export default function AwarenessCategory() {
                 label="Description"
                 value={descText}
                 onChange={e => setDescText(e.target.value)}
-                // variant='outlined'
+                variant='outlined'
                 style={{flexGrow:2, padding: '0 20px 0 0'}}
               />
 

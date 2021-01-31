@@ -50,7 +50,7 @@ function EditForm (props) {
                             value={formData[i.name] ? formData[i.name]  : ''}
                             error={errors[i.name] ? 'error' : ''}
                             helperText={errors[i.name]}
-                            className={`${className} ${formStyle.formInput}`}
+                            className={formStyle.formInput}
                             style={{style}}
                             variant={variant ? variant : 'outlined' }
                             options={i.options ? i.options : ''}

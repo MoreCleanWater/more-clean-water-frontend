@@ -1,7 +1,6 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Grid } from "@material-ui/core";
-import adminStyle from "styles/Admin.module.scss";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -11,6 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { database } from "../../../../firebase";
 import { storage } from "../../../../firebase";
+import adminStyle from "styles/Admin.module.scss";
+import formStyle from "styles/Form.module.scss";
+import { Backdrop, CircularProgress } from "@material-ui/core";
 // import _ from "lodash";
 // import renderHTML from "react-render-html";
 
@@ -126,103 +128,135 @@ export default function UploadContent() {
   //     console.log(snapshot.val());
   //   });
   // };
-
   return (
     <div>
-      <Grid container justify="center">
-        <Grid item xs={10} md={8} className={adminStyle.container}>
-          <h2 className="center">Article</h2>
-          <Autocomplete
-            id="category-combo-box"
-            options={category}
-            // value={selectedCategory}
-            getOptionLabel={(option) => option.name}
-            onChange={(e, value) => {
-              setSelectedCategory(value);
-            }}
-            className={classes.text}
-            renderInput={(params) => (
-              <TextField required {...params} label="Category" />
-            )}
-          />
-          <TextField
-            required
-            className={classes.text}
-            id="standard-basic-title"
-            label="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            className={classes.text}
-            id="standard-basic-videourl"
-            label="Video"
-            value={videoUrl}
-            onChange={(e) => setVideoUrl(e.target.value)}
-          />
-          <div>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={handleOpen}
-              className={classes.button}
-            >
-              Image
-            </Button>
-            {selectedFile ? selectedFile.name : ""}
-          </div>
-          <DropzoneDialog
-            open={open}
-            onSave={(file) => {
-              setSelectedFile(file[0]);
-              setOpen(false);
-            }}
-            acceptedFiles={[
-              "image/jpeg",
-              "image/png",
-              "image/bmp",
-              "image/gif",
-            ]}
-            showPreviews={true}
-            filesLimit={1}
-            maxFileSize={5000000}
-            onClose={handleClose}
-          />
-          <div>
-            <ReactQuill
-              onChange={handleEditorChange}
-              value={body}
-              modules={modules}
-              formats={formats}
-              placeholder={"Add content here....."}
-            />
-          </div>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={handleSubmit}
-            className={classes.button}
-          >
-            SAVE
-          </Button>
-          {/* {postedArticle
-            ? _.map(postedArticle, (item, key) => {
-                return (
-                  <div key={key}>
-                    <h2>{item.title}</h2>
-                    <p>{renderHTML(item.body)}</p>
-                    <img src={item.image} width="500" height="600"></img>
-                    <div>
-                      <video width="320" height="240" controls>
-                        <source src={item.video} type="video/mp4" />
-                      </video>
-                    </div>
-                  </div>
-                );
-              })
-            : null} */}
+      <Grid container justify="center" className={formStyle.container}>
+        <Grid item xs={10} md={7} className={formStyle.content}>
+          <form className={formStyle.adminForm} >
+            <div className={`${formStyle.title} ${formStyle.admin}`}>
+              <h2>
+                Awareness / Add Content
+              </h2>
+              <Grid container className={formStyle.adminContent} justify="space-between" spacing={3}>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    // className={classes.text}
+                    className = {`${formStyle.formInput}`}
+                    variant='outlined'
+                    id="standard-basic-title"
+                    label="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Autocomplete
+                    className = {`${formStyle.formInput}`}
+                    id="category-combo-box"
+                    options={category}
+                    // value={selectedCategory}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(e, value) => {
+                      setSelectedCategory(value);
+                    }}
+                    // className={classes.text}
+                    renderInput={(params) => (
+                      <TextField required {...params} variant='outlined' label="Category" />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <TextField
+                    // className={classes.text}
+                    className = {`${formStyle.formInput}`}
+                    variant='outlined'
+                    id="standard-basic-videourl"
+                    label="Video URL"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Button
+                    className = {`${formStyle.formInput}`}
+                    style={{height:'3.5rem'}}
+                    variant="outlined"
+                    size="small"
+                    color="primary"
+                    disableElevation
+                    onClick={handleOpen}
+                  >
+                    Select image
+                  </Button>
+                  {selectedFile ? selectedFile.name : ""}
+                </Grid>
+              </Grid>
+            </div>
+
+
+            <div className={adminStyle.textEditor}>
+              
+                <DropzoneDialog
+                  open={open}
+                  onSave={(file) => {
+                    setSelectedFile(file[0]);
+                    setOpen(false);
+                  }}
+                  acceptedFiles={[
+                    "image/jpeg",
+                    "image/png",
+                    "image/bmp",
+                    "image/gif",
+                  ]}
+                  showPreviews={true}
+                  filesLimit={1}
+                  maxFileSize={5000000}
+                  onClose={handleClose}
+                />
+                
+                <ReactQuill
+                  onChange={handleEditorChange}
+                  value={body}
+                  modules={modules}
+                  formats={formats}
+                  placeholder={"Add content here....."}
+                />
+                
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={handleSubmit}
+                  color="primary"
+                  disableElevation
+                  style={{marginTop: '5rem'}}
+                >
+                  SAVE
+                </Button>
+                {/* {postedArticle
+                  ? _.map(postedArticle, (item, key) => {
+                      return (
+                        <div key={key}>
+                          <h2>{item.title}</h2>
+                          <p>{renderHTML(item.body)}</p>
+                          <img src={item.image} width="500" height="600"></img>
+                          <div>
+                            <video width="320" height="240" controls>
+                              <source src={item.video} type="video/mp4" />
+                            </video>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : null} */}
+              
+            </div>
+          </form>
+
         </Grid>
       </Grid>
+
+
     </div>
   );
 }

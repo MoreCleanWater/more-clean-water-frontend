@@ -50,8 +50,8 @@ function WaterStations () {
     const inputItems = [
         {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: countyData},
         {label: 'Post Code', name: 'postcode', required: true, component: TextField},
-        {label: 'Size', name: 'size', required: true, component: TextField},
-        {label: 'Capacity', name: 'capacity', required: true, component: TextField},
+        {label: 'Size', name: 'size', required: true, component: TextField, options:{className: `${formStyle.formInput} ${formStyle.col2}`}},
+        {label: 'Capacity', name: 'capacity', required: true, component: TextField, options:{className: `${formStyle.formInput} ${formStyle.col2}`}},
         // {label: 'Additional Info', name: 'additionalInfo', component: TextField, options:{multiline: true, rows:4}},
     ]
 

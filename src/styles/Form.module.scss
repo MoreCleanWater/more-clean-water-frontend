@@ -101,6 +101,13 @@ form {
                 margin-bottom: 0!important;
             }
     }
+
+    .adminContent {
+        .formInput {
+            margin: 0!important;  
+        }
+    }
+    
     
     &.landingForm {
         width: 70%;
@@ -125,14 +132,45 @@ form {
         }
     }
 
+   
+
     .formInput {
         width: 100%;
         min-height: 3.5rem;
-        margin: 0 auto 1.5rem!important;   
+        margin: 0 auto 1.5rem;  
+        
+        &.col2 {
+            margin-left: 0;
+            margin-right: .4rem;
+            width: calc(50% - .4rem);
+            float: left;
 
-        @media screen and (min-width:769px) {
-            width: 100%;
-        } 
+            ~ .col2 {
+                margin-left: .4rem;
+                margin-right: 0;
+                width: calc(50% - .4rem);
+            }
+        }
+        
+        &.col3 {
+            margin-left: 0;
+            margin-right: .4rem;
+            width: calc(33.33333% - .4rem);
+            float: left;
+
+            ~ .col3 {
+                margin-left: .2rem;
+                margin-right: .2rem;
+                width: calc(33.33333% - .4rem);
+            }
+
+            &.last {
+                margin-left: .4rem;
+                margin-right: 0;
+                width: calc(33.33333% - .4rem);
+            }
+        }
+
     }
 
     .buttons {
@@ -157,3 +195,5 @@ form {
     }
 
 }
+
+
