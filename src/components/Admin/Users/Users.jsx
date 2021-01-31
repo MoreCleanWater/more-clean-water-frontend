@@ -65,7 +65,7 @@ function Users () {
                     Data successfully loaded
                 </Alert>
             </Snackbar>
-            <Grid item xs={10} md={7} className={formStyle.content}>
+            <Grid item xs={10} md={8} className={formStyle.content}>
                 <h2 className={`${formStyle.title} ${formStyle.admin}`}>
                     Users
                 </h2>

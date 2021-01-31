@@ -16,10 +16,10 @@ function WaterStations () {
     
     const columns = [
         { field: 'stationId', headerName: 'ID', width: 70, },
-        { field: 'county', headerName: 'County', width: 220, },
-        { field: 'postcode', headerName: 'Post Code', width: 130,},
-        { field: 'size', headerName: 'Size', width: 90,  },
-        { field: 'capacity', headerName: 'Capacity', width: 110, },
+        { field: 'county', headerName: 'County', width: 270, },
+        { field: 'postcode', headerName: 'Post Code', width: 150,},
+        { field: 'size', headerName: 'Size', width: 100,  },
+        { field: 'capacity', headerName: 'Capacity', width: 100, },
         { field: 'isWorking', headerName: 'Active?', width: 100, 
             renderCell: (params) => (
                 <div 
@@ -238,7 +238,7 @@ function WaterStations () {
                     </Alert>
                 </Snackbar>
 
-                <Grid item xs={10} md={7} className={formStyle.content}>
+                <Grid item xs={10} md={8} className={formStyle.content}>
                     <h2 className={`${formStyle.title} ${formStyle.admin}`}>
                         Water Stations
                     </h2>
