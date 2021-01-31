@@ -1,7 +1,7 @@
 import { TextField, Button } from '@material-ui/core';
 import {NavLink, Redirect} from "react-router-dom";
 import './LandingPage.scss';
-import formStyle from '../Form/Form.module.scss';
+import formStyle from 'styles/Form.module.scss';
 import {Grid} from '@material-ui/core'
 import { useState } from 'react';
 import Email from '../Form/Email'

@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Grid } from "@material-ui/core";
-import css from "../../Admin.module.scss";
+import adminStyle from "styles/Admin.module.scss";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -130,7 +130,7 @@ export default function UploadContent() {
   return (
     <div>
       <Grid container justify="center">
-        <Grid item xs={10} md={8} className={css.container}>
+        <Grid item xs={10} md={8} className={adminStyle.container}>
           <h2 className="center">Article</h2>
           <Autocomplete
             id="category-combo-box"

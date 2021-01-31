@@ -2,7 +2,7 @@ import {NavLink, Redirect} from 'react-router-dom'
 import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import formStyle from '../Form/Form.module.scss';
+import formStyle from 'styles/Form.module.scss';
 import axios from 'axios';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';

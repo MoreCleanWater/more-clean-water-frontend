@@ -1,12 +1,12 @@
 import { Backdrop, Button, CircularProgress, Grid, LinearProgress, Snackbar } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import adminStyle from "../Admin.module.scss";
-import formStyle from "../../Form/Form.module.scss";
-import EditForm from "../EditForm";
-import ListData from "../ListData";
-import TextField from '../../Form/TextField';
-import ComboBox from '../../Form/ComboBox';
-import CheckBox from '../../Form/CheckBox';
+import adminStyle from "styles/Admin.module.scss";
+import formStyle from "styles/Form.module.scss";
+import EditForm from "components/Admin/EditForm";
+import ListData from "components/Admin/ListData";
+import TextField from 'components/Form/TextField';
+import ComboBox from 'components/Form/ComboBox';
+import CheckBox from 'components/Form/CheckBox';
 import EditIcon from "@material-ui/icons/Edit";
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
@@ -15,11 +15,12 @@ function WaterStations () {
     const [countyData, setCountyData] = useState();
     
     const columns = [
-        { field: 'county', headerName: 'County', width: 210, },
+        { field: 'stationId', headerName: 'ID', width: 70, },
+        { field: 'county', headerName: 'County', width: 220, },
         { field: 'postcode', headerName: 'Post Code', width: 130,},
         { field: 'size', headerName: 'Size', width: 90,  },
         { field: 'capacity', headerName: 'Capacity', width: 110, },
-        { field: 'isWorking', headerName: 'Active?', width: 110, 
+        { field: 'isWorking', headerName: 'Active?', width: 100, 
             renderCell: (params) => (
                 <div 
                     style={{height:'100%',  width: '100%', textAlign: 'center'}}
@@ -33,7 +34,7 @@ function WaterStations () {
                 </div>
             )
         },
-        { field: 'actions', headerName: 'Actions', sortable: false, width: 110, 
+        { field: 'actions', headerName: 'Actions', sortable: false, width: 100, 
             renderCell: (params) => (
                 <div style={{display: 'flex', height: '100%', alignItems: 'center'}}>
                     <EditIcon
@@ -238,7 +239,7 @@ function WaterStations () {
                 </Snackbar>
 
                 <Grid item xs={10} md={7} className={formStyle.content}>
-                    <h2 className={formStyle.admin}>
+                    <h2 className={`${formStyle.title} ${formStyle.admin}`}>
                         Water Stations
                     </h2>
 

@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { NavLink  } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
-import css from "../Admin.module.scss";
+import css from "styles/Admin.module.scss";
 
 function AdminNav() {
   const [isOpen, setOpen] = React.useState(false);

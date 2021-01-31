@@ -1,17 +1,20 @@
-import { Backdrop, CircularProgress, Grid, LinearProgress } from "@material-ui/core";
+import { Backdrop, CircularProgress, Grid, Snackbar } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import adminStyle from "../Admin.module.scss";
+import adminStyle from "styles/Admin.module.scss";
+import formStyle from "styles/Form.module.scss";
 import ListData from "../ListData";
 import axios from 'axios';
+import { Alert } from "@material-ui/lab";
 
 function Users () {
     const columns = [
-        { field: 'userName', headerName: 'Username', width: 120, flex: 1 },
-        { field: 'firstName', headerName: 'First name', width: 200, flex: 1.5 },
-        { field: 'lastName', headerName: 'Last name', width: 200, flex: 1.5 },
-        { field: 'email', headerName: 'Email', width: 230, flex: 2 },
-        { field: 'county', headerName: 'County', width: 230, flex: 1.5 },
-        { field: 'postcode', headerName: 'Post code', width: 160,  },
+        { field: 'userId', headerName: 'ID', width: 70, },
+        { field: 'userName', headerName: 'Username', width: 140,},
+        { field: 'firstName', headerName: 'First name', width: 130, },
+        { field: 'lastName', headerName: 'Last name', width: 130, },
+        { field: 'email', headerName: 'Email', width: 200,  },
+        { field: 'county', headerName: 'County', width: 160,  },
+        { field: 'postcode', headerName: 'Post code', width: 120,  },
     ];
 
     const [data, setData] = useState();
@@ -36,6 +39,13 @@ function Users () {
         .catch(error => console.log(error))
     }, []);
 
+    const [status, setStatus] = useState('idle');
+
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') return;
+        setStatus('idle');
+    };
+
     if (!data) 
         return (
             <Backdrop className='circularProgress' open={!data}>
@@ -44,15 +54,25 @@ function Users () {
         )
 
     return (
-        <Grid container justify="center">
-            <Grid item xs={12} md={10} className={adminStyle.container} >
-                <h2 className="center">
+        <Grid container justify="center" className={formStyle.container} >
+            <Snackbar
+                open={status==='success'}
+                autoHideDuration={3000}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                onClose={handleCloseSnackBar}
+            >
+                <Alert severity="success" variant="filled">
+                    Data successfully loaded
+                </Alert>
+            </Snackbar>
+            <Grid item xs={10} md={7} className={formStyle.content}>
+                <h2 className={`${formStyle.title} ${formStyle.admin}`}>
                     Users
                 </h2>
 
                 <ListData 
                     className={adminStyle.dataGrid} 
-                    rows={data} 
+                    rows={data}
                     columns={columns}
                     disableColumnSelector
                     disableSelectionOnClick

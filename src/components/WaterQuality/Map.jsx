@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import SamplePoints from './SamplePoints'
-import { Backdrop, CircularProgress, LinearProgress } from '@material-ui/core';
+import { Backdrop, CircularProgress } from '@material-ui/core';
 
 function Map () {
 

@@ -1,32 +1,16 @@
-import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
 import { useState, useEffect } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { DataGrid } from "@material-ui/data-grid";
 import DeleteIcon from "@material-ui/icons/Delete";
+import adminStyle from "styles/Admin.module.scss";
+import formStyle from "styles/Form.module.scss";
 import axios from "axios";
 
-const useStyles = makeStyles(() => ({
-  text: {
-    width: "200px",
-    paddingRight: "30px",
-  },
-  button: {
-    backgroundColor: "white",
-    width: "100px",
-    height: "50px",
-    "&:hover": {
-      backgroundColor: "#A2EA2E",
-    },
-  },
-}));
-
 export default function AwarenessCategory() {
-  const classes = useStyles();
   const [descText, setDescText] = useState("");
   const [catText, setCatText] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -111,7 +95,7 @@ export default function AwarenessCategory() {
         <div>
           {/* <EditIcon style={{ cursor: "pointer", color: "green" }} /> */}
           <DeleteIcon
-            style={{ cursor: "pointer", color: "red" }}
+            style={{ cursor: "pointer", color: "#78787c" }}
             onClick={handleDelete}
           />
         </div>
@@ -131,69 +115,81 @@ export default function AwarenessCategory() {
 
   return (
     <div>
+      <Snackbar
+        open={successMessage}
+        autoHideDuration={4000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={errorAlert}
+        autoHideDuration={4000}
+        onClose={handleErrorClose}
+      >
+        <Alert onClose={handleErrorClose} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+        
       <Grid
         container
-        style={{ height: "100vh", width: "100vw" }}
-        alignContent="center"
-        justify="space-around"
-        spacing={5}
+        className={formStyle.container}
+        justify="center" 
       >
-        <Grid item xs={10} sm={8}>
-          <TextField
-            required
-            id="standard-basic-category"
-            label="Category name"
-            value={catText}
-            className={classes.text}
-            onChange={(e) => {
-              setCatText(e.target.value);
-            }}
-          />
-          <TextField
-            id="standard-basic-desc"
-            label="Description"
-            value={descText}
-            className={classes.text}
-            onChange={(e) => {
-              setDescText(e.target.value);
-            }}
-          />
+        <Grid item xs={10} md={7} className={formStyle.content}>
+          <div className={`${formStyle.title} ${formStyle.admin}`}>
+            <h2>
+                Awareness - Categories
+            </h2>
+            <Grid container className='fullWidth'>
+              <TextField
+                required
+                id="standard-basic-category"
+                label="Category name"
+                value={catText}
+                onChange={e => setCatText(e.target.value)}
+                // variant='outlined'
+                style={{flexGrow:2, padding: '0 20px 0 0'}}
+              />
+              <TextField
+                id="standard-basic-desc"
+                label="Description"
+                value={descText}
+                onChange={e => setDescText(e.target.value)}
+                // variant='outlined'
+                style={{flexGrow:2, padding: '0 20px 0 0'}}
+              />
 
-          <Button
-            variant="contained"
-            disabled={catText === ""}
-            size="large"
-            className={classes.button}
-            onClick={handleSave}
-          >
-            SAVE
-          </Button>
-          <Snackbar
-            open={successMessage}
-            autoHideDuration={4000}
-            onClose={handleClose}
-          >
-            <Alert onClose={handleClose} severity="success">
-              {alertMessage}
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={errorAlert}
-            autoHideDuration={4000}
-            onClose={handleErrorClose}
-          >
-            <Alert onClose={handleErrorClose} severity="error">
-              {errorMessage}
-            </Alert>
-          </Snackbar>
-        </Grid>
-        <Grid item xs={10} sm={8} style={{ height: "60%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoPageSize
-            onRowSelected={handleRowSelection}
-          />
+              <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  disableElevation
+                  disabled={catText === ""}
+                  onClick={handleSave}
+                  style={{flexGrow:1}}
+                >
+                  SAVE
+              </Button>
+            </Grid>
+          </div>
+          
+          <div className={adminStyle.dataGrid}>
+            <div className={adminStyle.content}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                autoPageSize
+                onRowSelected={handleRowSelection}
+                disableColumnSelector
+                disableSelectionOnClick
+                // disableDensitySelector
+              />
+            </div>
+          </div>
         </Grid>
       </Grid>
     </div>

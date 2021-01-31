@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import formStyle from "../Form/Form.module.scss";
+import formStyle from "styles/Form.module.scss";
 import Validation from "../Form/Validation";
 
 function EditForm (props) {

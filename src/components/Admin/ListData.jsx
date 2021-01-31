@@ -1,7 +1,6 @@
 import { Button } from "@material-ui/core";
 import { DataGrid } from '@material-ui/data-grid';
-import css from "./Admin.module.scss";
-import { useState } from "react";
+import adminStyle from "styles/Admin.module.scss";
 
 
 function ListData (props) {
@@ -15,7 +14,7 @@ function ListData (props) {
 
     return (
         <div style={style} className={className}>
-            <div className={css.content}>
+            <div className={adminStyle.content}>
                 <DataGrid 
                     {...props}
                     className=''
@@ -23,7 +22,7 @@ function ListData (props) {
                 />
             </div>
 
-            <div className={css.buttons}>
+            <div className={adminStyle.buttons}>
                 {props.children}
             </div>
         </div>
