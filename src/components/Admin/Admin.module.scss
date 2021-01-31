@@ -9,23 +9,22 @@
     flex-direction: column;
     justify-content: space-between;
     height: 80%;
+    flex-grow: 1;
+    padding: 1rem 0 1.5rem;
 }
 
 .editForm {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
     height: 80%;
+    overflow: auto;
+    padding: 0 2rem 1.5rem;
 }
-
     
 .content {
     height: 90%;
-}
-
-.form {
-    flex-grow: 1;
-    margin: 0;
 }
 
 .menuList {
@@ -36,7 +35,7 @@
     padding-left: 1rem
 }
 
-
-.textfield {
-    padding: 0;
+.idLabel {
+    margin: 0;
 }
+

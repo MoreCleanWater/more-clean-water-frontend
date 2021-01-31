@@ -1,66 +1,82 @@
 import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import css from "./Admin.module.scss";
+import formStyle from "../Form/Form.module.scss";
+import Validation from "../Form/Validation";
 
 function EditForm (props) {
     const {
         mode,
         inputItems,
-        formData,
+        data,
+        status,
+        variant,
+        className,
+        style,
         onSubmit,
         onCancel,
-        className,
-        style
     } = props;
-    
-    const [data, setData] = useState(formData);
-    useEffect(() => { setData(formData)}, [formData] )
 
-    const handleChange = (e) => {
-        setData({ ...data, [e.target.id]: e.target.value });
+    const [formData, setData] = useState(data);
+    useEffect(() => { setData(data)}, [data] )
+
+    const [errors, setErrors] = useState({});
+
+    const handleChange = e => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setData({ ...formData, [e.target.name]: value });
     }
 
-    const handleSubmit = (e) => {
-        onSubmit(data);
+    const handleSubmit = e => {
+        const [isValidated, errors] = Validation.isValidated(formData, inputItems);
+        setErrors(errors);
+        return (isValidated ? onSubmit(formData) : isValidated);
     }
 
-    const handleCancel = (e) => {
+    const handleCancel = e => {
         onCancel();
     }
 
     return (
-        <div className={className} style={style}>
-            {mode === 'update' && <p>ID:{data.id}</p>}
-            <form action="" className={css.form}>
+        <form className={formStyle.adminForm} style={style}>
+            <div style={{flexGrow: 1}}>
                 {inputItems.map((i, index) => {
                     const Component = i.component;
-                    const value = data[i.name] ? data[i.name] : '';
                     return (
-                        <div style={{marginTop: 10}} key={index}>
-                            <Component {...i} 
-                                value={value}
-                                variant='outlined' 
-                                onChange={handleChange}
-                                className={className}
-                            />
-                        </div>
+                        <Component 
+                            key={i.name}
+                            id={i.name}
+                            name={i.name}
+                            label={i.label}
+                            value={formData[i.name] ? formData[i.name]  : ''}
+                            error={errors[i.name] ? 'error' : ''}
+                            helperText={errors[i.name]}
+                            className={`${className} ${formStyle.formInput}`}
+                            style={{style}}
+                            variant={variant ? variant : 'outlined' }
+                            options={i.options ? i.options : ''}
+                            dataProvider={i.dataProvider ? i.dataProvider : ''}
+                            onChange={handleChange}
+                        />
                     )
                 })}
-            </form>
+            </div>
 
-            <div className={css.buttons}>
-                <Button variant="contained"
-                    className='primaryButton'
+            <div className={`${formStyle.buttons} ${formStyle.admin}`}>
+                <Button 
+                    variant="contained"
+                    color="primary"
                     size="small"
                     onClick={handleSubmit}
                     disableElevation
+                    disabled={status === 'loading' ? 'disabled' : ''}
                 >
                     {mode === 'create' && 'Create'}
                     {mode === 'update' && 'Update'}
                 </Button>
 
-                <Button variant="contained"
-                    className='primaryButton'
+                <Button 
+                    variant="outlined"
+                    // className='primaryButton'
                     size="small"
                     style={{ marginLeft: 16 }}
                     onClick={handleCancel}
@@ -69,7 +85,7 @@ function EditForm (props) {
                     Cancel
                 </Button>
             </div>
-        </div>
+        </form>
     )
 }
 

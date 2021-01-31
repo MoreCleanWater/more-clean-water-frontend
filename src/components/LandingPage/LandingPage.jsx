@@ -1,17 +1,47 @@
-import {Redirect} from 'react-router-dom'
-import {useState} from 'react';
-import { TextField, Button, FormControl } from '@material-ui/core';
-import {NavLink} from "react-router-dom";
+import { TextField, Button } from '@material-ui/core';
+import {NavLink, Redirect} from "react-router-dom";
 import './LandingPage.scss';
+import formStyle from '../Form/Form.module.scss';
 import {Grid} from '@material-ui/core'
+import { useState } from 'react';
+import Email from '../Form/Email'
 
-function LandingPage ({form, onChange}) {
+function LandingPage () {
+    const inputItems = [
+        {label: 'Email', name: 'email', required: true, component: TextField},
+    ];
 
+    const [form, setForm] = useState({email: ""});
+    
     const [redirect, setRedirect] = useState(null);
 
-    const handleRegister = (e) => setRedirect("/signup");
+    const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-    if (redirect!=null) return (<Redirect to={redirect} />)
+    const handleSignUp = e => {
+        if (!isValidated()) return;
+        Email.value = form.email;
+        setRedirect('/signup');
+    }
+
+    const [errors, setErrors] = useState({});
+
+    const isValidated = () => {
+        let isValidated = true;
+        const checkFields = inputItems.filter(i => i.required);
+        const newErrors = {...errors};
+        checkFields.forEach(i => {
+            newErrors[i.name] = '';
+            if (!form[i.name]) {
+                newErrors[i.name] = 'Ops! This field is required';
+                isValidated = false;
+            } 
+        })
+        
+        setErrors({...errors, ...newErrors});
+        return isValidated;
+    }
+
+    if (redirect) return <Redirect push to={redirect}/>
 
     return (
         <div className="landing-page">
@@ -40,33 +70,49 @@ function LandingPage ({form, onChange}) {
                         </h3>
                     </div>
                     
-                    <form action="">
-                        <FormControl>
-                            <TextField
-                                autoComplete="on"
-                                required id='email'
-                                label='Email'
-                                variant="outlined"
-                                onChange={onChange}
-                            />
+                    <form className={formStyle.landingForm}>
+                        <TextField
+                            autoComplete="on"
+                            id='email'
+                            name='email'
+                            label='Email'
+                            variant='outlined'
+                            value={form.email}
+                            error={errors.email ? 'error' : ''}
+                            helperText={errors.email}
+                            className={formStyle.formInput}
+                            onChange={handleChange}
+                        />
+
+                        <Button 
+                            variant="contained"
+                            color="primary"
+                            disableElevation
+                            onClick={handleSignUp}
+                        >
+                            Sign Up
+                        </Button>
+                    
+                        <div className={formStyle.actions}>
+                            <p>
+                                Are you already registered? 
+                            </p>
 
                             <Button 
-                                variant="contained"
+                                variant="text"
                                 color="primary"
                                 disableElevation
-                                onClick={handleRegister}
+                                component={NavLink}
+                                to="/signin"
                             >
-                                Register
+                                Sign in
                             </Button>
-                        </FormControl>
-                    </form>    
-                
-                    <Grid item xs={5}>
-                        <NavLink to="/find-water" className="enter">
-                            Or proceed
-                            without sign up
-                        </NavLink>
-                    </Grid>
+
+                            <NavLink to="/find-water" className={formStyle.link}>
+                                Or proceed without sign up
+                            </NavLink>
+                        </div>
+                    </form>
                 </Grid>
             </div>
         </div>

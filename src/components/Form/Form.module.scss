@@ -1,0 +1,147 @@
+@import 'styles/_colors';
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    
+    .content {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        align-content: center;
+        justify-content: space-between;
+
+        h2 {
+            margin: 1.5rem 0 0;
+            text-align: center;
+
+            @media screen and (min-width:769px) {
+                margin: 5rem 0 0;
+
+                &.admin {
+                    margin: 2rem 0;
+                    text-align: center;
+                }
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            margin: .5rem 0;
+        }
+        
+        form {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2rem;
+
+            @media screen and (min-width:769px) {
+                margin-bottom: 6rem;
+            }
+
+            ul {
+                flex-grow: 1;
+                display: flex;
+                padding-top: 0.5rem;
+
+                li {
+                    flex-grow: 1;
+                    display: none;
+                    flex-direction: column;
+                    justify-content: flex-start;
+
+                    @media screen and (min-width:769px) {
+                        justify-content: center;
+                    }
+
+                    ul.confirmation {
+                        display: block;
+
+                        li {
+                            display: block;
+                            margin-top: 1rem;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}
+
+form {
+    &.signInForm {
+        padding-top: 2rem;
+    }
+    
+    &.profileForm {
+        padding: 2rem 0 5rem;
+    }
+    
+    &.adminForm {
+        margin: 0;
+        padding-top: 2rem;
+
+            @media screen and (min-width:769px) {
+                padding: 0 0rem 1.5rem;
+                margin-bottom: 0!important;
+            }
+    }
+    
+    &.landingForm {
+        width: 70%;
+        margin: 0 auto!important;  
+        
+        .actions {
+            
+            p {
+                margin: 2rem 0 .25rem;
+                color: #222222;
+            }
+
+            a {
+                color: #222222;
+            }
+            
+            .link {
+                margin: 1rem 0 0;
+                color: #222222;
+            }
+
+        }
+    }
+
+    .formInput {
+        width: 100%;
+        min-height: 3.5rem;
+        margin: 0 auto 1.5rem!important;   
+
+        @media screen and (min-width:769px) {
+            width: 100%;
+        } 
+    }
+
+    .buttons {
+        text-align: center;
+        height: 2.5rem;
+
+        &.admin {
+            text-align: left;
+        }
+
+        @media screen and (min-width:769px) {
+            &.admin {
+                margin-top: 1.5rem;
+            }
+        }
+
+        .actions {
+            p {
+                margin-top: 3rem;
+            }
+        }
+    }
+
+}

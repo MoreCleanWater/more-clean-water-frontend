@@ -1,9 +1,11 @@
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import { useState } from "react";
-import SignUp from "./components/SignUp/SignUp";
+import { useState, useEffect } from "react";
+import SignUp from "./components/SignIn/SignUp";
+import SignIn from "./components/SignIn/SignIn";
 import Updates from "./components/Updates/Updates";
 import Admin from "./components/Admin/Admin";
-import AdminUsers from "./components/Admin/AdminUsers";
+import AdminUsers from "./components/Admin/Users/Users";
+import AdminWaterStations from "./components/Admin/WaterStations/WaterStations";
 import AdminNav from "./components/Admin/AdminNav/AdminNav";
 import Profile from "./components/Profile/Profile";
 import Map from "./components/WaterQuality/Map";
@@ -11,83 +13,84 @@ import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
-import "./App.scss";
 import UploadContent from "./components/Admin/Awareness/AwarenessContent/UploadContent";
 import ViewContent from "./components/Admin/Awareness/AwarenessContent/ViewContent";
 
 function App() {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    county: "",
-    postcode: "",
-  });
+  const [countyData, setCountyData] = useState();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.id]: e.target.value });
-  };
+  useEffect(() => {
+    axios
+      .get(
+        "https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list"
+      )
+      .then((response) => {
+        if (response.data)
+          response.data.sort((a, b) => (a.county > b.county ? 1 : -1));
+        setCountyData(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/awareness">
+          <Route exact path="/awareness">
             <Nav />
             <AwarenessList />
           </Route>
 
-          <Route path="/signup">
-            <SignUp form={form} setForm={setForm} onChange={handleChange} />
+          <Route exact path="/signup">
+            <SignUp countyData={countyData} />
           </Route>
 
-          <Route path="/profile">
+          <Route exact path="/signin">
+            <SignIn />
+          </Route>
+
+          <Route exact path="/profile">
             <Nav />
-            <Profile form={form} setForm={setForm} onChange={handleChange} />
+            <Profile countyData={countyData} />
           </Route>
 
-          <Route path="/updates">
+          <Route exact path="/updates">
             <Nav />
             <Updates />
           </Route>
 
-          <Route path="/find-water">
+          <Route exact path="/find-water">
             <Nav />
             <Map />
           </Route>
 
-          <Route path="/admin/awareness">
-            <AdminNav />
-            <ViewContent />
-          </Route>
-
-          <Route path="/admin/awareness-category">
+          <Route exact path="/admin/awareness-category">
             <AdminNav />
             <AwarenessCategory />
           </Route>
 
-          <Route path="/admin/awareness-content">
+          <Route exact path="/admin/awareness-content">
             <AdminNav />
             <UploadContent />
           </Route>
 
-          <Route path="/admin/users">
+          <Route exact path="/admin/users">
             <AdminNav />
             <AdminUsers />
           </Route>
 
-          <Route path="/admin">
+          <Route exact path="/admin/water-stations">
+            <AdminNav />
+            <AdminWaterStations />
+          </Route>
+
+          <Route exact path="/admin">
             <AdminNav />
             <Admin />
           </Route>
 
           <Route path="/">
-            <LandingPage
-              form={form}
-              setForm={setForm}
-              onChange={handleChange}
-            />
+            <LandingPage />
           </Route>
         </Switch>
       </Router>

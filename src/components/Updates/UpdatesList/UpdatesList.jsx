@@ -37,7 +37,7 @@ function UpdatesList() {
       <div className="total">
         {unreadUpdates.length > 0 ? `Total updates: ${unreadUpdates.length}` : 
         <Grid 
-          className="full-height-mobile no-items" 
+          className="fullHeightMobile no-items" 
           container 
           justify="center" 
           alignItems="center"> 
