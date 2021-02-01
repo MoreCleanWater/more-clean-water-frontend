@@ -53,12 +53,12 @@ export default function ViewContent(props) {
   //   });
   // }, []);
 
-  // const handleAlertClose = (reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setSuccessMessage(false);
-  // };
+  const handleAlertClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccessMessage(false);
+  };
 
   const handleDelete = (k) => {
     console.log("hello " + k);
@@ -84,14 +84,14 @@ export default function ViewContent(props) {
 
   const getContentCard = (article, key) => {
     return (
-      <Grid item xs={12} md={6} key={key}>
-        <ContentCard
-          article={article}
-          uniquekey={key}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
-      </Grid>
+      // <Grid item xs={12} md={6} key={key}>
+      <ContentCard
+        article={article}
+        uniquekey={key}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      // </Grid>
     );
   };
 
@@ -119,7 +119,7 @@ export default function ViewContent(props) {
           : null}
         {/* </Grid> */}
       </div>
-      {/* <Snackbar
+      <Snackbar
         open={successMessage}
         autoHideDuration={4000}
         onClose={handleAlertClose}
@@ -127,8 +127,8 @@ export default function ViewContent(props) {
         <Alert onClose={handleAlertClose} severity="success">
           {alertMessage}
         </Alert>
-      </Snackbar> */}
-      {/* </Grid>
+      </Snackbar>
+      {/* {/* </Grid>
       </Grid> */}
     </div>
   );

@@ -1,6 +1,6 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Grid } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import css from "../../Admin.module.scss";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -16,6 +16,11 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import formStyle from "../../../Form/Form.module.scss";
 import Validation from "../../../Form/Validation";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import ComboBox from "../../../Form/ComboBox";
+import { InputLabel, FormHelperText } from "@material-ui/core";
 
 export default function UploadContent(props) {
   const {
@@ -49,9 +54,9 @@ export default function UploadContent(props) {
       .catch((error) => console.log(error));
   }, []);
 
-  // useEffect(() => {
-  //   setData(data);
-  // }, [data]);
+  useEffect(() => {
+    setData(data);
+  }, [data]);
 
   const useStyles = makeStyles(() => ({
     text: {
@@ -237,7 +242,7 @@ export default function UploadContent(props) {
     // setData({ ...formData, selectedFile: selectedFile });
     // setData({ ...formData, selectedCategory: selectedCategory });
     // setData({ ...formData, body: body });
-    return onSubmit(formData, selectedFile, selectedCategory);
+    return onSubmit(formData, selectedFile);
   };
 
   const handleCancel = () => {
@@ -268,21 +273,82 @@ export default function UploadContent(props) {
             <TextField required {...params} label="Category" />
           )}
         /> */}
-        <Autocomplete
+
+        {/* <Autocomplete
           id="category-combo-box"
           options={category}
           getOptionLabel={(option) => option.name}
           renderInput={(params) => <TextField {...params} label="Category" />}
           onChange={console.log("onchange")}
           defaultValue={editArticle.selectedCategory}
-        />
+        /> */}
+        <div>
+          <FormControl
+            variant="outlined"
+            color="primary"
+            style={{ width: "300px" }}
+            // className={className}
+            // error={error}
+          >
+            <InputLabel id="category-combobox">Category</InputLabel>
+            <Select
+              key="categoryId"
+              id="categoryId"
+              name="categoryId"
+              label="category"
+              labelId="category-label"
+              value={formData ? formData.categoryId : ""}
+              onChange={handleChange}
+              //  formData.selectedCategory = value;
+
+              // {...options}
+              // onChange={(e, value) => {
+              //   console.log("on change " + e.target.value);
+              //   setSelectedCategory(value);
+              //   handleChange();
+              //   //  formData.selectedCategory = value;
+              // }}
+            >
+              <MenuItem value={null}>&nbsp;</MenuItem>
+              {[...category].map((cat) => (
+                <MenuItem key={cat.id} value={cat.id}>
+                  {cat.name}
+                </MenuItem>
+              ))}
+            </Select>
+            {/* <FormHelperText>{helperText}</FormHelperText> */}
+          </FormControl>
+        </div>
+        {/* <div>
+          <FormControl style={{ minWidth: "300px" }}>
+            <Select
+            inputProps={{
+              inputRef: (ref) => {
+                if (!ref) return;
+                register({
+                  name: "trinityPerson",
+                  value: ref.value,
+                });
+              },
+            }}
+              //value={formData ? formData.selectedCategory : null}
+              onChange={(e, value) => {
+                setSelectedCategory(value);
+              }}
+            >
+              {category.map((cat) => (
+                <MenuItem> {cat.name} </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div> */}
         <TextField
           required
           className={classes.text}
           id="standard-basic-title"
           label="Title"
           name="title"
-          value={editArticle ? editArticle.title : ""}
+          value={formData ? formData.title : ""}
           // defaultValue={editArticle ? editArticle.title : null}
           onChange={handleChange}
         />
@@ -291,7 +357,7 @@ export default function UploadContent(props) {
           id="standard-basic-videourl"
           label="Video"
           name="video"
-          value={editArticle ? editArticle.video : ""}
+          value={formData ? formData.video : ""}
           // defaultValue={editArticle ? editArticle.video : null}
           onChange={handleChange}
         />
@@ -306,8 +372,8 @@ export default function UploadContent(props) {
           </Button>
           {selectedFile
             ? selectedFile.name
-            : editArticle
-            ? editArticle.imageTitle
+            : formData
+            ? formData.imageTitle
             : null}
         </div>
         <DropzoneDialog
@@ -325,7 +391,7 @@ export default function UploadContent(props) {
         <div>
           <ReactQuill
             onChange={handleEditorChange}
-            defaultValue={editArticle ? editArticle.body : null}
+            defaultValue={formData ? formData.body : null}
             modules={modules}
             formats={formats}
             placeholder={"Write content here...."}

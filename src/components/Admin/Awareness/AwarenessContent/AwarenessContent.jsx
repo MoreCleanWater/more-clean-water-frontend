@@ -21,12 +21,15 @@ export default function AwarenessContent() {
   const [alertMessage, setAlertMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
 
+  const [key, setKey] = useState();
+
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = () => {
     setStatus("loading");
+    console.log("before load data");
     // to fetch list of contents
     database.on("value", (snapshot) => {
       // const obj = JSON.parse(JSON.stringify(snapshot.val()));
@@ -43,6 +46,7 @@ export default function AwarenessContent() {
         setStatus("success");
       })
       .catch((error) => console.log(error));
+    console.log("after load data");
   };
 
   // // to fetch list of categories
@@ -58,24 +62,25 @@ export default function AwarenessContent() {
     setMode("create");
   };
 
-  const handleSubmit = (data, selectedFile, selectedCategory) => {
-    if (mode === "create") create(data, selectedFile, selectedCategory);
-    if (mode === "update") update(data);
+  const handleSubmit = (data, selectedFile) => {
+    if (mode === "create") create(data, selectedFile);
+    if (mode === "update") update(data, selectedFile);
   };
 
   const handleCancel = () => {
     setMode("retrieve");
+    formData.title = "";
     setFormData([]);
   };
 
-  const create = (data, selectedFile, selectedCategory) => {
+  const create = (data, selectedFile) => {
     console.log("inside create");
     setStatus("loading");
 
     console.log("selectedFile " + selectedFile);
     console.log("title " + data.title);
-    console.log("selectedCategory " + selectedCategory.id);
-    console.log("selectedCategory " + selectedCategory.name);
+    console.log("selectedCategory " + data.categoryId);
+    // console.log("selectedCategory " + selectedCategory.name);
 
     console.log("body " + data.body);
     console.log("video " + data.video);
@@ -96,16 +101,19 @@ export default function AwarenessContent() {
           .child(selectedFile.name)
           .getDownloadURL()
           .then((url) => {
+            console.log("before push");
+
             database.push({
-              categoryId: selectedCategory.id,
-              categoryName: selectedCategory.name,
-              selectedCategory: selectedCategory,
-              title: data.title,
-              body: data.body,
+              categoryId: data.categoryId,
+              //  categoryName: selectedCategory.name,
+              // selectedCategory: selectedCategory,
+              title: data.title ? data.title : "",
+              body: data.body ? data.body : "",
               image: url,
               imageTitle: selectedFile.name,
-              video: data.video,
+              video: data.video ? data.video : "",
             });
+            console.log("after push");
 
             setAlertMessage("Content uploaded successfully");
             setSuccessMessage(true);
@@ -204,18 +212,89 @@ export default function AwarenessContent() {
   const handleEdit = (k) => {
     console.log("key " + k);
     setMode("update");
+    setKey(k);
     const useref = database.child(k);
     useref.on("value", (snapshot) => {
       setFormData(snapshot.val());
       console.log("selectedFile " + formData.selectedFile);
       console.log("title " + formData.title);
       console.log("selectedCategory " + formData.selectedCategory);
+      // console.log("selectedCategory id" + formData.selectedCategory.id);
       console.log("body " + formData.body);
       console.log("video " + formData.video);
     });
   };
 
-  const update = (data) => {};
+  const update = (data, selectedFile) => {
+    console.log("inside update");
+
+    setStatus("loading");
+
+    console.log("selectedFile " + selectedFile);
+    console.log("title " + data.title);
+    console.log("selectedCategory " + data.categoryId);
+    // console.log("selectedCategory " + selectedCategory.name);
+
+    console.log("body " + data.body);
+    console.log("video " + data.video);
+
+    console.log("key in update " + key);
+
+    if (data) {
+      //remove old image if a new image is selected
+      if (selectedFile) {
+        storage
+          .refFromURL(data.image)
+          // .ref(`/images/${editArticle.title}`)
+          .delete()
+          .then(() => {
+            console.log("file deleted successfully");
+
+            //upload new file
+            const uploadImage = storage
+              .ref(`/images/${selectedFile.name}`)
+              // .ref(`/images/${editArticle ? editArticle.title : title}`)
+              .put(selectedFile);
+            uploadImage.on(
+              (error) => {
+                console.log(error);
+                setStatus("error");
+              },
+              () => {
+                storage
+                  .ref("images")
+                  .child(selectedFile.name)
+                  .getDownloadURL()
+                  .then((url) => {
+                    updateArticle(data, selectedFile, url);
+                  });
+              }
+            );
+          });
+      } else {
+        updateArticle(data, null, null);
+      }
+    }
+  };
+
+  const updateArticle = (data, selectedFile, url) => {
+    console.log("key in update");
+    database.child(`${key}`).set({
+      categoryId: data.categoryId,
+      //  categoryName: selectedCategory.name,
+      // selectedCategory: selectedCategory,
+      title: data.title,
+      body: data.body,
+      image: url ? url : data.image,
+      imageTitle: selectedFile ? selectedFile.name : data.imageTitle,
+      video: data.video,
+    });
+
+    setAlertMessage("Content uploaded successfully");
+    setSuccessMessage(true);
+    handleReset();
+    loadData();
+  };
 
   return (
     <div>
@@ -237,8 +316,10 @@ export default function AwarenessContent() {
             Add
           </Button>
           <div
-            height="100%"
-            style={{ display: mode === "retrieve" ? "flex" : "none" }}
+            style={{
+              display: mode === "retrieve" ? "flex" : "none",
+              width: "100%",
+            }}
           >
             <ViewContent
               postedArticle={postedArticle}
@@ -258,7 +339,7 @@ export default function AwarenessContent() {
             mode={mode}
             status={status}
             style={{ display: mode !== "retrieve" ? "flex" : "none" }}
-            editArticle={formData}
+            data={formData}
             // editArticle={null}
             // editKey={null}
             onSubmit={handleSubmit}
