@@ -117,7 +117,12 @@ function SignIn() {
                         )
                     })}
 
+                    <p style={{fontSize: '.75rem', margin: '-.85rem 0 1.5rem'}}>
+                        Forgot password?
+                    </p>
+
                     <div className={formStyle.buttons}>
+                       
                         <Button 
                             variant="contained"
                             color="primary"
