@@ -59,11 +59,13 @@ function WaterStations () {
 
     const newData = () => {
         let newData = {};
-        inputItems.forEach(i => {
+        inputItems
+        .sort((a,b) => a.order - b.order)
+        .forEach(i => {
             newData[i.name] = ''
         })
        
-        return {id: '', ...newData};
+        return newData;
     }
     
     const [mode, setMode] = useState('retrieve');
@@ -157,7 +159,6 @@ function WaterStations () {
     const create = (newData) => {
         setStatus('loading');
         delete newData.additionalInfo;
-        delete newData.id;
         console.log(newData);
 
         axios

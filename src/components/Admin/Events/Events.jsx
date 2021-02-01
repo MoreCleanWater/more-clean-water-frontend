@@ -49,22 +49,23 @@ function Events () {
     ];
 
     const inputItems = [
-        {label: 'Link', name: 'link', required: true, component: TextField, },
-        {label: 'Title', name: 'title', required: true, component: TextField, },
-        {label: 'Description', name: 'description', required: true, component: TextField, options: {multiline: true, rows: 4}},
-        {label: 'Date', name: 'eventDate', required: true, component: TextField, options: {className: `${formStyle.formInput} ${formStyle.col2}`}},
-        {label: 'Time', name: 'eventTime', required: true, component: TextField, options: {className: `${formStyle.formInput} ${formStyle.col2}`}},
+        {label: 'Title', name: 'title', required: true, component: TextField, order: 2},
+        {label: 'Date', name: 'eventDate', required: true, component: TextField, options: {className: `${formStyle.formInput} ${formStyle.col2}`}, order: 4},
+        {label: 'Time', name: 'eventTime', required: true, component: TextField, options: {className: `${formStyle.formInput} ${formStyle.col2}`}, order: 5},
+        {label: 'Link', name: 'link', required: true, component: TextField, order: 1},
+        {label: 'Description', name: 'description', required: true, component: TextField, options: {multiline: true, rows: 4}, order: 3},
     ];
 
     const [data, setData] = useState();
 
     const newData = () => {
         let newData = {};
-        inputItems.forEach(i => {
+        inputItems
+        .sort((a,b) => a.order - b.order)
+        .forEach(i => {
             newData[i.name] = ''
-        })
-       
-        return {id: '', ...newData};
+        });
+        return newData;
     }
     
     const [mode, setMode] = useState('retrieve');
@@ -154,7 +155,6 @@ function Events () {
     const create = (newData) => {
         setStatus('loading');
         delete newData.county;
-        delete newData.id;
         newData.isCancelled = false;
         console.log(newData);
 
