@@ -139,6 +139,7 @@ function SignIn() {
                                 disableElevation
                                 component={NavLink}
                                 to="/signup"
+                                disabled={status === 'loading' ? 'disabled' : ''}
                             >
                                 Sign Up
                             </Button>

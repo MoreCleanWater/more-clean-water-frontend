@@ -12,11 +12,15 @@ import { Redirect } from 'react-router-dom';
 import { Backdrop, CircularProgress, LinearProgress, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Validation from '../Form/Validation';
+import CheckBox from 'components/Form/CheckBox';
+import { OutlinedInput } from '@material-ui/core';
+
 
 function Profile({countyData}) {
+    
 
     const [formData, setFormData] = useState();
-    
+
     const [status, setStatus] = useState('idle');
 
 	const inputItems = [
@@ -34,6 +38,8 @@ function Profile({countyData}) {
         .then(response => {
             let newData = {};
             inputItems.map(i => i.name).forEach(i => newData[i] = response.data[0][i]);
+            newData.isSubscriber = response.data[0].isSubscriber;
+            // newData.isActive = response.data[0].isActive;
             setFormData(newData);
             setStatus('idle');
         })
@@ -119,7 +125,7 @@ function Profile({countyData}) {
             
             <Grid 
                 item xs={10}
-                md={5}
+                md={7}
                 className={formStyle.content}
             >
                 <Snackbar 
@@ -134,37 +140,72 @@ function Profile({countyData}) {
                 </Snackbar>
 
                 <h2 className={`${formStyle.title} ${formStyle.profile}`}>
-                    Profile
+                    Profile Manager
                 </h2>
                
                 <form className={formStyle.profileForm}>
-                    {inputItems.map(i => {
-                        const Component = i.component;
-                        return (
-                            <Component
-                                id={i.name}
-                                name={i.name}
-                                label={i.label}
-                                value={formData[i.name]}
-                                error={errors[i.name] ? 'error' : ''}
-                                helperText={errors[i.name]}
-                                className={formStyle.formInput}
-                                options={i.options ? i.options : ''}
-                                dataProvider={i.dataProvider ? i.dataProvider : ''}
-                                onChange={handleChange}
-                            />
-                        )
-                    })}
+                    <div className={`${formStyle.contentBox} ${formStyle.userBox}`}>
+                        <OutlinedInput notched disabled label='User information' className={formStyle.border}/>
+                        <h4>
+                            User information
+                        </h4>
+                        {inputItems.map(i => {
+                            const Component = i.component;
+                            return (
+                                <Component
+                                    id={i.name}
+                                    name={i.name}
+                                    label={i.label}
+                                    value={formData[i.name]}
+                                    error={errors[i.name] ? 'error' : ''}
+                                    helperText={errors[i.name]}
+                                    className={formStyle.formInput}
+                                    options={i.options ? i.options : ''}
+                                    dataProvider={i.dataProvider ? i.dataProvider : ''}
+                                    onChange={handleChange}
+                                />
+                            )
+                        })}
 
-                    <div className={formStyle.buttons}>
+                        <div className={`${formStyle.buttons} ${formStyle.profile}`}>
+                            <Button 
+                                variant="contained"
+                                color="primary"
+                                disableElevation
+                                onClick={handleSubmit}
+                                disabled={status === 'loading' ? 'disabled' : ''}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className={`${formStyle.contentBox} ${formStyle.subscriptionBox}`}>
+                        <OutlinedInput notched disabled label='Manage subscription' className={formStyle.border}/>
+                        <h4>
+                            Manage subscription
+                        </h4>
+                        <CheckBox
+                            value={formData.isSubscriber}  
+                            label="Receive water alerts?"
+                        />
+                        
+                    </div>
+
+                    <div className={`${formStyle.contentBox} ${formStyle.deleteBox}`}>
+                        <OutlinedInput notched disabled label='Danger zone' className={formStyle.border}/>
+                        <h4>
+                            Danger zone
+                        </h4>
                         <Button 
-                            variant="contained"
+                            variant="outlined"
                             color="primary"
                             disableElevation
-                            onClick={handleSubmit}
+                            style={{width: '100%'}}
+                            // onClick={handleSubmit}
                             disabled={status === 'loading' ? 'disabled' : ''}
                         >
-                            Submit
+                            Delete account
                         </Button>
                     </div>
                 </form>
