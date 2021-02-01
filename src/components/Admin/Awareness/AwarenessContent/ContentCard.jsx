@@ -141,7 +141,9 @@ export default function ContentCard(props) {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => handleEdit(uniquekey)}>
+          <MenuItem onClick={() => {
+            handleClose()
+            handleEdit(uniquekey)}}>
             <Typography variant="caption" color="primary">
               Edit
             </Typography>

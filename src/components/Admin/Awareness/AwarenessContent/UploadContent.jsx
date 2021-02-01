@@ -14,12 +14,23 @@ import { storage } from "../../../../firebase";
 import _ from "lodash";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import formStyle from "../../../Form/Form.module.scss";
+import Validation from "../../../Form/Validation";
 
 export default function UploadContent(props) {
-  const { editArticle, editKey } = props;
+  const {
+    editArticle,
+    editKey,
+    data,
+    style,
+    mode,
+    status,
+    onSubmit,
+    onCancel,
+  } = props;
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
-  const [body, setBody] = useState("");
+  const [body, setBody] = useState();
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [open, setOpen] = useState(false);
@@ -29,6 +40,7 @@ export default function UploadContent(props) {
   const [substring, setSubstring] = useState();
   const [alertMessage, setAlertMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
+  const [formData, setData] = useState(data);
 
   useEffect(() => {
     axios
@@ -36,6 +48,10 @@ export default function UploadContent(props) {
       .then((response) => setCategory(response.data))
       .catch((error) => console.log(error));
   }, []);
+
+  // useEffect(() => {
+  //   setData(data);
+  // }, [data]);
 
   const useStyles = makeStyles(() => ({
     text: {
@@ -87,8 +103,8 @@ export default function UploadContent(props) {
     // console.log("delta " + delta);
     // console.log("source " + source);
     // console.log("editor " + editor);
-
-    setBody(e);
+    setData({ ...formData, body: e });
+    // setBody(e);
     //  setHtml(editor.getHTML());
     //  setText(editor.getText());
     //  setSubstring(editor.getHTML().substr(0,120));
@@ -125,87 +141,87 @@ export default function UploadContent(props) {
     setOpen(true);
   };
 
-  const handleSubmit = () => {
-    //remove old image
-    console.log("editArticle " + editArticle);
-    if (editArticle) {
-      //|| (editArticle && selectedFile.name !== editArticle.selectedFile.name)) {
-      storage
-        .refFromURL(editArticle.image)
-        // .ref(`/images/${editArticle.title}`)
-        .delete()
-        .then(() => console.log("file deleted successfully"));
-    }
-    //upload new file
-    const uploadImage = storage
-      .ref(`/images/${selectedFile.name}`)
-      // .ref(`/images/${editArticle ? editArticle.title : title}`)
-      .put(selectedFile);
-    uploadImage.on(
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        storage
-          .ref("images")
-          .child(selectedFile.name)
-          .getDownloadURL()
-          .then((url) => {
-            saveArticle(url);
-          });
-      }
-    );
-  };
+  // const handleSubmit = () => {
+  //   //remove old image
+  //   console.log("editArticle " + editArticle);
+  //   if (editArticle) {
+  //     //|| (editArticle && selectedFile.name !== editArticle.selectedFile.name)) {
+  //     storage
+  //       .refFromURL(editArticle.image)
+  //       // .ref(`/images/${editArticle.title}`)
+  //       .delete()
+  //       .then(() => console.log("file deleted successfully"));
+  //   }
+  //   //upload new file
+  //   const uploadImage = storage
+  //     .ref(`/images/${selectedFile.name}`)
+  //     // .ref(`/images/${editArticle ? editArticle.title : title}`)
+  //     .put(selectedFile);
+  //   uploadImage.on(
+  //     (error) => {
+  //       console.log(error);
+  //     },
+  //     () => {
+  //       storage
+  //         .ref("images")
+  //         .child(selectedFile.name)
+  //         .getDownloadURL()
+  //         .then((url) => {
+  //           saveArticle(url);
+  //         });
+  //     }
+  //   );
+  // };
 
-  const saveArticle = (url) => {
-    //update existing
-    if (editArticle) {
-      console.log(editArticle);
-      database.child(`${editKey}`).set({
-        categoryId: selectedCategory
-          ? selectedCategory.id
-          : editArticle.selectedCategory.id,
-        categoryName: selectedCategory
-          ? selectedCategory.name
-          : editArticle.selectedCategory.name,
-        selectedCategory: selectedCategory
-          ? selectedCategory
-          : editArticle.selectedCategory,
-        title: title ? title : editArticle.title,
-        body: body ? body : editArticle.body,
-        image: url,
-        imageTitle: selectedFile.name,
-        video: videoUrl ? videoUrl : editArticle.video,
-      });
-    }
-    //create new
-    else {
-      database.push({
-        categoryId: selectedCategory.id,
-        categoryName: selectedCategory.name,
-        selectedCategory: selectedCategory,
-        title: title,
-        body: body,
-        image: url,
-        imageTitle: selectedFile.name,
-        video: videoUrl,
-      });
-    }
+  // const saveArticle = (url) => {
+  //   //update existing
+  //   if (editArticle) {
+  //     console.log(editArticle);
+  //     database.child(`${editKey}`).set({
+  //       categoryId: selectedCategory
+  //         ? selectedCategory.id
+  //         : editArticle.selectedCategory.id,
+  //       categoryName: selectedCategory
+  //         ? selectedCategory.name
+  //         : editArticle.selectedCategory.name,
+  //       selectedCategory: selectedCategory
+  //         ? selectedCategory
+  //         : editArticle.selectedCategory,
+  //       title: title ? title : editArticle.title,
+  //       body: body ? body : editArticle.body,
+  //       image: url,
+  //       imageTitle: selectedFile.name,
+  //       video: videoUrl ? videoUrl : editArticle.video,
+  //     });
+  //   }
+  //   //create new
+  //   else {
+  //     database.push({
+  //       categoryId: selectedCategory.id,
+  //       categoryName: selectedCategory.name,
+  //       selectedCategory: selectedCategory,
+  //       title: title,
+  //       body: body,
+  //       image: url,
+  //       imageTitle: selectedFile.name,
+  //       video: videoUrl,
+  //     });
+  //   }
 
-    setAlertMessage("Content uploaded successfully");
-    setSuccessMessage(true);
-    handleReset();
-    // database.push(article);
-    // retrieveArticle();
-  };
+  //   setAlertMessage("Content uploaded successfully");
+  //   setSuccessMessage(true);
+  //   handleReset();
+  //   // database.push(article);
+  //   // retrieveArticle();
+  // };
 
-  const handleReset = () => {
-    setSelectedCategory(null);
-    setTitle("");
-    setVideoUrl("");
-    setSelectedFile(null);
-    setBody("");
-  };
+  // const handleReset = () => {
+  //   setSelectedCategory(null);
+  //   setTitle("");
+  //   setVideoUrl("");
+  //   setSelectedFile(null);
+  //   setBody("");
+  // };
   // const retrieveArticle = () => {
   //   database.on("value", (snapshot) => {
   //     setPostedArticle(snapshot.val());
@@ -213,98 +229,126 @@ export default function UploadContent(props) {
   //   });
   // };
 
+  const handleChange = (e) => {
+    setData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    // setData({ ...formData, selectedFile: selectedFile });
+    // setData({ ...formData, selectedCategory: selectedCategory });
+    // setData({ ...formData, body: body });
+    return onSubmit(formData, selectedFile, selectedCategory);
+  };
+
+  const handleCancel = () => {
+    setData([]);
+    onCancel();
+  };
+
   return (
-    <div>
-      <Grid container justify="center">
-        <Grid item xs={10} md={8} className={css.container}>
-          <h2 className="center">Content</h2>
-          <Autocomplete
-            id="category-combo-box"
-            options={category}
-            defaultValue={editArticle ? editArticle.selectedCategory : ""}
-            getOptionLabel={(option) => option.name}
-            onChange={(e, value) => {
-              setSelectedCategory(value);
-            }}
-            className={classes.text}
-            renderInput={(params) => (
-              <TextField required {...params} label="Category" />
-            )}
-          />
-          <TextField
-            required
-            className={classes.text}
-            id="standard-basic-title"
-            label="Title"
-            defaultValue={editArticle ? editArticle.title : null}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            className={classes.text}
-            id="standard-basic-videourl"
-            label="Video"
-            defaultValue={editArticle ? editArticle.video : null}
-            onChange={(e) => setVideoUrl(e.target.value)}
-          />
-          <div>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={handleOpen}
-              className={classes.button}
-            >
-              Image
-            </Button>
-            {selectedFile
-              ? selectedFile.name
-              : editArticle
-              ? editArticle.imageTitle
-              : null}
-          </div>
-          <DropzoneDialog
-            open={open}
-            onSave={(file) => {
-              setSelectedFile(file[0]);
-              setOpen(false);
-            }}
-            acceptedFiles={[
-              "image/jpeg",
-              "image/png",
-              "image/bmp",
-              "image/gif",
-            ]}
-            showPreviews={true}
-            filesLimit={1}
-            maxFileSize={5000000}
-            onClose={handleClose}
-          />
-          <div>
-            <ReactQuill
-              onChange={handleEditorChange}
-              defaultValue={editArticle ? editArticle.body : ""}
-              modules={modules}
-              formats={formats}
-              placeholder={"Write content here...."}
-            />
-          </div>
+    <form className={formStyle.adminForm} style={style}>
+      <div>
+        {/* <Grid container justify="center">
+          <Grid item xs={10} md={8} className={css.container}> */}
+        {/* <Autocomplete
+          id="category-combo-box"
+          options={category}
+          // value={formData ? formData.selectedCategory : null}
+          defaultValue={formData ? formData.selectedCategory : null}
+          getOptionLabel={(option) => option.name}
+          onInputChange={(e, value) => {
+            console.log(value);
+          }}
+          // onChange={(e, value) => {
+          //   setSelectedCategory(value);
+          //   //  formData.selectedCategory = value;
+          // }}
+          className={classes.text}
+          renderInput={(params) => (
+            <TextField required {...params} label="Category" />
+          )}
+        /> */}
+        <Autocomplete
+          id="category-combo-box"
+          options={category}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => <TextField {...params} label="Category" />}
+          onChange={console.log("onchange")}
+          defaultValue={editArticle.selectedCategory}
+        />
+        <TextField
+          required
+          className={classes.text}
+          id="standard-basic-title"
+          label="Title"
+          name="title"
+          value={editArticle ? editArticle.title : ""}
+          // defaultValue={editArticle ? editArticle.title : null}
+          onChange={handleChange}
+        />
+        <TextField
+          className={classes.text}
+          id="standard-basic-videourl"
+          label="Video"
+          name="video"
+          value={editArticle ? editArticle.video : ""}
+          // defaultValue={editArticle ? editArticle.video : null}
+          onChange={handleChange}
+        />
+        <div>
           <Button
             variant="contained"
             size="small"
-            onClick={handleSubmit}
+            onClick={handleOpen}
             className={classes.button}
           >
-            SAVE
+            Image
           </Button>
-          <Snackbar
-            open={successMessage}
-            autoHideDuration={4000}
-            onClose={handleAlertClose}
-          >
-            <Alert onClose={handleAlertClose} severity="success">
-              {alertMessage}
-            </Alert>
-          </Snackbar>
-          {/* {postedArticle
+          {selectedFile
+            ? selectedFile.name
+            : editArticle
+            ? editArticle.imageTitle
+            : null}
+        </div>
+        <DropzoneDialog
+          open={open}
+          onSave={(file) => {
+            setSelectedFile(file[0]);
+            setOpen(false);
+          }}
+          acceptedFiles={["image/jpeg", "image/png", "image/bmp", "image/gif"]}
+          showPreviews={true}
+          filesLimit={1}
+          maxFileSize={5000000}
+          onClose={handleClose}
+        />
+        <div>
+          <ReactQuill
+            onChange={handleEditorChange}
+            defaultValue={editArticle ? editArticle.body : null}
+            modules={modules}
+            formats={formats}
+            placeholder={"Write content here...."}
+          />
+        </div>
+        {/* <Button
+              variant="contained"
+              size="small"
+              onClick={handleSubmit}
+              className={classes.button}
+            >
+              SAVE
+            </Button> */}
+        <Snackbar
+          open={successMessage}
+          autoHideDuration={4000}
+          onClose={handleAlertClose}
+        >
+          <Alert onClose={handleAlertClose} severity="success">
+            {alertMessage}
+          </Alert>
+        </Snackbar>
+        {/* {postedArticle
             ? _.map(postedArticle, (item, key) => {
                 return (
                   <div key={key}>
@@ -322,8 +366,33 @@ export default function UploadContent(props) {
                 );
               })
             : null} */}
-        </Grid>
-      </Grid>
-    </div>
+        {/* </Grid>
+        </Grid> */}
+      </div>
+      <div className={`${formStyle.buttons} ${formStyle.admin}`}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={handleSubmit}
+          disableElevation
+          disabled={status === "loading" ? "disabled" : ""}
+        >
+          {mode === "create" && "Create"}
+          {mode === "update" && "Update"}
+        </Button>
+
+        <Button
+          variant="outlined"
+          // className='primaryButton'
+          size="small"
+          style={{ marginLeft: 16 }}
+          onClick={handleCancel}
+          disableElevation
+        >
+          Cancel
+        </Button>
+      </div>
+    </form>
   );
 }
