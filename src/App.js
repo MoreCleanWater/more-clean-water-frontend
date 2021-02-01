@@ -16,6 +16,7 @@ import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/Aw
 import UploadContent from "./components/Admin/Awareness/AwarenessContent/UploadContent";
 import axios from 'axios';
 import "./App.scss";
+import Events from "./components/Admin/Events/Events";
 
 function App() {
   const [countyData, setCountyData] = useState();
@@ -80,6 +81,11 @@ function App() {
           <Route exact path="/admin/water-stations">
             <AdminNav/>
             <AdminWaterStations/>
+          </Route>
+
+          <Route exact path="/admin/events">
+            <AdminNav/>
+            <Events/>
           </Route>
 
           <Route exact path="/admin">

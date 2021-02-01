@@ -24,6 +24,7 @@ function EditForm (props) {
     const handleChange = e => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
         setData({ ...formData, [e.target.name]: value });
+        console.log(formData)
     }
 
     const handleSubmit = e => {

@@ -62,8 +62,8 @@ function AdminNav() {
                         <ListItemText primary="Content" className={css.menuItem__nested}/>
                     </ListItem>
 
-                    <ListItem button component={NavLink} to="/admin/communication">
-                        <ListItemText primary="Communication"/>
+                    <ListItem button component={NavLink} to="/admin/events">
+                        <ListItemText primary="Events"/>
                     </ListItem>
                 <Divider />
                 </List>
