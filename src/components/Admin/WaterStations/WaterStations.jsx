@@ -116,6 +116,7 @@ function WaterStations () {
     }
 
     const handleToggleActivation = e => {
+        setStatus('loading');
         const stationId = data.find(i => i.id === e.currentTarget.id).stationId;
         const action = Boolean(e.currentTarget.className) ? 
             'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/stations/delete/' + stationId

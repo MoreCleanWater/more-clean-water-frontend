@@ -9,7 +9,7 @@ import ComboBox from '../Form/ComboBox';
 import UserId from '../Form/UserId'
 import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Backdrop, CircularProgress, LinearProgress, Snackbar } from '@material-ui/core';
+import { Backdrop, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Validation from '../Form/Validation';
 import CheckBox from 'components/Form/CheckBox';
@@ -32,6 +32,10 @@ function Profile({countyData}) {
 	];
 	
 	useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = () => {
         setStatus('loading');
         axios
         .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + UserId.value)
@@ -47,7 +51,7 @@ function Profile({countyData}) {
             setStatus('error');
             console.log(error)
         })
-    }, []);
+    }
 
     const [errors, setErrors] = useState({});
 
@@ -84,6 +88,66 @@ function Profile({countyData}) {
         setStatus('idle');
     };
 
+    const handleToggleActivation = e => {
+        setStatus('loading');
+        const action = Boolean(e.currentTarget.className) ? 
+            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/unsubscribe/' + UserId.value
+            : 
+            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/subscribe/' + UserId.value;
+            
+        axios
+        .put(action)
+        .then((response) => {
+            
+            if (response.data === 'User is subscribed successfully'||
+                                    'User is unsubscribed successfully') 
+            {
+                setStatus('success');
+                setFormData({...formData, isSubscriber: !formData.isSubscriber});
+            } else {
+                console.log(response);
+                setStatus('error');
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
+    };
+ 
+    const deleteUser = e => {
+        setStatus('loading')
+        axios
+        .delete('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/deactivate/' + UserId.value)
+        .then((response) => {
+            if (response.data === 'User is deleted successfully') 
+            {
+                setStatus('deleted');
+                setTimeout(() => {
+                    UserId.value = null;
+                    setStatus('idle')
+                }, 2000);
+            } else {
+                console.log(response);
+                setStatus('error')
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            setStatus('error');
+        })
+    };
+
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleDelete = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        if (status!=='deleted') setOpenDialog(false);
+    };
+
     if (!UserId.value) return <Redirect to="/signin"/>
 
     if (!formData) return (
@@ -99,7 +163,27 @@ function Profile({countyData}) {
             
         >
             <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
-
+            <Dialog
+                open={openDialog}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Confirm account delete"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This will delete your account permanently. Are you sure you want to proceed?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={deleteUser} color="primary" >
+                        Yes
+                    </Button>
+                    <Button onClick={handleCloseDialog} color="primary" autoFocus variant='contained' disableElevation>
+                        No
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Grid
                 container
                 alignContent="center"
@@ -124,18 +208,19 @@ function Profile({countyData}) {
             </Grid>
             
             <Grid 
-                item xs={10}
-                md={7}
-                className={formStyle.content}
+                item 
+                xs={10}
+                md={8}
+                className={`${formStyle.content} ${status!=='error' ? '' : 'hidden'}`}
             >
                 <Snackbar 
-                    open={status==='success'} 
+                    open={status==='success'||status==='deleted'} 
                     autoHideDuration={3000} 
                     anchorOrigin={{vertical: 'top', horizontal: 'center'}} 
                     onClose={handleCloseSnackBar}
                 >
                     <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
-                        Profile updated successfully!
+                        {status === 'success' ? 'Profile updated successfully!' : 'Profile deleted successfully.'}
                     </Alert>
                 </Snackbar>
 
@@ -185,10 +270,16 @@ function Profile({countyData}) {
                         <h4>
                             Manage subscription
                         </h4>
-                        <CheckBox
-                            value={formData.isSubscriber}  
-                            label="Receive water alerts?"
-                        />
+                        <div
+                            onChange={handleToggleActivation}
+                            className={formData.isSubscriber && String(formData.isSubscriber)}
+                        >
+                            <CheckBox
+                                value={formData.isSubscriber}  
+                                label="Receive water alerts?"
+                                disabled={status === 'loading' ? 'disabled' : ''}
+                            />
+                        </div>
                         
                     </div>
 
@@ -201,8 +292,7 @@ function Profile({countyData}) {
                             variant="outlined"
                             color="primary"
                             disableElevation
-                            style={{width: '100%'}}
-                            // onClick={handleSubmit}
+                            onClick={handleDelete}
                             disabled={status === 'loading' ? 'disabled' : ''}
                         >
                             Delete account

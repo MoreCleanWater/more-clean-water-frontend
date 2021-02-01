@@ -254,6 +254,12 @@ form {
             padding-top: 2rem;
             flex-grow: 1;
             margin-left: 2%;
+
+            Button {
+                width: 100%;
+                max-width: 16rem;
+                margin: 0 auto;
+            }
         }
     }
 
