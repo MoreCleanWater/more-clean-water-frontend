@@ -10,7 +10,6 @@ function EditForm (props) {
         data,
         status,
         variant,
-        className,
         style,
         onSubmit,
         onCancel,

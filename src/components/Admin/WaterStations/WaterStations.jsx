@@ -15,12 +15,12 @@ function WaterStations () {
     const [countyData, setCountyData] = useState();
     
     const columns = [
-        { field: 'stationId', headerName: 'ID', width: 70, },
-        { field: 'county', headerName: 'County', width: 270, },
-        { field: 'postcode', headerName: 'Post Code', width: 150,},
-        { field: 'size', headerName: 'Size', width: 100,  },
-        { field: 'capacity', headerName: 'Capacity', width: 100, },
-        { field: 'isWorking', headerName: 'Active?', width: 100, 
+        { field: 'stationId', headerName: 'ID', width: 70, cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive},
+        { field: 'county', headerName: 'County', width: 270, cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive},
+        { field: 'postcode', headerName: 'Post Code', width: 150,cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive},
+        { field: 'size', headerName: 'Size', width: 100,  cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive},
+        { field: 'capacity', headerName: 'Capacity', width: 100, cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive},
+        { field: 'isWorking', headerName: 'Active?', width: 100, cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive,
             renderCell: (params) => (
                 <div 
                     style={{height:'100%',  width: '100%', textAlign: 'center'}}
@@ -34,7 +34,7 @@ function WaterStations () {
                 </div>
             )
         },
-        { field: 'actions', headerName: 'Actions', sortable: false, width: 100, 
+        { field: 'actions', headerName: 'Actions', sortable: false, width: 100, flex:1, cellClassName: params => params.row.isWorking ? '' : adminStyle.inactive,
             renderCell: (params) => (
                 <div style={{display: 'flex', height: '100%', alignItems: 'center'}}>
                     <EditIcon

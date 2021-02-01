@@ -15,13 +15,13 @@ function Events () {
     const [countyData, setCountyData] = useState();
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70, cellClassName: row => row.isCancelled ? adminStyle.inactive : ''},
-        { field: 'title', headerName: 'Title', width: 400, cellClassName: row => row.isCancelled ? adminStyle.inactive : ''},
-        // { field: 'link', headerName: 'Link', width: 150, cellClassName: row => row.isCancelled ? adminStyle.inactive : ''},
-        // { field: 'description', headerName: 'Description', width: 150, cellClassName: row => row.isCancelled ? adminStyle.inactive : ''},
-        { field: 'eventDate', headerName: 'Event Date', width: 130, cellClassName: row => row.isCancelled ? adminStyle.inactive : ''},
+        { field: 'id', headerName: 'ID', width: 70,},
+        { field: 'title', headerName: 'Title', width: 400,},
+        // { field: 'link', headerName: 'Link', width: 150,},
+        // { field: 'description', headerName: 'Description', width: 150,},
+        { field: 'eventDate', headerName: 'Event Date', width: 130,},
         { field: 'eventTime', headerName: 'Event Time', width: 130,cellClassName: row => row.isCancelled ? adminStyle.inactive : ''}, 
-        { field: 'isCancelled', headerName: 'Active', width: 100, cellClassName: row => row.isCancelled ? adminStyle.inactive : '',
+        { field: 'isCancelled', headerName: 'Active', width: 100,
             renderCell: (params) => (
                 <div 
                     style={{height:'100%',  width: '100%'}}
@@ -155,7 +155,7 @@ function Events () {
         setStatus('loading');
         delete newData.county;
         delete newData.id;
-        newData.isCancelled = true;
+        newData.isCancelled = false;
         console.log(newData);
 
         axios
