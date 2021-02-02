@@ -9,6 +9,7 @@ import axios from "axios";
 import ViewContent from "./ViewContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import { LinearProgress } from "@material-ui/core";
 
 export default function AwarenessContent() {
   const [mode, setMode] = useState("retrieve");
@@ -190,52 +191,51 @@ export default function AwarenessContent() {
 
   return (
     <div>
-      <Grid container justify="center" className={formStyle.container}>
-        <Grid item xs={10} md={8} className={formStyle.content}>
-          <h2 className={formStyle.admin}>Content</h2>
-          <Button
-            style={{
-              float: "right",
-              display: mode === "retrieve" ? "flex" : "none",
-            }}
-            variant="contained"
-            size="small"
-            onClick={handleCreate}
-            color="primary"
-            disableElevation
-          >
-            Add
-          </Button>
-          <div
-            style={{
-              display: mode === "retrieve" ? "flex" : "none",
-              width: "100%",
-            }}
-          >
-            <ViewContent
-              postedArticle={postedArticle}
-              setEditKey={handleEdit}
-            />
-          </div>
-          <Snackbar
-            open={successMessage}
-            autoHideDuration={4000}
-            onClose={handleAlertClose}
-          >
-            <Alert onClose={handleAlertClose} severity="success">
-              {alertMessage}
-            </Alert>
-          </Snackbar>
-          <UploadContent
-            mode={mode}
-            status={status}
-            style={{ display: mode !== "retrieve" ? "flex" : "none" }}
-            data={formData}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-          />
-        </Grid>
-      </Grid>
+		<LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
+		<Snackbar
+			open={successMessage}
+			autoHideDuration={4000}
+			onClose={handleAlertClose}
+		>
+			<Alert onClose={handleAlertClose} severity="success">
+			{alertMessage}
+			</Alert>
+		</Snackbar>
+		<Grid container justify="center" className={formStyle.container}>
+			<Grid item xs={10} md={8} className={`${formStyle.content} ${formStyle.awarenessContent}`}>
+			<h2 className={`${formStyle.title} ${formStyle.admin}`}>
+					Content
+				</h2>
+				
+				<ViewContent
+					style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
+					postedArticle={postedArticle}
+					setEditKey={handleEdit}
+				>
+					<Button
+						style={{
+						display: mode === "retrieve" ? "flex" : "none",
+						}}
+						variant="contained"
+						size="small"
+						onClick={handleCreate}
+						color="primary"
+						disableElevation
+					>
+						Add
+					</Button>
+				</ViewContent>
+				
+				<UploadContent
+					mode={mode}
+					status={status}
+					style={{ display: mode !== "retrieve" ? "flex" : "none" }}
+					data={formData}
+					onSubmit={handleSubmit}
+					onCancel={handleCancel}
+				/>
+			</Grid>
+		</Grid>
     </div>
   );
 }

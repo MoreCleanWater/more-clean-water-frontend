@@ -11,13 +11,19 @@
         flex-direction: column;
         align-content: center;
         justify-content: space-between;
+        height: 100%;
+        
 
         .title {
             margin: 1.5rem 0 0;
             text-align: center;
 
             &.admin {
-                flex-grow: 1;
+                // flex-grow: 1;
+            }
+
+            h2 {
+                margin-top: 0;
             }
 
             &.profile {

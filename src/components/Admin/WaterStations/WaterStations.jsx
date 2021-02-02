@@ -227,25 +227,24 @@ function WaterStations () {
     return (
         <div>
             <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
+            <Snackbar
+                open={status==='success'}
+                autoHideDuration={3000}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                onClose={handleCloseSnackBar}
+            >
+                <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    Data successfully loaded
+                </Alert>
+            </Snackbar>
+            
             <Grid container justify="center" className={formStyle.container} >
-                <Snackbar
-                    open={status==='success'}
-                    autoHideDuration={3000}
-                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                    onClose={handleCloseSnackBar}
-                >
-                    <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
-                        Data successfully loaded
-                    </Alert>
-                </Snackbar>
-
                 <Grid item xs={10} md={8} className={formStyle.content}>
                     <h2 className={`${formStyle.title} ${formStyle.admin}`}>
                         Water Stations
                     </h2>
 
                     <ListData 
-                        className={adminStyle.dataGrid} 
                         style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
                         rows={data} 
                         columns={columns}
