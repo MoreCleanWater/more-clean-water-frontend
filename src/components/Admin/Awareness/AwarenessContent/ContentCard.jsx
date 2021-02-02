@@ -8,31 +8,18 @@ import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
-import Collapse from "@material-ui/core/Collapse";
-import clsx from "clsx";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons//MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import renderHTML from "react-render-html";
-import { Grid } from "@material-ui/core";
-import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
-import UploadContent from "./UploadContent";
 import ContentModal from "./ContentModal";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
-  // S: { backgroundColor: "red", justify: "center" },
-  // P: { backgroundColor: "orange", justify: "center" },
-  // G: { backgroundColor: "green", justify: "center" },
   actionArea: {
     padding: "5px",
     transition: "0.2s",
@@ -82,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ContentCard(props) {
-  const { article, uniquekey, handleEdit, handleDelete } = props;
+  const { article, uniquekey, handleEdit, handleDelete, mode } = props;
   const [postedArticle, setPostedArticle] = useState({});
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -141,9 +128,12 @@ export default function ContentCard(props) {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => {
-            handleClose()
-            handleEdit(uniquekey)}}>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              handleEdit(uniquekey);
+            }}
+          >
             <Typography variant="caption" color="primary">
               Edit
             </Typography>
@@ -182,17 +172,18 @@ export default function ContentCard(props) {
             ) : null}
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Link
-            component="button"
-            variant="body2"
-            style={{ marginLeft: "auto" }}
-            onClick={handleModalOpen}
-          >
-            Read More...
-          </Link>
-        </CardActions>
-
+        {mode !== "dialogue" ? (
+          <CardActions>
+            <Link
+              component="button"
+              variant="body2"
+              style={{ marginLeft: "auto" }}
+              onClick={handleModalOpen}
+            >
+              Read More...
+            </Link>
+          </CardActions>
+        ) : null}
         <ContentModal
           open={open}
           postedArticle={postedArticle}

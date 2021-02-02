@@ -6,7 +6,6 @@ import UploadContent from "./UploadContent";
 import { database } from "../../../../firebase";
 import { storage } from "../../../../firebase";
 import axios from "axios";
-import TextField from "@material-ui/core/TextField";
 import ViewContent from "./ViewContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
@@ -32,7 +31,6 @@ export default function AwarenessContent() {
     console.log("before load data");
     // to fetch list of contents
     database.on("value", (snapshot) => {
-      // const obj = JSON.parse(JSON.stringify(snapshot.val()));
       setPostedArticle(snapshot.val());
     });
 
@@ -48,14 +46,6 @@ export default function AwarenessContent() {
       .catch((error) => console.log(error));
     console.log("after load data");
   };
-
-  // // to fetch list of categories
-  // useEffect(() => {
-  //   axios
-  //     .get(process.env.REACT_APP_GET_CATEGORY_LIST_API)
-  //     .then((response) => setCategory(response.data))
-  //     .catch((error) => console.log(error));
-  // }, []);
 
   const handleCreate = (e) => {
     console.log("returned value " + e);
@@ -80,15 +70,12 @@ export default function AwarenessContent() {
     console.log("selectedFile " + selectedFile);
     console.log("title " + data.title);
     console.log("selectedCategory " + data.categoryId);
-    // console.log("selectedCategory " + selectedCategory.name);
-
     console.log("body " + data.body);
     console.log("video " + data.video);
 
     // upload new file
     const uploadImage = storage
       .ref(`/images/${selectedFile.name}`)
-      // .ref(`/images/${editArticle ? editArticle.title : title}`)
       .put(selectedFile);
     uploadImage.on(
       (error) => {
@@ -105,8 +92,6 @@ export default function AwarenessContent() {
 
             database.push({
               categoryId: data.categoryId,
-              //  categoryName: selectedCategory.name,
-              // selectedCategory: selectedCategory,
               title: data.title ? data.title : "",
               body: data.body ? data.body : "",
               image: url,
@@ -123,75 +108,6 @@ export default function AwarenessContent() {
       }
     );
   };
-  //   //remove old image
-  //   console.log("editArticle " + editArticle);
-  //   if (editArticle) {
-  //     //|| (editArticle && selectedFile.name !== editArticle.selectedFile.name)) {
-  //     storage
-  //       .refFromURL(editArticle.image)
-  //       // .ref(`/images/${editArticle.title}`)
-  //       .delete()
-  //       .then(() => console.log("file deleted successfully"));
-  //   }
-  //   //upload new file
-  //   const uploadImage = storage
-  //     .ref(`/images/${selectedFile.name}`)
-  //     // .ref(`/images/${editArticle ? editArticle.title : title}`)
-  //     .put(selectedFile);
-  //   uploadImage.on(
-  //     (error) => {
-  //       console.log(error);
-  //       setStatus("error");
-  //     },
-  //     () => {
-  //       storage
-  //         .ref("images")
-  //         .child(selectedFile.name)
-  //         .getDownloadURL()
-  //         .then((url) => {
-  //           saveArticle(url);
-  //         });
-  //     }
-  //   );
-  // };
-
-  // const saveArticle = (url) => {
-  //   //update existing
-  //   if (editArticle) {
-  //     console.log(editArticle);
-  //     database.child(`${editKey}`).set({
-  //       categoryId: selectedCategory
-  //         ? selectedCategory.id
-  //         : editArticle.selectedCategory.id,
-  //       categoryName: selectedCategory
-  //         ? selectedCategory.name
-  //         : editArticle.selectedCategory.name,
-  //       selectedCategory: selectedCategory
-  //         ? selectedCategory
-  //         : editArticle.selectedCategory,
-  //       title: title ? title : editArticle.title,
-  //       body: body ? body : editArticle.body,
-  //       image: url,
-  //       imageTitle: selectedFile.name,
-  //       video: videoUrl ? videoUrl : editArticle.video,
-  //     });
-  //   }
-  //   //create new
-  //   else {
-  //     database.push({
-  //       categoryId: selectedCategory.id,
-  //       categoryName: selectedCategory.name,
-  //       selectedCategory: selectedCategory,
-  //       title: title,
-  //       body: body,
-  //       image: url,
-  //       imageTitle: selectedFile.name,
-  //       video: videoUrl,
-  //     });
-  //   }
-  //   setAlertMessage("Content uploaded successfully");
-  //   setSuccessMessage(true);
-  //   handleReset();
 
   const handleAlertClose = (reason) => {
     if (reason === "clickaway") {
@@ -202,11 +118,6 @@ export default function AwarenessContent() {
 
   const handleReset = () => {
     setFormData([]);
-    // setSelectedCategory(null);
-    // setTitle("");
-    // setVideoUrl("");
-    // setSelectedFile(null);
-    // setBody("");
   };
 
   const handleEdit = (k) => {
@@ -216,29 +127,12 @@ export default function AwarenessContent() {
     const useref = database.child(k);
     useref.on("value", (snapshot) => {
       setFormData(snapshot.val());
-      console.log("selectedFile " + formData.selectedFile);
-      console.log("title " + formData.title);
-      console.log("selectedCategory " + formData.selectedCategory);
-      // console.log("selectedCategory id" + formData.selectedCategory.id);
-      console.log("body " + formData.body);
-      console.log("video " + formData.video);
     });
   };
 
   const update = (data, selectedFile) => {
     console.log("inside update");
-
     setStatus("loading");
-
-    console.log("selectedFile " + selectedFile);
-    console.log("title " + data.title);
-    console.log("selectedCategory " + data.categoryId);
-    // console.log("selectedCategory " + selectedCategory.name);
-
-    console.log("body " + data.body);
-    console.log("video " + data.video);
-
-    console.log("key in update " + key);
 
     if (data) {
       //remove old image if a new image is selected
@@ -281,8 +175,6 @@ export default function AwarenessContent() {
     console.log("key in update");
     database.child(`${key}`).set({
       categoryId: data.categoryId,
-      //  categoryName: selectedCategory.name,
-      // selectedCategory: selectedCategory,
       title: data.title,
       body: data.body,
       image: url ? url : data.image,
@@ -311,7 +203,6 @@ export default function AwarenessContent() {
             onClick={handleCreate}
             color="primary"
             disableElevation
-            // disabled={status === "loading" ? "disabled" : ""}
           >
             Add
           </Button>
@@ -340,8 +231,6 @@ export default function AwarenessContent() {
             status={status}
             style={{ display: mode !== "retrieve" ? "flex" : "none" }}
             data={formData}
-            // editArticle={null}
-            // editKey={null}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
           />
