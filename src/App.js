@@ -13,8 +13,8 @@ import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
 import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
-import UploadContent from "./components/Admin/Awareness/AwarenessContent/UploadContent";
-import axios from 'axios';
+import AwarenessContent from "./components/Admin/Awareness/AwarenessContent/AwarenessContent";
+import axios from "axios";
 import "./App.scss";
 import Events from "./components/Admin/Events/Events";
 
@@ -23,64 +23,67 @@ function App() {
 
   useEffect(() => {
     axios
-    .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list')
-    .then(response => {
-      if (response.data) response.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
-      setCountyData(response.data);
-    })
-    .catch(error => console.log(error))
+      .get(
+        "https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list"
+      )
+      .then((response) => {
+        if (response.data)
+          response.data.sort((a, b) => (a.county > b.county ? 1 : -1));
+        setCountyData(response.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
-  
+
   return (
     <div className="App">
       <Router>
         <Switch>
           <Route exact path="/awareness">
-            <Nav/>
-            <AwarenessList/>
+            <Nav />
+            <AwarenessList />
           </Route>
 
           <Route exact path="/signup">
-            <SignUp countyData={countyData}/>
+            <SignUp countyData={countyData} />
           </Route>
 
           <Route exact path="/signin">
-            <SignIn/>
+            <SignIn />
           </Route>
 
           <Route exact path="/profile">
-            <Nav/>
-            <Profile countyData={countyData}/>
+            <Nav />
+            <Profile countyData={countyData} />
           </Route>
 
           <Route exact path="/updates">
-            <Nav/>
-            <Updates/>
+            <Nav />
+            <Updates />
           </Route>
 
           <Route exact path="/find-water">
-            <Nav/>
-            <Map/>
+            <Nav />
+            <Map />
           </Route>
 
           <Route exact path="/admin/awareness-category">
-            <AdminNav/>
-            <AwarenessCategory/>
+            <AdminNav />
+            <AwarenessCategory />
           </Route>
 
           <Route exact path="/admin/awareness-content">
             <AdminNav />
-            <UploadContent />
+            <AwarenessContent />
           </Route>
 
           <Route exact path="/admin/users">
-            <AdminNav/>
-            <AdminUsers/>
+            <AdminNav />
+            <AdminUsers />
           </Route>
 
           <Route exact path="/admin/water-stations">
-            <AdminNav/>
-            <AdminWaterStations/>
+            <AdminNav />
+            <AdminWaterStations />
           </Route>
 
           <Route exact path="/admin/events">
@@ -89,12 +92,12 @@ function App() {
           </Route>
 
           <Route exact path="/admin">
-            <AdminNav/>
-            <Admin/>
+            <AdminNav />
+            <Admin />
           </Route>
 
           <Route path="/">
-            <LandingPage/>
+            <LandingPage />
           </Route>
         </Switch>
       </Router>
