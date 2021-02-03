@@ -1,18 +1,18 @@
-import { database } from "../../../../firebase";
+import { database } from "database/firebase";
 import { useState } from "react";
 import _ from "lodash";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
-import ContentCard from "./ContentCard";
+import ContentCard from "components/Awareness/ContentCard";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import adminStyle from 'styles/Admin.module.scss'
+import cardStyle from 'styles/Cards.module.scss'
 import { Grid } from "@material-ui/core";
 
 export default function ViewContent(props) {
-	const { postedArticle, setEditKey } = props;
-	const [category, setCategory] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState();
+	const { postedArticle, setEditKey, className } = props;
+	// const [category, setCategory] = useState([]);
+	// const [selectedCategory, setSelectedCategory] = useState();
 	const [alertMessage, setAlertMessage] = useState("");
 	const [successMessage, setSuccessMessage] = useState(false);
 
@@ -47,8 +47,8 @@ export default function ViewContent(props) {
 	};
 
 	return (
-		<div style={props.style} className={adminStyle.viewContent}>
-			<Grid container className={adminStyle.awarenessContent} spacing={4}>
+		<div style={props.style} className={`${cardStyle.viewContent} ${className}`}>
+			<Grid container className={`${cardStyle.awarenessContent} ${className}`} spacing={4}>
 				<Snackbar
 					open={successMessage}
 					autoHideDuration={4000}
@@ -74,7 +74,7 @@ export default function ViewContent(props) {
 					? _.map(postedArticle, (article, key) => getContentCard(article, key))
 					: null}
 			</Grid>
-			<div className={adminStyle.buttons}>
+			<div className={cardStyle.buttons}>
 				{props.children}
 			</div>
 		</div>

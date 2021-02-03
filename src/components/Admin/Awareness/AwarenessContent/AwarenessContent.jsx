@@ -1,12 +1,13 @@
 import formStyle from "styles/Form.module.scss";
+import cardStyle from "styles/Cards.module.scss";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useState, useEffect } from "react";
 import UploadContent from "./UploadContent";
-import { database } from "../../../../firebase";
-import { storage } from "../../../../firebase";
+import { database } from "database/firebase";
+import { storage } from "database/firebase";
 import axios from "axios";
-import ViewContent from "./ViewContent";
+import ViewContent from "components/Awareness/ViewContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { LinearProgress } from "@material-ui/core";
@@ -212,6 +213,7 @@ export default function AwarenessContent() {
 					postedArticle={postedArticle}
           setEditKey={handleEdit}
           isAdmin={true}
+          className={cardStyle.admin}
 				>
 					<Button
 						style={{

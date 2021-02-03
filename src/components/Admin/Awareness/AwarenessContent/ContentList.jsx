@@ -1,5 +1,5 @@
 import React from "react";
-import ViewContent from "./ViewContent";
+import ViewContent from "../../../Awareness/ViewContent";
 import { useState } from "react";
 
 export default function ContentList() {

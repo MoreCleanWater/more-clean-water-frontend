@@ -11,7 +11,7 @@ import Profile from "./components/Profile/Profile";
 import Map from "./components/WaterQuality/Map";
 import Nav from "./components/Nav/Nav";
 import LandingPage from "./components/LandingPage/LandingPage";
-import AwarenessList from "./components/Awareness/ViewContent/AwarenessList";
+import Awareness from "components/Awareness/Awareness";
 import AwarenessCategory from "./components/Admin/Awareness/AwarenessCategory/AwarenessCategory";
 import AwarenessContent from "./components/Admin/Awareness/AwarenessContent/AwarenessContent";
 import axios from "axios";
@@ -40,7 +40,7 @@ function App() {
         <Switch>
           <Route exact path="/awareness">
             <Nav />
-            <AwarenessList />
+            <Awareness />
           </Route>
 
           <Route exact path="/signup">

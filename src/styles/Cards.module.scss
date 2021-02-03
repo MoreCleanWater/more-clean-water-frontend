@@ -8,6 +8,39 @@
     height: 3rem;
 }
 
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.viewContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    flex-grow: 1;
+    padding: 3rem 0 2.5rem;
+    width: 100%;
+    overflow: auto;
+
+    &.admin {
+        height: 80%;
+        overflow: hidden;
+    }
+    
+    .awarenessContent {
+        display: flex;
+        height: 90%;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+
+        &.admin {
+            overflow: auto;
+        }
+    }
+}
+
 .content {
     height: 5rem;
     overflow: hidden;

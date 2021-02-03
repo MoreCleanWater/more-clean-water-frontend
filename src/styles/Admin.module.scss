@@ -14,24 +14,6 @@
     width: 100%;
 }
 
-.viewContent {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 80%;
-    flex-grow: 1;
-    padding: 1rem 0 1.5rem;
-    width: 100%;
-
-    .awarenessContent {
-        display: flex;
-        overflow: auto;
-        height: 90%;
-        flex-wrap: wrap;
-        box-sizing: border-box;
-    }
-}
-
 .textEditor {
     display: flex;
     flex-direction: column;
