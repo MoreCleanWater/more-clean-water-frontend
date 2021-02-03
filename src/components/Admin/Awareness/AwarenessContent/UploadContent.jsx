@@ -122,7 +122,7 @@ export default function UploadContent(props) {
   return (
 	<form className={formStyle.adminForm} style={style}>
 		{/* <div style={{flexGrow: 1}}> */}
-		<div className={`${formStyle.title} ${formStyle.admin}`}>
+		<div className={`${formStyle.title} ${formStyle.awareness}`}>
 			<Grid container className={formStyle.adminContent} justify="space-between" spacing={3}>
 				<Grid item xs={12}>
 					<TextField
