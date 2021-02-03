@@ -210,7 +210,8 @@ export default function AwarenessContent() {
 				<ViewContent
 					style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 
 					postedArticle={postedArticle}
-					setEditKey={handleEdit}
+          setEditKey={handleEdit}
+          isAdmin={true}
 				>
 					<Button
 						style={{

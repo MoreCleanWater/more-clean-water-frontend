@@ -7,6 +7,7 @@ import ContentCard from "./ContentCard";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import adminStyle from 'styles/Admin.module.scss'
+import { Grid } from "@material-ui/core";
 
 export default function ViewContent(props) {
 	const { postedArticle, setEditKey } = props;
@@ -40,13 +41,14 @@ export default function ViewContent(props) {
 				uniquekey={key}
 				handleEdit={handleEdit}
 				handleDelete={handleDelete}
+				isAdmin={props.isAdmin}
 			/>
 		);
 	};
 
 	return (
 		<div style={props.style} className={adminStyle.viewContent}>
-            <div className={adminStyle.awarenessContent}>
+			<Grid container className={adminStyle.awarenessContent} spacing={4}>
 				<Snackbar
 					open={successMessage}
 					autoHideDuration={4000}
@@ -71,7 +73,7 @@ export default function ViewContent(props) {
 				{postedArticle
 					? _.map(postedArticle, (article, key) => getContentCard(article, key))
 					: null}
-			</div>
+			</Grid>
 			<div className={adminStyle.buttons}>
 				{props.children}
 			</div>

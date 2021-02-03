@@ -24,8 +24,11 @@
     width: 100%;
 
     .awarenessContent {
+        display: flex;
         overflow: auto;
         height: 90%;
+        flex-wrap: wrap;
+        box-sizing: border-box;
     }
 }
 
