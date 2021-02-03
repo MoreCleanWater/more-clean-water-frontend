@@ -84,7 +84,7 @@ import { Avatar, Grid } from "@material-ui/core";
 
 	return (
 		<Grid item xs={12} sm={6} lg={4}>
-			<Card variant="outlined" className={cardStyle.root}>
+			<Card variant="outlined" className={cardStyle.root} >
 				<CardHeader className={cardStyle.header}
 					avatar={
 						<Avatar aria-label="category" className={cardStyle.avatar}>
@@ -129,7 +129,7 @@ import { Avatar, Grid } from "@material-ui/core";
 					: ''
 				}
 
-				<CardActionArea className={cardStyle.actionArea}>
+				<CardActionArea className={cardStyle.actionArea} onClick={handleModalOpen}>
 					<div className={cardStyle.mediaArea}>
 						{postedArticle.image ? (
 							<CardMedia
