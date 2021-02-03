@@ -1,3 +1,5 @@
+@import 'styles/_colors';
+
 .appBarContainer {
     display: block;
     position: fixed;
@@ -7,6 +9,22 @@
 
     .appBar {
         background-color: #fff;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+
+        h4 {
+            position: absolute;
+            left: 1.7rem;
+            color: #288FEE;
+            height: 3.5rem;
+            font-size: 1.3rem;
+            margin: 0;
+            line-height: 3.5rem;
+            font-weight: 500;
+        }
+
+        .toolBar {
+            padding-left: 1.25rem;
+        }
     }
     
     .profileMenu {
@@ -19,7 +37,8 @@
         }
 
         .profileIcon {
-            font-size: 1.7rem;
+            // font-size: 1.7rem;
+            // color: $secondary;
         }
         
 }

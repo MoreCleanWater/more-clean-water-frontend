@@ -6,9 +6,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import UserId from '../../Form/UserId';
 import "./TopMenu.scss"
-import { AppBar, IconButton, Menu, MenuItem, Snackbar, Toolbar } from '@material-ui/core';
+import { AppBar, IconButton, Menu, MenuItem, Snackbar, Toolbar, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { MenuIcon } from '@material-ui/data-grid';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 function TopMenu() {
     const [status, setStatus] = useState('idle');
@@ -61,38 +62,44 @@ function TopMenu() {
             </Snackbar>
             
             <div className="appBarContainer">
-                {/* <AppBar position="static" className='appBar'>
-                    <Toolbar>
-                        <IconButton edge="start" aria-label="menu">
-                            <MenuIcon />
-                        </IconButton> */}
+                
+                    <AppBar position="static" className='appBar'>
+                        <h4>
+                            More Clean Water
+                        </h4>
 
-                        <IconButton 
-                            aria-controls="profile-menu" 
-                            aria-haspopup="true" 
-                            component="span"
-                            className='profileMenu'
-                            onClick={e => setAnchorEl(e.currentTarget)}
-                        >
-                            <AccountCircleIcon className='profileIcon'/>
-                        </IconButton>
-                        <Menu
-                            id="profile-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            PaperProps={{style: {width: '12ch'}}}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
+                        <Toolbar className="toolBar">
+                            {/* <IconButton edge="start" aria-label="menu">
+                                <MenuIcon />
+                            </IconButton> */}
+
+                            <IconButton 
+                                aria-controls="profile-menu" 
+                                aria-haspopup="true" 
+                                component="span"
+                                className='profileMenu'
+                                onClick={e => setAnchorEl(e.currentTarget)}
                             >
-                            <MenuItem onClick={handleClose} component={Link} to={profileLink}>{UserId.value ? 'Profile' : 'Sign In'}</MenuItem>
-                            {UserId.value ? 
-                                <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-                                : ''
-                            }
-                            
-                        </Menu>
-                    {/* </Toolbar>
-                </AppBar> */}
+                                <MoreVertIcon className='profileIcon'/>
+                            </IconButton>
+                            <Menu
+                                id="profile-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                PaperProps={{style: {width: '12ch'}}}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                                >
+                                <MenuItem onClick={handleClose} component={Link} to={profileLink}>{UserId.value ? 'Profile' : 'Sign In'}</MenuItem>
+                                {UserId.value ? 
+                                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                                    : ''
+                                }
+                                
+                            </Menu>
+                        </Toolbar>
+                    </AppBar>
+                
             </div>
             <div className="top-menu">
                 <Grid container justify="space-around">
