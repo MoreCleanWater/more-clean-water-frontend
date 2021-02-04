@@ -4,23 +4,11 @@ import { Backdrop, CircularProgress } from "@material-ui/core";
 import axios from "axios";
 
 function Map() {
-  // const [samplePoint, setSamplePoint] = useState([]);
   const [shortages, setShortages] = useState([]);
   const [unsafe, setUnsafe] = useState([]);
   const [workingStations, setWorkingStations] = useState([]);
   const [notWorkingStations, setNotWorkingStations] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchLocations = async () => {
-  //     setLoading(true);
-  //     const res = await fetch(process.env.REACT_APP_SAMPLING_POINTS);
-  //     const { items } = await res.json();
-  //     setSamplePoint(items);
-  //     setLoading(false);
-  //   };
-  //   fetchLocations();
-  // }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -38,19 +26,14 @@ function Map() {
       ])
       .then(
         axios.spread((stationsList, shortagesList, unsafeList) => {
-          // console.log(stationsList);
           setWorkingStations(
             stationsList.data.filter((data) => data.isWorking === true)
           );
           setNotWorkingStations(
             stationsList.data.filter((data) => data.isWorking === false)
           );
-          // console.log("workingStations " + workingStations);
           setShortages(shortagesList.data);
           setUnsafe(unsafeList.data);
-          // console.log("Shortages list count " + shortages.length);
-          // console.log("unsafe list count " + unsafe.length);
-          // console.log("unsafe list count " + unsafe.length);
           setLoading(false);
         })
       )

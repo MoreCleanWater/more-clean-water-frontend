@@ -1,52 +1,48 @@
-import { useState } from 'react';
-import {Map, Marker,InfoWindow, GoogleApiWrapper} from 'google-maps-react';
+import { useState } from "react";
+import { Map, Marker, InfoWindow, GoogleApiWrapper } from "google-maps-react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
-} from 'react-places-autocomplete';
+} from "react-places-autocomplete";
 import workingIcon from "../../img/workingstations.png";
 import notworkingIcon from "../../img/notworkingstations.png";
 import waterShortages from "../../img/shortages.jpg";
 import dirtywaterIcon from "../../img/dirtywater.jpg";
 
-function SamplePoints({  shortages,
+function SamplePoints({
+  shortages,
   workingStations,
   notWorkingStations,
   unsafe,
-  center,
   zoom,
-  google,}) {
+  google,
+}) {
   const [address, setAddress] = useState("");
   const [mapCenter, setMapCenter] = useState({
-      lat: 51.507351,
-    lng: -0.127758});
-    // showingInfoWindow: false,
-    // activeMarker: {},
-    // selectedPlace: {},
-    const [showingInfoWindow, setShowingInfoWindow] = useState(false);
-    const [activeMarker, setActiveMarker] = useState({});
-    const [selectedPlace, setSelectedPlace] = useState({});
-  
-    let shortageMarkers = null;
-    let workingStationMarkers = null;
-    let notWorkingStationMarkers = null;
-    let unsafeMarkers = null;
+    lat: 51.507351,
+    lng: -0.127758,
+  });
+  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
+  const [activeMarker, setActiveMarker] = useState({});
+  const [selectedPlace, setSelectedPlace] = useState({});
 
-  const handleChange = location => {
+  let shortageMarkers = null;
+  let workingStationMarkers = null;
+  let notWorkingStationMarkers = null;
+  let unsafeMarkers = null;
+
+  const handleChange = (location) => {
     setAddress(location);
   };
- 
-  const handleSelect = location => {
+
+  const handleSelect = (location) => {
     setAddress(location);
     geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => {
-        console.log('Success', latLng);
-
-        // update center state
+      .then((results) => getLatLng(results[0]))
+      .then((latLng) => {
         setMapCenter(latLng);
       })
-      .catch(error => console.error('Error', error));
+      .catch((error) => console.error("Error", error));
   };
 
   const getWaterShortages = () => {
@@ -63,7 +59,6 @@ function SamplePoints({  shortages,
             scaledSize: new google.maps.Size(20, 20),
           }}
           onClick={(props, marker) => {
-            // console.log("watershortages props on click " + props);
             setSelectedPlace(props);
             setActiveMarker(marker);
             setShowingInfoWindow(!showingInfoWindow);
@@ -148,7 +143,6 @@ function SamplePoints({  shortages,
     });
   };
 
-
   if (shortages != null) {
     getWaterShortages();
   }
@@ -162,79 +156,67 @@ function SamplePoints({  shortages,
     getUnsafeList();
   }
 
- 
-   return (
-      <div id='googleMaps'>
-        <PlacesAutocomplete
-          value={address}
-          onChange={handleChange}
-          onSelect={handleSelect}
-        >
-          {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-            <div>
-              <input
-                {...getInputProps({
-                  placeholder: 'Search Places ...',
-                  className: 'location-search-input',
-                })}
-              />
-              <div className="autocomplete-dropdown-container">
-                {loading && <div>Loading...</div>}
-                {suggestions.map(suggestion => {
-                  const className = suggestion.active
-                    ? 'suggestion-item--active'
-                    : 'suggestion-item';
-                  // inline style for demonstration purpose
-                  const style = suggestion.active
-                    ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                    : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                  return (
-                    <div
-                      {...getSuggestionItemProps(suggestion, {
-                        className,
-                        style,
-                      })}
-                    >
-                      <span>{suggestion.description}</span>
-                    </div>
-                  );
-                })}
-              </div>
+  return (
+    <div id="googleMaps" style={{ marginTop: "80px" }}>
+      <PlacesAutocomplete
+        value={address}
+        onChange={handleChange}
+        onSelect={handleSelect}
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: "Search Places ...",
+                className: "location-search-input",
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {loading && <div>Loading...</div>}
+              {suggestions.map((suggestion) => {
+                const className = suggestion.active
+                  ? "suggestion-item--active"
+                  : "suggestion-item";
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                  : { backgroundColor: "#ffffff", cursor: "pointer" };
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </PlacesAutocomplete>
+          </div>
+        )}
+      </PlacesAutocomplete>
 
-        <Map
+      <Map
         disableDefaultUI={true}
         google={google}
         initialCenter={{
           lat: mapCenter.lat,
-          lng: mapCenter.lng
+          lng: mapCenter.lng,
         }}
         center={{
           lat: mapCenter.lat,
-          lng: mapCenter.lng
+          lng: mapCenter.lng,
         }}
-         zoom={zoom}
+        zoom={zoom}
         onClick={() => {
           setShowingInfoWindow(false);
         }}
-       
       >
         {shortageMarkers}
         {workingStationMarkers}
         {notWorkingStationMarkers}
         {unsafeMarkers}
-        {/* <Marker
-          name={"Your position"}
-          position={{ lat: 51.389637, lng: 0.08195 }}
-          icon={{
-            url: waterStations,
-            anchor: new google.maps.Point(32, 32),
-            scaledSize: new google.maps.Size(40, 40),
-          }}
-        /> */}
-
         {activeMarker ? (
           <InfoWindow visible={showingInfoWindow} marker={activeMarker}>
             <div>
@@ -254,19 +236,13 @@ function SamplePoints({  shortages,
           </InfoWindow>
         ) : null}
       </Map>
-      </div>
-    )
-  }
-
-
+    </div>
+  );
+}
 
 SamplePoints.defaultProps = {
-  // center: {
-  //   lat: 51.507351,
-  //   lng: -0.127758,
-  // },
-  zoom: 7,
+  zoom: 9,
 };
 export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_APIKEY
-})(SamplePoints)
+  apiKey: process.env.REACT_APP_GOOGLE_APIKEY,
+})(SamplePoints);
