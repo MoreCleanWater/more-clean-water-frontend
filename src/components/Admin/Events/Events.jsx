@@ -226,14 +226,14 @@ function Events () {
     return (
         <div>
             <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
-            <Grid container justify="center" className={formStyle.container} >
+            <Grid container justify="center"  className={`${formStyle.container} ${formStyle.admin}`}>
                 <Snackbar
                     open={status==='success'}
                     autoHideDuration={3000}
                     anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                     onClose={handleCloseSnackBar}
                 >
-                    <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    <Alert onClose={handleCloseSnackBar} severity="success" >
                         Data successfully loaded
                     </Alert>
                 </Snackbar>

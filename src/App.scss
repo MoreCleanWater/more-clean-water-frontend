@@ -3,14 +3,14 @@
 // set basic styling
 body {
     margin: 0;
-    background-color: rgba(255, 254, 244, 1) 45%;
-    color: #606060;
+    background-color: #e9e9e9;
+    color: $text;
     font-family: 'IBM Plex Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, #B7E8EB 130%);
+    // 
 }
-  
+
 a {
   color: #606060;
   display: block;
@@ -33,7 +33,7 @@ li {
 
 
 h1, h2, h3 {
-  color: $text;
+  color: $header;
 }
 
 .active > * {
@@ -54,6 +54,10 @@ h1, h2, h3 {
 
 .MuiFormControlLabel-label {
   // padding-top: 3px;
+}
+
+.MuiOutlinedInput-input {
+  border-color: $primary!important;
 }
 
 .MuiFormHelperText-root {
@@ -156,9 +160,35 @@ h1, h2, h3 {
   z-index: 99;
   position: fixed !important;
   width: 100%;
+  top: 0;
+  left: 0;
 }
 
 
-.MuiBackdrop-root {
-  // background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, #B7E8EB 130%) !important; 
+button.MuiButton-contained {
+  background-color: $primary!important;
+  color: #fff!important;
+}
+
+.MuiButton-outlinedPrimary {
+  border-color: $primary!important;
+  color: $secondary!important;
+}
+.MuiOutlinedInput-notchedOutline {
+  border-color: $primary!important;
+}
+.MuiInputLabel-outlined {
+  color: $secondary!important;
+}
+
+.MuiLinearProgress-barColorPrimary {
+  background-color: $primary!important;
+}
+
+.MuiButton-textPrimary {
+  color: $primary!important;
+}
+
+.MuiCheckbox-colorPrimary {
+  color: $primary!important;
 }

@@ -56,7 +56,7 @@ function TopMenu() {
                 anchorOrigin={{vertical: 'top', horizontal: 'center'}} 
                 onClose={handleCloseSnackBar}
             >
-                <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                <Alert onClose={handleCloseSnackBar} severity="success" >
                     User logged in successfully
                 </Alert>
             </Snackbar>

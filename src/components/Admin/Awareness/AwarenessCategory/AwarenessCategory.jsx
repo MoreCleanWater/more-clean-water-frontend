@@ -142,7 +142,7 @@ export default function AwarenessCategory() {
         </Alert>
       </Snackbar>
         
-      <Grid container  justify="center" className={formStyle.container}>
+      <Grid container  justify="center" className={`${formStyle.container} ${formStyle.admin}`}>
         <Grid item xs={10} md={8} className={formStyle.content}>
           <form className={formStyle.adminForm} >
             <div className={`${formStyle.title} ${formStyle.admin}`}>

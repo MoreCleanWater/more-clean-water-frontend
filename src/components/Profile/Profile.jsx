@@ -17,8 +17,6 @@ import { OutlinedInput } from '@material-ui/core';
 
 
 function Profile({countyData}) {
-    
-
     const [formData, setFormData] = useState();
 
     const [status, setStatus] = useState('idle');
@@ -155,7 +153,7 @@ function Profile({countyData}) {
             <CircularProgress color="inherit" />
         </Backdrop>
     )
-    
+    console.log(status)
     return (
         <Grid 
             justify="center"
@@ -209,7 +207,7 @@ function Profile({countyData}) {
             
             <Grid 
                 item 
-                xs={10}
+                xs={11}
                 md={8}
                 className={`${formStyle.content} ${status!=='error' ? '' : 'hidden'}`}
             >
@@ -219,7 +217,7 @@ function Profile({countyData}) {
                     anchorOrigin={{vertical: 'top', horizontal: 'center'}} 
                     onClose={handleCloseSnackBar}
                 >
-                    <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                    <Alert onClose={handleCloseSnackBar} severity="success" >
                         {status === 'success' ? 'Profile updated successfully!' : 'Profile deleted successfully.'}
                     </Alert>
                 </Snackbar>

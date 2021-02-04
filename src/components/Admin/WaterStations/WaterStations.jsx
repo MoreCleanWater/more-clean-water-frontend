@@ -233,12 +233,12 @@ function WaterStations () {
                 anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                 onClose={handleCloseSnackBar}
             >
-                <Alert onClose={handleCloseSnackBar} severity="success" variant="filled">
+                <Alert onClose={handleCloseSnackBar} severity="success" >
                     Data successfully loaded
                 </Alert>
             </Snackbar>
             
-            <Grid container justify="center" className={formStyle.container} >
+            <Grid container justify="center" className={`${formStyle.container} ${formStyle.admin}`}>
                 <Grid item xs={10} md={8} className={formStyle.content}>
                     <h2 className={`${formStyle.title} ${formStyle.admin}`}>
                         Water Stations

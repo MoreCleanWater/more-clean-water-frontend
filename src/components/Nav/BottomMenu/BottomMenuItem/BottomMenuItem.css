@@ -14,7 +14,7 @@ li.bottom-menu-item {
     }
 
     li.bottom-menu-item .bottom-menu-item__title {
-        font-size: 12px;
-        font-weight: 300;
+        font-size: .8rem;
+        font-weight: 400;
         position: relative;
     }

@@ -164,7 +164,7 @@ function SignUp({countyData}) {
             </Grid>
             
             <Grid 
-                item xs={10}
+                item xs={11}
                 md={5}
                 className={formStyle.content}
             >

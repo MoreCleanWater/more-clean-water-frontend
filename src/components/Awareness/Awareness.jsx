@@ -50,7 +50,7 @@ export default function AwarenessContent() {
      */}
 
 		<Grid container justify="center" className={cardStyle.container}>
-			<Grid item xs={10} md={8}>
+			<Grid item xs={11} md={8}>
 			 
 				<ViewContent
 					// style={{display: mode === 'retrieve' ? 'flex' : 'none'}} 

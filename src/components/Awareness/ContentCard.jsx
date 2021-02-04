@@ -115,13 +115,13 @@ import { Avatar, Grid } from "@material-ui/core";
 								handleEdit(uniquekey);
 							}}
 						>
-							<Typography variant="caption" color="primary">
+							<Typography variant="caption">
 								Edit
 							</Typography>
 						</MenuItem>
 
 						<MenuItem onClick={handleDeleteOpen}>
-							<Typography variant="caption" color="primary">
+							<Typography variant="caption">
 								Delete
 							</Typography>
 						</MenuItem>
@@ -154,7 +154,7 @@ import { Avatar, Grid } from "@material-ui/core";
 						{postedArticle.body ? (
 						<div
 							dangerouslySetInnerHTML={{
-								__html: postedArticle.body.substr(0, 340),
+								__html: postedArticle.body.substr(0, 125)  + ' ...',
 							}}
 						></div>
 						) : null}

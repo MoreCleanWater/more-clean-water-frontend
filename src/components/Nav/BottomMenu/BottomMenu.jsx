@@ -1,4 +1,4 @@
-import './BottomMenu.css';
+import './BottomMenu.scss';
 
 function BottomMenu({children}) {
   return (

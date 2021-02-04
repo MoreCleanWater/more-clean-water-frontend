@@ -4,7 +4,11 @@
     min-height: 100vh;
     text-align: center;
     color: $text;
+    background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, rgba(183, 233, 235, 1) 130%);
 
+    h1, h2, h3 {
+        color: $lpheader;
+    }
     .ocean-wrapper {
         width: 100vw;
         height: 100vh;

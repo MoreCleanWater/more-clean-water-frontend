@@ -9,7 +9,7 @@ function Updates() {
       justify="center"
       className="updates fullHeight"
     >
-      <Grid item xs={10}>
+      <Grid item xs={11}>
         <UpdatesList />
       </Grid>
     </Grid>

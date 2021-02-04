@@ -2,12 +2,48 @@
 
 .root {
     // width: 100%;
-    box-shadow: 0 0 .7rem rgba(0, 0, 0, .1);
-    border-radius: .4rem;
+    box-shadow: 0 2px .2rem rgba(0, 0, 0, .1);
+    border-radius: .5rem!important;
 }
+
+
+
+.updateRoot {
+    min-width: 275;
+    margin-top: 2rem;
+    border-radius: .5rem;
+    // box-shadow: 0 0 .7rem rgba(0, 0, 0, .15);
+    background-color: #fff;
+    padding: .5rem .7rem 0 .7rem;
+}
+
+.updateTitle {
+    font-size: 1.2rem!important;
+    color: $secondary!important;
+    font-weight: 500!important;
+}
+
+.updateDescription {
+    font-size: 1rem;
+    margin-bottom: .8rem!important;
+    font-weight: 300!important;
+}
+
+
 
 .header {
     height: 3rem;
+    color: $secondary!important;
+    padding: 1rem 1rem!important;
+    // padding-right: 1rem;
+
+    span {
+        line-height: 1.2;
+        font-weight: 400!important;
+        font-size: 1.1rem!important;
+        
+    }
+
 }
 
 .container {
@@ -15,6 +51,43 @@
     height: 100vh;
     width: 100%;
 }
+
+.content {
+    height: 3.8rem;
+    overflow: hidden;
+    
+  
+    strong {
+        font-weight: 300!important;
+        color: #606060!important;
+    }
+    h1,h2,h3,h4,h5,h6 {
+        margin: 0;
+        font-size: 0;
+    }
+    p {
+        margin: 0;
+        font-size: .95rem!important;
+        font-weight: 300!important;
+        line-height: 1.6!important;
+        color: #606060!important;
+    }
+}
+
+div.mediaArea {
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 */
+    position: relative;
+    
+    :last-child {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; 
+        height: 100%;
+        border:0;
+    }
+}
+
 
 .viewContent {
     display: flex;
@@ -44,28 +117,10 @@
         box-sizing: border-box;
         padding: 0 .5rem;
 
+
         &.admin {
             overflow: auto;
         }
-    }
-}
-
-.content {
-    height: 5rem;
-    overflow: hidden;
-}
-
-div.mediaArea {
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 */
-    position: relative;
-    
-    :last-child {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; 
-        height: 100%;
-        border:0;
     }
 }
 
@@ -89,6 +144,19 @@ div.mediaArea {
         .text {
             padding: 1rem;
             flex-grow: 1;
+            h1,h2,h3,h4,h5,h5 {
+                margin: 0 0 .5rem 0;
+                color: $secondary!important;
+            }
+
+            strong {
+                font-weight: 400;
+            }
+
+            p {
+                line-height: 1.5;
+                font-size: 1.1rem;
+            }
         }
     }
 
