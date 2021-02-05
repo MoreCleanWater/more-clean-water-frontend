@@ -48,7 +48,7 @@ export default function ViewContent(props) {
 
 	return (
 		<div style={props.style} className={`${cardStyle.viewContent} ${className}`}>
-			<Grid container className={`${cardStyle.awarenessContent} ${className}`} spacing={4}>
+			<Grid container className={`${cardStyle.awarenessContent} ${className}`} spacing={3}>
 				<Snackbar
 					open={successMessage}
 					autoHideDuration={4000}

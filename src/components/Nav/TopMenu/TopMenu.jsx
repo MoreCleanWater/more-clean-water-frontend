@@ -14,7 +14,7 @@ function TopMenu() {
 
     const [profileLink, setProfileLink] = useState('/signin');
 
-    const [userId, setUserId] = useState(localStorage.getItem('userId'));
+    const [userId] = useState(localStorage.getItem('userId'));
     
     useEffect(() => {
         console.log(userId)

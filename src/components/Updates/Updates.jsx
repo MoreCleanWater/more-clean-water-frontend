@@ -1,6 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import UpdatesList from './UpdatesList/UpdatesList';
-import './Updates.css';
+import './Updates.scss';
 
 function Updates() {
   return (
@@ -9,7 +9,7 @@ function Updates() {
       justify="center"
       className="updates fullHeight"
     >
-      <Grid item xs={11}>
+      <Grid item xs={12}>
         <UpdatesList />
       </Grid>
     </Grid>

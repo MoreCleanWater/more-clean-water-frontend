@@ -20,9 +20,9 @@ function Profile() {
 
     const [status, setStatus] = useState('idle');
 
-    const [userId, setUserId] = useState(localStorage.getItem('userId'));
+    const [userId] = useState(localStorage.getItem('userId'));
 
-    const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
+    const [countyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
 	const inputItems = [
         {label: 'Email', name: 'email', required: true, component: TextField},
@@ -41,12 +41,17 @@ function Profile() {
         axios
         .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + userId)
         .then(response => {
-            let newData = {};
-            inputItems.map(i => i.name).forEach(i => newData[i] = response.data[0][i]);
-            newData.isSubscriber = response.data[0].isSubscriber;
-            // newData.isActive = response.data[0].isActive;
-            setFormData(newData);
-            setStatus('idle');
+            if (response.data) {
+                let newData = {};
+                inputItems.map(i => i.name).forEach(i => newData[i] = response.data[0][i]);
+                newData.isSubscriber = response.data[0].isSubscriber;
+                // newData.isActive = response.data[0].isActive;
+                setFormData(newData);
+                setStatus('idle');
+            } else {
+                console.log(response.data);
+                setStatus('error');
+            }
         })
         .catch(error => {
             setStatus('error');

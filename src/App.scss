@@ -163,7 +163,8 @@ h1, h2, h3 {
 }
 
 
-button.MuiButton-contained {
+button.MuiButton-contained,
+.MuiButton-containedPrimary {
   background-color: $primary!important;
   color: #fff!important;
 }

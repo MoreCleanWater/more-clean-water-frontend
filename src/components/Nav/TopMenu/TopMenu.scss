@@ -150,6 +150,7 @@
                 padding: 30px 25px;
                 
                 @media screen and (min-width: 960px) {
+                    filter: none;
                     border-bottom: 1px solid #e5e5e5;
                     filter: none;
                     margin-bottom: 0;

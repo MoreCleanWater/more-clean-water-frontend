@@ -12,7 +12,7 @@
 
 .root {
     // width: 100%;
-    box-shadow: 0 2px .2rem #0000001a;
+    box-shadow: 0 2px .2rem rgba(0, 0, 0, .15)!important;
     border-radius: .5rem!important;
     
     button {
@@ -27,9 +27,9 @@
 
 .updateRoot {
     min-width: 275;
-    margin-top: 2rem;
+    margin-top: 1.2rem;
     border-radius: .5rem;
-    // box-shadow: 0 0 .7rem rgba(0, 0, 0, .15);
+    box-shadow: 0 2px .2rem rgba(0, 0, 0, .15)!important;
     background-color: #fff;
     padding: .5rem .7rem 0 .7rem;
 

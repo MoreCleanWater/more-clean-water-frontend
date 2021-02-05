@@ -70,18 +70,6 @@ import { Avatar, Grid } from "@material-ui/core";
 		setDeleteOpen(false);
 	};
 
-// 	0: "body"
-// ​
-// 1: "categoryId"
-// ​
-// 2: "image"
-// ​
-// 3: "imageTitle"
-// ​
-// 4: "title"
-// ​
-// 5: "video"
-
 	return (
 		<Grid item xs={12} sm={6} lg={4}>
 			<Card variant="outlined" className={cardStyle.root} >

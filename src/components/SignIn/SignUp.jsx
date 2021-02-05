@@ -16,7 +16,7 @@ import Ocean from 'components/Ocean/Ocean';
 
 function SignUp() {
 
-    const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
+    const [countyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
     
 

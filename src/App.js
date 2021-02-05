@@ -2,7 +2,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SignUp from "./components/SignIn/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-import Updates from "./components/Updates/Updates";
+import UpdatesList from "./components/Updates/Updates";
 import Admin from "./components/Admin/Admin";
 import AdminUsers from "./components/Admin/Users/Users";
 import AdminWaterStations from "./components/Admin/WaterStations/WaterStations";
@@ -63,7 +63,7 @@ function App() {
 
           <Route exact path="/updates">
             <Nav />
-            <Updates />
+            <UpdatesList />
           </Route>
 
           <Route exact path="/find-water">
