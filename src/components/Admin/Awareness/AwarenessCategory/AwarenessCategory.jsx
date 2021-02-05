@@ -10,8 +10,11 @@ import adminStyle from "styles/Admin.module.scss";
 import formStyle from "styles/Form.module.scss";
 import { Backdrop, CircularProgress } from "@material-ui/core";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 export default function AwarenessCategory() {
+  const [adminId] = useState(localStorage.getItem('adminId'));
+
   const [descText, setDescText] = useState("");
   const [catText, setCatText] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -113,6 +116,7 @@ export default function AwarenessCategory() {
   if (typeof category !== "undefined" && category.length > 0)
     rows = category.map((item) => (rows[item] = item));
 
+  if (!adminId) return <Redirect to="/admin"/>
 
   if (category.length===0) 
         return (
@@ -120,7 +124,7 @@ export default function AwarenessCategory() {
                 <CircularProgress color="inherit" />
             </Backdrop>
         )
-
+  
   return (
     <div>
       <Snackbar

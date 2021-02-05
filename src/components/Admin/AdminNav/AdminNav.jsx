@@ -5,12 +5,15 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { NavLink  } from 'react-router-dom';
+import { NavLink, Redirect  } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import css from "styles/Admin.module.scss";
+import { useState } from 'react';
 
 function AdminNav() {
   const [isOpen, setOpen] = React.useState(false);
+
+  const [status, setStatus] = useState('idle');
 
   const toggleDrawer = (isOpen) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -18,6 +21,13 @@ function AdminNav() {
     }
     setOpen(isOpen);
   };
+
+  const handleLogOut = (e) => {
+    localStorage.removeItem('adminId');
+    setStatus('logout');
+}
+
+if (status === 'logout') return <Redirect to="/admin"/>
 
   return (
     <React.Fragment key='left'>
@@ -65,7 +75,11 @@ function AdminNav() {
                     <ListItem button component={NavLink} to="/admin/events">
                         <ListItemText primary="Events"/>
                     </ListItem>
+
                 <Divider />
+                    <ListItem button onClick={handleLogOut}>
+                        <ListItemText primary="Logout"/>
+                    </ListItem>
                 </List>
             </div>
         </SwipeableDrawer>

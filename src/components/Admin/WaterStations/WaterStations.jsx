@@ -10,8 +10,11 @@ import CheckBox from 'components/Form/CheckBox';
 import EditIcon from "@material-ui/icons/Edit";
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
+import { Redirect } from "react-router-dom";
 
 function WaterStations () {
+    const [adminId] = useState(localStorage.getItem('adminId'));
+    
     const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
     
     const columns = [
@@ -230,6 +233,8 @@ function WaterStations () {
         if (reason === 'clickaway') return;
         setStatus('idle');
     };
+
+    if (!adminId) return <Redirect to="/admin"/>
     
     if (!data) 
         return (

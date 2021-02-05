@@ -9,8 +9,11 @@ import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from '@material-ui/icons/Cancel';
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
+import { Redirect } from "react-router-dom";
 
 function Events () {
+    const [adminId] = useState(localStorage.getItem('adminId'));
+
     const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
     const columns = [
@@ -227,6 +230,8 @@ function Events () {
         if (reason === 'clickaway') return;
         setStatus('idle');
     };
+
+    if (!adminId) return <Redirect to="/admin"/>
     
     if (!data) 
         return (

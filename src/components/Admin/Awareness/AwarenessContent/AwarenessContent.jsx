@@ -11,8 +11,11 @@ import ViewContent from "components/Awareness/ViewContent";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { LinearProgress } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 
 export default function AwarenessContent() {
+  const [adminId] = useState(localStorage.getItem('adminId'));
+  
   const [mode, setMode] = useState("retrieve");
   const [status, setStatus] = useState("idle");
   const [formData, setFormData] = useState([]);
@@ -189,6 +192,8 @@ export default function AwarenessContent() {
     handleReset();
     loadData();
   };
+
+  if (!adminId) return <Redirect to="/admin"/>
 
   return (
     <div>

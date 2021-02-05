@@ -5,8 +5,11 @@ import formStyle from "styles/Form.module.scss";
 import ListData from "../ListData";
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
+import { Redirect } from "react-router-dom";
 
 function Users () {
+    const [adminId] = useState(localStorage.getItem('adminId'));
+
     const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
     
     const columns = [
@@ -70,6 +73,8 @@ function Users () {
         if (reason === 'clickaway') return;
         setStatus('idle');
     };
+
+    if (!adminId) return <Redirect to="/admin"/>
 
     if (!data) 
         return (
