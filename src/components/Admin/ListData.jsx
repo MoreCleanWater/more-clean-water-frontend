@@ -6,14 +6,13 @@ import adminStyle from "styles/Admin.module.scss";
 function ListData (props) {
 
     const {
-        className,
         style
     } = props;
 
     
 
     return (
-        <div style={style} className={className}>
+        <div style={style} className={adminStyle.dataGrid}>
             <div className={adminStyle.content}>
                 <DataGrid 
                     {...props}

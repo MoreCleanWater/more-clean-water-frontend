@@ -11,17 +11,27 @@
         flex-direction: column;
         align-content: center;
         justify-content: space-between;
+        height: 100%;
+        
 
         .title {
             margin: 1.5rem 0 0;
             text-align: center;
 
             &.admin {
-                flex-grow: 1;
+                // flex-grow: 1;
+            }
+
+            h2 {
+                margin-top: 0;
             }
 
             &.profile {
                 margin: 2.5rem 0 0;
+            }
+
+            &.awareness {
+                margin: 0 0 1rem;
             }
 
             @media screen and (min-width:769px) {
@@ -29,7 +39,7 @@
 
                 &.admin {
                     margin: 2rem 0 1rem;
-                    text-align: center;
+                    // text-align: center;
                 }
 
                 &.profile {
@@ -103,7 +113,7 @@ form {
     
     &.adminForm {
         margin: 0;
-        padding-top: 2rem;
+        padding: 2rem 0;
 
             @media screen and (min-width:769px) {
                 padding: 0 0rem 1.5rem;

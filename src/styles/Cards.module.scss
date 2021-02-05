@@ -1,0 +1,116 @@
+@import 'styles/_colors';
+
+.root {
+    // width: 100%;
+    box-shadow: 0 0 .7rem rgba(0, 0, 0, .1);
+    border-radius: .4rem;
+}
+
+.header {
+    height: 3rem;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.viewContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    flex-grow: 1;
+    padding: 3rem 0 2.5rem;
+    width: 100%;
+    overflow: auto;
+    
+
+    @media screen and (min-width:961px) {
+        padding: 8rem 0 2.5rem;
+    }
+
+    &.admin {
+        padding: 3rem 0 2.5rem;
+        height: 80%;
+        overflow: hidden;
+    }
+    
+    .awarenessContent {
+        display: flex;
+        height: 90%;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        padding: 0 .5rem;
+
+        &.admin {
+            overflow: auto;
+        }
+    }
+}
+
+.content {
+    height: 5rem;
+    overflow: hidden;
+}
+
+div.mediaArea {
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 */
+    position: relative;
+    
+    :last-child {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; 
+        height: 100%;
+        border:0;
+    }
+}
+
+        
+.containerModal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    display: block;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    background: none;
+    background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, #B7E8EB 130%);
+
+    .contentModal {
+        background-color: #fff;
+        box-shadow: 0 0 1rem rgb(0,0,0,.1);
+
+        .text {
+            padding: 1rem;
+            flex-grow: 1;
+        }
+    }
+
+    .backButton {
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+        border-radius: 50%;
+        background-color: $primary!important;
+        color: #fff;
+        // box-shadow: 2px 2px 5px rgba(0,0,0,.4);
+        
+        :first-child {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        @media screen and (min-width:961px) {
+            right: initial;
+            bottom: initial;
+            left: 1.5rem;
+            top: 1.5rem;
+        }
+    }
+}
