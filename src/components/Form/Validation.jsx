@@ -17,13 +17,19 @@ const Validation = {
         
         if (data.confirmPassword && data.password !== '' && data.confirmPassword !== '') {
             if (data.password !== data.confirmPassword) {
-                newErrors.password = 'Ops Passwords don\'t match';
-                newErrors.confirmPassword = 'Ops Passwords don\'t match';
+                newErrors.password = 'Ops, passwords don\'t match';
+                newErrors.confirmPassword = 'Ops, passwords don\'t match';
                 isValidated = false;
             } else {
                 newErrors.password = '';
                 newErrors.confirmPassword = '';
             }
+        }
+        if (!/\S+@\S+\.\S+/.test(data.email)) {
+            newErrors.email = 'Ops, invalid email detected';
+            isValidated = false;
+        } else {
+            newErrors.email = '';
         }
         
         this.errors = {...this.errors, ...newErrors};
