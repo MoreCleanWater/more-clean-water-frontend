@@ -60,7 +60,7 @@ function Users () {
         if (!countyList) countyList = countyData;
         const loadedData = data.map(i => ({
             ...i, 
-            id: String(i.stationId), 
+            id: String(i.userId), 
             county: i.countyId && countyList.find(c => i.countyId === c.countyId).county
         }));
         setData(loadedData);

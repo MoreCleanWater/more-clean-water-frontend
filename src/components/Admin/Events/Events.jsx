@@ -5,6 +5,8 @@ import formStyle from "styles/Form.module.scss";
 import EditForm from "components/Admin/EditForm";
 import ListData from "components/Admin/ListData";
 import TextField from 'components/Form/TextField';
+import DatePicker from 'components/Form/DatePicker';
+import TimePicker from 'components/Form/TimePicker';
 import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from '@material-ui/icons/Cancel';
 import axios from 'axios';
@@ -52,8 +54,8 @@ function Events () {
 
     const inputItems = [
         {label: 'Title', name: 'title', required: true, component: TextField, order: 2},
-        {label: 'Date', name: 'eventDate', required: true, component: TextField, options: {className: `${formStyle.formInput} ${formStyle.col2}`}, order: 4},
-        {label: 'Time', name: 'eventTime', required: true, component: TextField, options: {className: `${formStyle.formInput} ${formStyle.col2}`}, order: 5},
+        {label: 'Date', name: 'eventDate', required: true, component: DatePicker, options: {className: `${formStyle.formInput} ${formStyle.col2}`}, order: 4},
+        {label: 'Time', name: 'eventTime', required: true, component: TimePicker, options: {className: `${formStyle.formInput} ${formStyle.col2}`}, order: 5},
         {label: 'Link', name: 'link', required: true, component: TextField, order: 1},
         {label: 'Description', name: 'description', required: true, component: TextField, options: {multiline: true, rows: 4}, order: 3},
     ];
@@ -112,11 +114,14 @@ function Events () {
         if (!countyList) countyList = countyData;
         const loadedData = data.map(i => ({
             ...i, 
-            id: String(i.stationId), 
+            id: String(i.eventId), 
             county: i.countyId && countyList.find(c => i.countyId === c.countyId).county
         }));
+        console.log(loadedData)
         setData(loadedData);
+        setMode('retrieve');
         setStatus('success');
+        setFormData(newData);
     }
 
     const handleCreate = e => {
@@ -201,7 +206,7 @@ function Events () {
         setStatus('loading');
         delete updatedData.county;
         delete updatedData.id;
-        console.log(updatedData);
+        console.log(updatedData.eventId,updatedData);
 
         axios
         .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/events/edit/' + updatedData.eventId, updatedData)

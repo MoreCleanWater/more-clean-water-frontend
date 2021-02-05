@@ -2,14 +2,12 @@ import {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import formStyle from 'styles/Form.module.scss';
-import axios from 'axios';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
-import { Redirect, NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Validation from '../Form/Validation';
 import { LinearProgress } from '@material-ui/core';
 import 'components/LandingPage/LandingPage.scss'
-import Ocean from 'components/Ocean/Ocean';
 
 function Admin() {
     
@@ -40,6 +38,7 @@ function Admin() {
     }
 
     const submitData = () => {
+        console.log(formData)
         setStatus('loading');
         if (formData.userName==="admin"&&formData.password==='admin1234') {
             localStorage.setItem('adminId', 1);

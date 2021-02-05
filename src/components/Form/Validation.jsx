@@ -25,7 +25,7 @@ const Validation = {
                 newErrors.confirmPassword = '';
             }
         }
-        if (!/\S+@\S+\.\S+/.test(data.email)) {
+        if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
             newErrors.email = 'Ops, invalid email detected';
             isValidated = false;
         } else {
