@@ -14,7 +14,11 @@ import Validation from '../Form/Validation';
 import { LinearProgress } from '@material-ui/core';
 import Ocean from 'components/Ocean/Ocean';
 
-function SignUp({countyData}) {
+function SignUp() {
+
+    const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
+
+    
 
     const [formData, setFormData] = useState({
         userName: "",

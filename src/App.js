@@ -19,20 +19,25 @@ import "./App.scss";
 import Events from "./components/Admin/Events/Events";
 
 function App() {
-  const [countyData, setCountyData] = useState();
+
+  const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
   useEffect(() => {
+    // console.log(countyData)
+    if (countyData) return;
     axios
-      .get(
-        "https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list"
-      )
+      .get("https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list")
       .then((response) => {
-        if (response.data)
+        if (response.data) {
           response.data.sort((a, b) => (a.county > b.county ? 1 : -1));
-          setCountyData(response.data);
+          localStorage.setItem('countyList', JSON.stringify(response.data));
+          // console.log(response.data)
+          setCountyData(JSON.parse(localStorage.getItem('countyList')));
+        }
+          
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [countyData]);
 
   return (
     <div className="App">
@@ -44,7 +49,7 @@ function App() {
           </Route>
 
           <Route exact path="/signup">
-            <SignUp countyData={countyData} />
+            <SignUp />
           </Route>
 
           <Route exact path="/signin">
@@ -53,7 +58,7 @@ function App() {
 
           <Route exact path="/profile">
             <Nav />
-            <Profile countyData={countyData} />
+            <Profile />
           </Route>
 
           <Route exact path="/updates">

@@ -15,12 +15,14 @@ import CheckBox from 'components/Form/CheckBox';
 import { OutlinedInput } from '@material-ui/core';
 
 
-function Profile({countyData}) {
+function Profile() {
     const [formData, setFormData] = useState();
 
     const [status, setStatus] = useState('idle');
 
     const [userId, setUserId] = useState(localStorage.getItem('userId'));
+
+    const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
 	const inputItems = [
         {label: 'Email', name: 'email', required: true, component: TextField},
