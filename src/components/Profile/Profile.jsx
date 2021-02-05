@@ -6,7 +6,6 @@ import axios from 'axios';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import ComboBox from '../Form/ComboBox';
-import UserId from '../Form/UserId'
 import { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Backdrop, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, Snackbar } from '@material-ui/core';
@@ -20,6 +19,8 @@ function Profile({countyData}) {
     const [formData, setFormData] = useState();
 
     const [status, setStatus] = useState('idle');
+
+    const [userId, setUserId] = useState(localStorage.getItem('userId'));
 
 	const inputItems = [
         {label: 'Email', name: 'email', required: true, component: TextField},
@@ -36,7 +37,7 @@ function Profile({countyData}) {
     const loadData = () => {
         setStatus('loading');
         axios
-        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + UserId.value)
+        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/' + userId)
         .then(response => {
             let newData = {};
             inputItems.map(i => i.name).forEach(i => newData[i] = response.data[0][i]);
@@ -55,6 +56,8 @@ function Profile({countyData}) {
 
     const handleBackClick = e => setStatus('idle');
 
+    const handleFocus = e => setErrors(Validation.isValidated(formData, inputItems));
+
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const handleSubmit = e => {
@@ -66,7 +69,7 @@ function Profile({countyData}) {
     const submitData = e => {
         setStatus('loading');
         axios
-            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + UserId.value, formData)
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/edit/' + userId, formData)
             .then((response) => {
                 console.log(response)
                 if (response.data === 'User is updated successfully') {
@@ -89,9 +92,9 @@ function Profile({countyData}) {
     const handleToggleActivation = e => {
         setStatus('loading');
         const action = Boolean(e.currentTarget.className) ? 
-            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/unsubscribe/' + UserId.value
+            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/unsubscribe/' + userId
             : 
-            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/subscribe/' + UserId.value;
+            'https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/subscribe/' + userId;
             
         axios
         .put(action)
@@ -116,13 +119,13 @@ function Profile({countyData}) {
     const deleteUser = e => {
         setStatus('loading')
         axios
-        .delete('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/deactivate/' + UserId.value)
+        .delete('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/deactivate/' + userId)
         .then((response) => {
             if (response.data === 'User is deleted successfully') 
             {
                 setStatus('deleted');
                 setTimeout(() => {
-                    UserId.value = null;
+                    localStorage.removeItem('userId');
                     setStatus('idle')
                 }, 2000);
             } else {
@@ -146,7 +149,7 @@ function Profile({countyData}) {
         if (status!=='deleted') setOpenDialog(false);
     };
 
-    if (!UserId.value) return <Redirect to="/signin"/>
+    if (!userId) return <Redirect to="/signin"/>
 
     if (!formData) return (
         <Backdrop className='circularProgress' open={!formData}>
@@ -157,7 +160,7 @@ function Profile({countyData}) {
     return (
         <Grid 
             justify="center"
-            className={formStyle.container}
+            className={`${formStyle.container} ${formStyle.profile}`}
             
         >
             <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
@@ -246,6 +249,7 @@ function Profile({countyData}) {
                                     options={i.options ? i.options : ''}
                                     dataProvider={i.dataProvider ? i.dataProvider : ''}
                                     onChange={handleChange}
+                                    onFocus={handleFocus}
                                 />
                             )
                         })}

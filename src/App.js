@@ -29,7 +29,7 @@ function App() {
       .then((response) => {
         if (response.data)
           response.data.sort((a, b) => (a.county > b.county ? 1 : -1));
-        setCountyData(response.data);
+          setCountyData(response.data);
       })
       .catch((error) => console.log(error));
   }, []);

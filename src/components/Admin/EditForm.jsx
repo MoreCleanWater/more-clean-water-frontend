@@ -20,6 +20,8 @@ function EditForm (props) {
 
     const [errors, setErrors] = useState({});
 
+    const handleFocus = e => setErrors(Validation.isValidated(formData, inputItems));
+
     const handleChange = e => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
         setData({ ...formData, [e.target.name]: value });
@@ -56,6 +58,7 @@ function EditForm (props) {
                             options={i.options ? i.options : ''}
                             dataProvider={i.dataProvider ? i.dataProvider : ''}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                         />
                     )
                 })}

@@ -5,6 +5,8 @@ import formStyle from 'styles/Form.module.scss';
 import {Grid} from '@material-ui/core'
 import { useState } from 'react';
 import Email from '../Form/Email'
+import 'components/LandingPage/LandingPage.scss'
+import Ocean from 'components/Ocean/Ocean';
 
 function LandingPage () {
     const inputItems = [
@@ -45,12 +47,7 @@ function LandingPage () {
 
     return (
         <div className="landing-page">
-            <div className="ocean-wrapper">
-                <div className="ocean">
-                    <div className="wave"></div>
-                    <div className="wave"></div>
-                </div>
-            </div>
+            <Ocean/>
             
             <div className="content-wrapper">
                 <Grid container

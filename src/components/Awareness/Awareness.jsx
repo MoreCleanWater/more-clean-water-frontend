@@ -36,7 +36,7 @@ export default function AwarenessContent() {
   };
 
   return (
-    <div>
+		<Grid container justify="center" className={cardStyle.container}>
 		<LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
 		{/* <Snackbar
 			open={successMessage}
@@ -48,8 +48,6 @@ export default function AwarenessContent() {
 			</Alert>
 		</Snackbar>
      */}
-
-		<Grid container justify="center" className={cardStyle.container}>
 			<Grid item xs={11} md={8}>
 			 
 				<ViewContent
@@ -61,6 +59,5 @@ export default function AwarenessContent() {
 				
 			</Grid>
 		</Grid>
-    </div>
   );
 }

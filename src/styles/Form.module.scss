@@ -4,10 +4,14 @@
     display: flex;
     min-height: 100vh;
     width: 100%;
-    background-color: #fff;
+    
+    &.profile {
+       background-color: #fff;
+   }
 
     &.admin {
         height: 100vh;
+        background-color: #fff;
     }
     
     .content {
@@ -17,7 +21,6 @@
         align-content: center;
         justify-content: space-between;
         height: 100%;
-        
 
         .title {
             margin: 1.5rem 0 0;
@@ -148,11 +151,11 @@ form {
             
             p {
                 margin: 2rem 0 .25rem;
-                color: #222222;
+                // color: #222222;
             }
 
             a {
-                color: #222222;
+                // color: #222222;
             }
             
             .link {
@@ -205,9 +208,11 @@ form {
     .buttons {
         text-align: center;
         height: 2.5rem;
+        margin-top: 2rem;
 
         &.admin {
             text-align: left;
+            margin-top: 0;
         }
 
         &.profile {

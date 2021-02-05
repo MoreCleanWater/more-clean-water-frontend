@@ -11,8 +11,8 @@ import ComboBox from '../Form/ComboBox';
 import CheckBox from '../Form/CheckBox';
 import Email from '../Form/Email'
 import Validation from '../Form/Validation';
-import UserId from '../Form/UserId';
 import { LinearProgress } from '@material-ui/core';
+import Ocean from 'components/Ocean/Ocean';
 
 function SignUp({countyData}) {
 
@@ -48,6 +48,8 @@ function SignUp({countyData}) {
 
     const [errors, setErrors] = useState({});
 
+    const handleFocus = e => setErrors(Validation.isValidated(formData, inputItems));
+    
     const handleChange = e => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
         setFormData({ ...formData, [e.target.name]: value })
@@ -83,7 +85,7 @@ function SignUp({countyData}) {
                 axios
                 .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', {userName: newUser.userName, password: newUser.password})
                 .then((signup) => {
-                    if (signup !== 'Invalid email or password') UserId.value = signup.data;
+                    if (signup !== 'Invalid email or password') localStorage.setItem('userId', signup.data);
                     setStatus('success');
                 })
                 .catch(error => {
@@ -129,7 +131,7 @@ function SignUp({countyData}) {
             </Grid>
         );
 
-    if (UserId.value) return <Redirect to="/find-water"/>
+    if (localStorage.getItem('userId')) return <Redirect to="/find-water"/>
     
     return (
         <Grid 
@@ -168,6 +170,8 @@ function SignUp({countyData}) {
                 md={5}
                 className={formStyle.content}
             >
+               <Ocean/>
+                
                 <h2 className={formStyle.title}>
                     User registration
                 </h2>
@@ -194,6 +198,7 @@ function SignUp({countyData}) {
                                                 options={i.options ? i.options : ''}
                                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                                 onChange={handleChange}
+                                                onFocus={handleFocus}
                                             />
                                         )
                                     })}

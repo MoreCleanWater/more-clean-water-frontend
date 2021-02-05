@@ -4,22 +4,24 @@ import cardStyle from 'styles/Cards.module.scss';
 
 function UpdatesItem({id, title, description, markAsRead}) {
 
-  const handleClick = () => markAsRead(id);
+  const handleClick = e => {
+    markAsRead(id)
+  };
 
   return (
 
     <Card className={cardStyle.updateRoot}>
-      <CardContent>
+      <CardContent className={cardStyle.updateContent}>
         <Typography className={cardStyle.updateTitle} gutterBottom>
         {title + ' alert'}
         </Typography>
         <Typography className={cardStyle.updateDescription}>
         {description}
         </Typography>
-        
       </CardContent>
+
       <CardActions onClick={handleClick} style={{position:'relative'}}>
-        <Button size="small"  style={{position:'absolute', right: -15, bottom: 10}}>Dismiss</Button>
+        <Button size="small" className={cardStyle.dismissButton}>Dismiss</Button>
       </CardActions>
     </Card>
     

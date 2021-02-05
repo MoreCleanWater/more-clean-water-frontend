@@ -15,6 +15,7 @@ function ComboBox (props) {
         className,
         dataProvider,
         onChange,
+        onFocus,
     } = props;
 
     return (
@@ -34,6 +35,7 @@ function ComboBox (props) {
                 value={value}
                 {...options}
                 onChange={onChange}
+                onFocus={onFocus}
             >   
                 <MenuItem value={null}>
                     &nbsp;

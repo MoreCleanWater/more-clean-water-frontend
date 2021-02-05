@@ -6,9 +6,10 @@ import axios from 'axios';
 import ErrorIcon from '@material-ui/icons/Error';
 import TextField from '../Form/TextField';
 import { Redirect, NavLink } from 'react-router-dom';
-import UserId from '../Form/UserId'
 import Validation from '../Form/Validation';
 import { LinearProgress } from '@material-ui/core';
+import 'components/LandingPage/LandingPage.scss'
+import Ocean from 'components/Ocean/Ocean';
 
 function SignIn() {
     
@@ -28,7 +29,9 @@ function SignIn() {
 
     const handleBackClick = e => setStatus('idle');
 
-    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
+    const handleFocus = e => setErrors(Validation.isValidated(formData, inputItems));
+
+    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleSubmit = e => {
         const [isValidated, errors] = Validation.isValidated(formData, inputItems);
@@ -44,8 +47,7 @@ function SignIn() {
                 if (response.data === 'Invalid email or password') {
                     setStatus('error');
                 } else {
-                    UserId.value = response.data;
-                    console.log(UserId.value)
+                    localStorage.setItem('userId', response.data);
                     setStatus('success');
                 }
             })
@@ -60,8 +62,7 @@ function SignIn() {
     return (
         <Grid 
             justify="center"
-            className={formStyle.container}
-            
+            className={`${formStyle.container}`}
         >
             <LinearProgress className={`linearProgress ${status==='loading' ? '' : 'hidden'}`}/>
 
@@ -94,6 +95,8 @@ function SignIn() {
                 md={5}
                 className={`${formStyle.content} ${status==='error' ? 'hidden' : ''}`}
             >
+                <Ocean/>
+
                 <h2 className={formStyle.title}>
                     Sign in
                 </h2>
@@ -113,6 +116,7 @@ function SignIn() {
                                 options={i.options ? i.options : ''}
                                 dataProvider={i.dataProvider ? i.dataProvider : ''}
                                 onChange={handleChange}
+                                onFocus={handleFocus}
                             />
                         )
                     })}

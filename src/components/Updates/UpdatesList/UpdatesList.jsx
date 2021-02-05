@@ -2,10 +2,11 @@ import Grid from '@material-ui/core/Grid';
 import { useState, useEffect } from "react";
 import UpdatesItem from './UpdatesItem/UpdatesItem';
 import axios from 'axios';
-import UserId from 'components/Form/UserId'
 import { LinearProgress } from '@material-ui/core';
 
 function UpdatesList() {
+  const userId = useState(localStorage.getItem('userId'));
+
   const [updates, setUpdates] = useState([]);
   const [status, setStatus] = useState('idle');
   const alerts = [
@@ -19,9 +20,8 @@ function UpdatesList() {
 
   const loadData = () => {
     setStatus('loading');
-    console.log(UserId.value)
     axios
-    .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/alert/' + UserId.value)
+    .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/alert/' + userId)
     .then(response => {
         const loadedData = response.data.map((i, index) => ({
           ...i, 

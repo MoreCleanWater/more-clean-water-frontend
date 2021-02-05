@@ -21,6 +21,3 @@
         padding: 0;
         width: 100%;
     }
-        .bottom-bar ul.bottom-menu a.active > * {
-            color: $primary;
-        }

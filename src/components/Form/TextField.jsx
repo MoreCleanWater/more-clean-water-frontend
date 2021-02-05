@@ -12,6 +12,7 @@ function TextField (props) {
         options,
         className,
         onChange,
+        onFocus,
     } = props;
     
     return (
@@ -28,6 +29,7 @@ function TextField (props) {
             className={className}
             {...options}
             onChange={onChange}
+            onFocus={onFocus}
         />
     )
 }
