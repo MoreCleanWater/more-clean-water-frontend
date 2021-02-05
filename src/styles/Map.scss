@@ -1,0 +1,97 @@
+.gm-style .gm-style-iw-c {
+	transform: translate(-50%,-108%) scale(1.2);
+  
+	h3, p {
+    margin: .4rem 0 0;
+    
+    &:last-child {
+      margin-bottom: .3rem;
+    }
+	}
+}
+
+
+.location-search-input {
+  position: absolute;
+  top: 4.2rem;
+  left: 1rem;
+  width: calc(100% - 4rem);
+  z-index: 3;
+  height: 2.5rem;
+  border-radius: .5rem;
+  border: none;
+  padding: .3rem 1rem;
+  font-size: 1rem;
+  box-shadow: 0 2px .15rem rgba(0, 0, 0, .25);
+
+  @media screen and (min-width: 960px) {
+    top: 5.5rem;
+    left: 2.5rem;
+    width: 26rem;
+  }
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  top: 4.2rem;
+  left: 1rem;
+  width: calc(100% - 4rem);
+  z-index: 2;
+  padding: 1.5rem 1rem 1.5rem;
+  border-radius: .5rem;
+  background-color: #fff;
+  box-shadow: 0 2px .15rem rgba(0, 0, 0, .25);
+
+  @media screen and (min-width: 960px) {
+    top: 5.5rem;
+    left: 2.5rem;
+    width: 26rem;
+  }
+
+  div.suggestion-item {
+    margin-top: 1.6rem;
+
+    &:first-child {
+      padding-top: 1.5rem;
+    }
+    
+    &--active{
+      margin-top: 1.6rem;
+      &:first-child {
+        padding-top: 1.5rem;
+      }
+    }
+  }
+}
+
+.map {
+  padding: "700px";
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.leMap {
+  height: calc(100% - 64px)!important;
+
+  @media screen and (min-width: 960px) { 
+    height: 100%!important;
+  }
+}
+
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.loader img {
+  width: 400px;
+}
+
+.loader h1 {
+  margin-top: -100px;
+}

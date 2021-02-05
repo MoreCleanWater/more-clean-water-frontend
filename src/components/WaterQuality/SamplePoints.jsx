@@ -4,10 +4,11 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import workingIcon from "../../img/workingstations.png";
-import notworkingIcon from "../../img/notworkingstations.png";
-import waterShortages from "../../img/shortages.jpg";
-import dirtywaterIcon from "../../img/dirtywater.jpg";
+
+import workingIcon from "../../icons/opacity-24px.svg";
+import notworkingIcon from "../../icons/report_problem-24px.svg";
+import waterShortages from "../../icons/cloud_off-24px.svg";
+import dirtywaterIcon from "../../icons/report_problem-24px.svg";
 
 function SamplePoints({
   shortages,
@@ -50,6 +51,7 @@ function SamplePoints({
       const latLong = sh.basearea.split(",");
       return (
         <Marker
+          type='Water shortage detected'
           key={sh.catId + " " + sh.countyId + " " + sh.basearea}
           countyName={sh.county}
           position={{ lat: latLong[0], lng: latLong[1] }}
@@ -74,6 +76,7 @@ function SamplePoints({
       return (
         <Marker
           key={ws.stationId}
+          type='Working water station'
           stationSize={ws.size}
           capacity={ws.capacity}
           installDate={ws.installDate}
@@ -98,6 +101,7 @@ function SamplePoints({
     notWorkingStationMarkers = notWorkingStations.map((ws) => {
       return (
         <Marker
+          type='Water station not working'
           key={ws.stationId}
           stationSize={ws.size}
           capacity={ws.capacity}
@@ -124,6 +128,7 @@ function SamplePoints({
       const latLong = us.basearea.split(",");
       return (
         <Marker
+          type='Water not safe to drink'
           key={us.catId + " " + us.countyId + " " + us.basearea}
           countyName={us.county}
           position={{ lat: latLong[0], lng: latLong[1] }}
@@ -157,14 +162,14 @@ function SamplePoints({
   }
 
   return (
-    <div id="googleMaps" style={{ marginTop: "80px" }}>
+    <div id="googleMaps">
       <PlacesAutocomplete
         value={address}
         onChange={handleChange}
         onSelect={handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
+          <div style={{position: 'relative'}}>
             <input
               {...getInputProps({
                 placeholder: "Search Places ...",
@@ -198,6 +203,7 @@ function SamplePoints({
       </PlacesAutocomplete>
 
       <Map
+        className='leMap'
         disableDefaultUI={true}
         google={google}
         initialCenter={{
@@ -209,6 +215,7 @@ function SamplePoints({
           lng: mapCenter.lng,
         }}
         zoom={zoom}
+        zoomControl={true}
         onClick={() => {
           setShowingInfoWindow(false);
         }}
@@ -220,17 +227,21 @@ function SamplePoints({
         {activeMarker ? (
           <InfoWindow visible={showingInfoWindow} marker={activeMarker}>
             <div>
+              {console.log(selectedPlace)}
+              {selectedPlace.type ? (
+                <h3>{selectedPlace.type}</h3>
+              ) : null}
               {selectedPlace.countyName ? (
-                <h6>County: {selectedPlace.countyName}</h6>
+                <p>County: {selectedPlace.countyName}</p>
               ) : null}
               {selectedPlace.stationSize ? (
-                <h6>Size: {selectedPlace.stationSize}</h6>
+                <p>Size: {selectedPlace.stationSize}</p>
               ) : null}
               {selectedPlace.capacity ? (
-                <h6>Capacity: {selectedPlace.capacity}</h6>
+                <p>Capacity: {selectedPlace.capacity}</p>
               ) : null}
               {selectedPlace.installDate ? (
-                <h6>Installation Date: {selectedPlace.installDate}</h6>
+                <p>Installation Date: {selectedPlace.installDate}</p>
               ) : null}
             </div>
           </InfoWindow>

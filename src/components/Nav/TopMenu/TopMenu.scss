@@ -9,6 +9,11 @@
 
     .appBar {
         background-color: $secondary;
+
+        @media screen and (min-width: 960px) {
+            // background-color: #fff;
+            
+        }
         
         box-shadow: 0 1px 1px rgba(0,0,0,.2);
 
@@ -27,6 +32,7 @@
             
             @media screen and (min-width: 960px) {
                 font-size: 1.2rem;
+                // color: $primary;
             }
         }
 
@@ -39,6 +45,10 @@
         position: absolute;
         right: 0;
         color: #eee;
+
+        @media screen and (min-width: 960px) {
+            // color: $primary;
+        }
 
         .profileIcon {
             // font-size: 1.7rem;
@@ -83,6 +93,16 @@
                 &.active {
                     color: #eeeeee;
                     border-bottom: 3px solid #eeeeee;
+
+                    @media screen and (min-width: 960px) {
+                        // color: $secondary;
+                        border-bottom: 3px solid #dedede;
+                    }
+                    
+                }
+
+                @media screen and (min-width: 960px) {
+                    // color: $secondary;
                 }
             }
 
@@ -99,6 +119,9 @@
         
         .notificationsMenu {
             color: #eee;
+            @media screen and (min-width: 960px) {
+                // color: $primary;
+            }
         }
     }
 }

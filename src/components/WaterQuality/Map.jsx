@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SamplePoints from "./SamplePoints";
 import { Backdrop, CircularProgress } from "@material-ui/core";
 import axios from "axios";
+import "styles/Map.scss";
 
 function Map() {
   const [shortages, setShortages] = useState([]);
