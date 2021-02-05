@@ -84,7 +84,7 @@ function WaterStations () {
         .then((response) => {
             if (response.data) {
                 if (countyData) {
-                    initGrid(response.data, 'direct')
+                    initGrid(response.data)
                 } else {
                     axios
                     .get("https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list")
@@ -93,7 +93,7 @@ function WaterStations () {
                             countyResponse.data.sort((a, b) => (a.countyResponse > b.countyResponse ? 1 : -1));
                             localStorage.setItem('countyList', JSON.stringify(countyResponse.data));
                             setCountyData(JSON.parse(localStorage.getItem('countyList')));
-                            initGrid(response.data, 'axios', countyResponse.data)
+                            initGrid(response.data, countyResponse.data)
                         }
                       })
                       .catch((error) => console.log(error));
@@ -105,7 +105,7 @@ function WaterStations () {
         .catch(error => console.log(error))
     }
 
-    const initGrid = (data, source, countyList) => {
+    const initGrid = (data, countyList) => {
         if (!countyList) countyList = countyData;
         const loadedData = data.map(i => ({
             ...i, 

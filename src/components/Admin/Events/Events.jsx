@@ -5,14 +5,13 @@ import formStyle from "styles/Form.module.scss";
 import EditForm from "components/Admin/EditForm";
 import ListData from "components/Admin/ListData";
 import TextField from 'components/Form/TextField';
-import ComboBox from 'components/Form/ComboBox';
 import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from '@material-ui/icons/Cancel';
 import axios from 'axios';
 import { Alert } from "@material-ui/lab";
 
 function Events () {
-    const [countyData, setCountyData] = useState();
+    const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70,},
@@ -80,28 +79,41 @@ function Events () {
 
     const loadData = () => {
         setStatus('loading');
-        axios.all([
-            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list'),
-            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/events/list')
-        ])
-        .then(axios.spread((county, events) => {
-            if (events) {
-                const loadedData = events.data.map(i => ({
-                    ...i, 
-                    id: String(i.eventId), 
-                    county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
-                }));
-                county.data.sort((a, b) => (a.county > b.county) ? 1 : -1);
-                setCountyData(county.data);
-                setData(loadedData);
-                setMode('retrieve');
-                setStatus('success');
-                setFormData(newData);
+        axios
+        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/events/list')
+        .then((response) => {
+            if (response.data) {
+                if (countyData) {
+                    initGrid(response.data)
+                } else {
+                    axios
+                    .get("https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list")
+                    .then((countyResponse) => {
+                        if (countyResponse.data) {
+                            countyResponse.data.sort((a, b) => (a.countyResponse > b.countyResponse ? 1 : -1));
+                            localStorage.setItem('countyList', JSON.stringify(countyResponse.data));
+                            setCountyData(JSON.parse(localStorage.getItem('countyList')));
+                            initGrid(response.data, countyResponse.data)
+                        }
+                      })
+                      .catch((error) => console.log(error));
+                } 
             } else {
-                console.log(events)
+                console.log(response)
             }
-        }))
+        })
         .catch(error => console.log(error))
+    }
+
+    const initGrid = (data, countyList) => {
+        if (!countyList) countyList = countyData;
+        const loadedData = data.map(i => ({
+            ...i, 
+            id: String(i.stationId), 
+            county: i.countyId && countyList.find(c => i.countyId === c.countyId).county
+        }));
+        setData(loadedData);
+        setStatus('success');
     }
 
     const handleCreate = e => {

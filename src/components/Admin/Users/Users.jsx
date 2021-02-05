@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Alert } from "@material-ui/lab";
 
 function Users () {
+    const [countyData, setCountyData] = useState(JSON.parse(localStorage.getItem('countyList')));
+    
     const columns = [
         { field: 'userId', headerName: 'ID', width: 70, },
         { field: 'userName', headerName: 'Username', width: 140,},
@@ -20,24 +22,47 @@ function Users () {
     const [data, setData] = useState();
 
     useEffect(() => {
-        axios.all([
-            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list'),
-            axios.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
-        ])
-        .then(axios.spread((county, users) => {
-            if (county && users) {
-                const loadedData = users.data.map(i => ({
-                    ...i, 
-                    id: String(i.userId), 
-                    county: i.countyId && county.data.find(c => i.countyId === c.countyId).county
-                }));
-                setData(loadedData)
-            } else {
-                console.log(county, users)
-            }
-        }))
-        .catch(error => console.log(error))
+        loadData();
     }, []);
+
+    const loadData = () => {
+        setStatus('loading');
+        axios
+        .get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/list')
+        .then((response) => {
+            if (response.data) {
+                if (countyData) {
+                    initGrid(response.data)
+                } else {
+                    axios
+                    .get("https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/county/list")
+                    .then((countyResponse) => {
+                        if (countyResponse.data) {
+                            countyResponse.data.sort((a, b) => (a.countyResponse > b.countyResponse ? 1 : -1));
+                            localStorage.setItem('countyList', JSON.stringify(countyResponse.data));
+                            setCountyData(JSON.parse(localStorage.getItem('countyList')));
+                            initGrid(response.data, countyResponse.data)
+                        }
+                      })
+                      .catch((error) => console.log(error));
+                } 
+            } else {
+                console.log(response)
+            }
+        })
+        .catch(error => console.log(error))
+    }
+
+    const initGrid = (data, countyList) => {
+        if (!countyList) countyList = countyData;
+        const loadedData = data.map(i => ({
+            ...i, 
+            id: String(i.stationId), 
+            county: i.countyId && countyList.find(c => i.countyId === c.countyId).county
+        }));
+        setData(loadedData);
+        setStatus('success');
+    }
 
     const [status, setStatus] = useState('idle');
 
