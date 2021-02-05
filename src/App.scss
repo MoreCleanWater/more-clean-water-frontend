@@ -24,6 +24,10 @@ a {
   }
 }
 
+.active > * {
+  color: $primary;
+}
+
 ul, 
 li {
   list-style: none;

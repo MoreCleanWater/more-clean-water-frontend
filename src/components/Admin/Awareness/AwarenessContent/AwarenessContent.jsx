@@ -202,9 +202,9 @@ export default function AwarenessContent() {
 			{alertMessage}
 			</Alert>
 		</Snackbar>
-		<Grid container justify="center" className={formStyle.container}>
+		<Grid container justify="center"  className={`${formStyle.container} ${formStyle.admin}`}>
 			<Grid item xs={10} md={8} className={`${formStyle.content} ${formStyle.awarenessContent}`}>
-			<h2 className={`${formStyle.title} ${formStyle.admin}`}>
+			<h2 className={`${formStyle.title} ${formStyle.adminContent}`}>
 					Content
 				</h2>
 				
