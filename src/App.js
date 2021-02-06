@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import SignUp from "./components/SignIn/SignUp";
 import SignIn from "./components/SignIn/SignIn";
 import UpdatesList from "./components/Updates/Updates";
-import Admin from "./components/Admin/Admin";
 import AdminUsers from "./components/Admin/Users/Users";
 import AdminWaterStations from "./components/Admin/WaterStations/WaterStations";
 import AdminNav from "./components/Admin/AdminNav/AdminNav";
@@ -96,10 +95,6 @@ function App() {
             <AdminNav />
             <Events />
           </Route>
-
-          {/* <Route exact path="/admin">
-            <Admin />
-          </Route> */}
 
           <Route exact path="/admin">
             <AdminSignIn />

@@ -6,34 +6,32 @@ import TextField from "@material-ui/core/TextField";
 import { auth } from "database/firebase";
 import AdminNav from "../AdminNav/AdminNav";
 import { Redirect } from "react-router-dom";
-import { LinearProgress } from "@material-ui/core";
+import { LinearProgress, Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 export default function AdminSignIn() {
-  const [adminId, setAdminId] = useState(localStorage.getItem('adminId'));
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [error, setError] = useState(false);
 
   const handleLogin = () => {
     return auth
       .signInWithEmailAndPassword(email, password)
-      .catch((err) => console.log(err));
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('adminId');
-    auth.signOut();
-    setAdminId('')
+      .catch((err) => {
+        setError(true);
+        // console.log(err)
+      });
   };
 
   const handleListener = () => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        localStorage.setItem('adminId', user.email);
         setCurrentUser(user);
         setLoading(false);
-        localStorage.setItem('adminId', user.email);
+        setError(false);
       } else {
         setCurrentUser("")
         localStorage.removeItem('adminId');
@@ -45,18 +43,32 @@ export default function AdminSignIn() {
     handleListener();
   }, []);
 
+  const handleCloseSnackBar = (event, reason) => {
+      if (reason === 'clickaway') return;
+      setError(false);
+  };
 
-  if (adminId) return <Redirect to="/admin/users"/>
 
+  if (currentUser) return <Redirect to="/admin/users"/>
+
+  
   return (
     <div>
+      <Snackbar
+          open={error}
+          autoHideDuration={2000}
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          onClose={handleCloseSnackBar}
+      >
+          <Alert severity="error" >
+              Wrong email/password
+          </Alert>
+      </Snackbar>
       <LinearProgress className={`linearProgress ${loading ? '' : 'hidden'}`}/>
-      {currentUser ? (
-        <AdminNav handleLogout={handleLogout} />
-      ) : (
+     
         <Grid justify="center" className={formStyle.container}>
           <Grid item xs={10} md={5} className={`${formStyle.content} `}>
-            <h2 className={formStyle.title}>Sign in</h2>
+            <h2 className={formStyle.title}>Admin console</h2>
             <form className={formStyle.signInForm}>
               <TextField
                 required
@@ -92,7 +104,6 @@ export default function AdminSignIn() {
             </form>
           </Grid>
         </Grid>
-      )}
     </div>
   );
 }

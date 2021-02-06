@@ -11,8 +11,7 @@ import css from "styles/Admin.module.scss";
 import { useState } from 'react';
 import { auth } from "database/firebase";
 
-function AdminNav( props) {
-    const { handleLogout } = props;
+function AdminNav() {
   const [isOpen, setOpen] = React.useState(false);
 
   const [status, setStatus] = useState('idle');
