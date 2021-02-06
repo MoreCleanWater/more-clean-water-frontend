@@ -7,7 +7,7 @@ import PlacesAutocomplete, {
 
 import workingIcon from "../../icons/opacity-24px.svg";
 import notworkingIcon from "../../icons/block-24px.svg";
-import waterShortages from "../../icons/cloud_off-24px.svg";
+import waterShortages from "../../icons/invert_colors_off-24px.svg";
 import dirtywaterIcon from "../../icons/report_problem-24px.svg";
 
 function SamplePoints({

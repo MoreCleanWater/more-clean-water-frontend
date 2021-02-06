@@ -17,6 +17,7 @@ import AwarenessContent from "./components/Admin/Awareness/AwarenessContent/Awar
 import axios from "axios";
 import "./App.scss";
 import Events from "./components/Admin/Events/Events";
+import AdminSignIn from "./components/Admin/SignIn/AdminSignIn";
 
 function App() {
 
@@ -92,12 +93,16 @@ function App() {
           </Route>
 
           <Route exact path="/admin/events">
-            <AdminNav/>
-            <Events/>
+            <AdminNav />
+            <Events />
           </Route>
 
-          <Route exact path="/admin">
+          {/* <Route exact path="/admin">
             <Admin />
+          </Route> */}
+
+          <Route exact path="/admin">
+            <AdminSignIn />
           </Route>
 
           <Route path="/">

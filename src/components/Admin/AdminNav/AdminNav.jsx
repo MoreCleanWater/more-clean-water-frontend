@@ -9,8 +9,10 @@ import { NavLink, Redirect  } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import css from "styles/Admin.module.scss";
 import { useState } from 'react';
+import { auth } from "database/firebase";
 
-function AdminNav() {
+function AdminNav( props) {
+    const { handleLogout } = props;
   const [isOpen, setOpen] = React.useState(false);
 
   const [status, setStatus] = useState('idle');
@@ -24,6 +26,7 @@ function AdminNav() {
 
   const handleLogOut = (e) => {
     localStorage.removeItem('adminId');
+    auth.signOut();
     setStatus('logout');
 }
 
@@ -80,6 +83,10 @@ if (status === 'logout') return <Redirect to="/admin"/>
                     <ListItem button onClick={handleLogOut}>
                         <ListItemText primary="Logout"/>
                     </ListItem>
+{/* 
+                    <ListItem button onClick={handleLogOut}>
+                        <ListItemText primary="Logout"/>
+                    </ListItem> */}
                 </List>
             </div>
         </SwipeableDrawer>
