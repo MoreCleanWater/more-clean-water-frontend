@@ -9,7 +9,8 @@ import { NavLink  } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import css from "styles/Admin.module.scss";
 
-function AdminNav() {
+function AdminNav( props) {
+    const { handleLogout } = props;
   const [isOpen, setOpen] = React.useState(false);
 
   const toggleDrawer = (isOpen) => (event) => {
@@ -64,6 +65,10 @@ function AdminNav() {
 
                     <ListItem button component={NavLink} to="/admin/events">
                         <ListItemText primary="Events"/>
+                    </ListItem>
+
+                    <ListItem button onClick={handleLogout}>
+                        <ListItemText primary="Logout"/>
                     </ListItem>
                 <Divider />
                 </List>

@@ -17,6 +17,7 @@ import AwarenessContent from "./components/Admin/Awareness/AwarenessContent/Awar
 import axios from "axios";
 import "./App.scss";
 import Events from "./components/Admin/Events/Events";
+import AdminSignIn from "./components/Admin/SignIn/AdminSignIn";
 
 function App() {
   const [countyData, setCountyData] = useState();
@@ -87,13 +88,17 @@ function App() {
           </Route>
 
           <Route exact path="/admin/events">
-            <AdminNav/>
-            <Events/>
+            <AdminNav />
+            <Events />
+          </Route>
+
+          <Route exact path="/admin/dashboard">
+            <AdminNav />
+            <Admin />
           </Route>
 
           <Route exact path="/admin">
-            <AdminNav />
-            <Admin />
+            <AdminSignIn />
           </Route>
 
           <Route path="/">
