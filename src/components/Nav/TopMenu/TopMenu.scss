@@ -17,24 +17,44 @@
         
         box-shadow: 0 1px 1px rgba(0,0,0,.2);
 
-        h1 {
+        .title {
             position: absolute;
-            left: 1.7rem;
-            // color: $secondary;
-            color: #fff;
-            height: 100%;
-            font-size: 1.1rem;
-            line-height: .9rem;
-            margin: 0;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 500;
+
+            .logo {
+                background-image: url(../../../img/logo-hor-inv.svg);
+                background-repeat: no-repeat;
+                height: 0;
+                padding-bottom: 18.29%;
+                transform: scale(1.3) translate(1.2rem, .76rem);
+
+                @media screen and (min-width: 960px) {
+                    transform: scale(1.4) translate(1.5rem, .89rem);
+                }
+            }
+
+
             
-            @media screen and (min-width: 960px) {
-                font-size: 1.2rem;
-                // color: $primary;
+            h1 {
+                // color: $secondary;
+                color: #fff;
+                height: 100%;
+                font-size: 1.1rem;
+                // font-size: 0;
+                opacity: 0;
+                line-height: .9rem;
+                margin: 0;
+                display: inline-flex;
+                align-items: center;
+                font-weight: 500;
+                
+                @media screen and (min-width: 960px) {
+                    font-size: 1.2rem;
+                    // color: $primary;
+                }
             }
         }
+
+        
 
         .toolBar {
             padding-left: 1.25rem;

@@ -7,6 +7,10 @@
     background: radial-gradient(ellipse at center, rgba(255, 254, 244, 1) 0%, rgba(255, 254, 244, 1) 45%, rgba(183, 233, 235, 1) 130%);
 
     h1, h2, h3 {
+        color: $primary;
+    }
+
+    h3 {
         color: $lpheader;
     }
     
@@ -30,12 +34,24 @@
                 width: 90%;
                 margin: 0 auto;
 
-                h1 {
-                    font-size: 2rem;
-                    font-weight: 500;
-                    width: 100%;
-                    margin-top: 2rem;
+                .logo {
+                    background-image: url(../../img/logo-ver.svg);
+                    background-repeat: no-repeat;
+                    height: 0;
+                    padding-bottom: 51.67%;
+                    transform: scale(.8) translateX(1rem);
+
+                    h1 {
+                        font-size: 0;
+                        margin-top: 2rem;
+                    }
                 }
+
+                // h1 {
+                //     font-size: 2rem;
+                //     font-weight: 500;
+                //     width: 100%;
+                // }
 
                 @media screen and (min-width: 360px) {
                     font-size: 2.3rem;

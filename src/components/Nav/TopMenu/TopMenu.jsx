@@ -63,9 +63,14 @@ function TopMenu() {
             <div className="appBarContainer">
                 
                     <AppBar position="static" className='appBar'>
-                        <h1>
-                            More Clean Water
-                        </h1>
+                        <div className="title">
+                            <div className="logo">
+                                
+                            </div>
+                            <h1>
+                                More Clean Water
+                            </h1>
+                        </div>
 
                         <Toolbar className="toolBar">
                             {/* <IconButton edge="start" aria-label="menu">

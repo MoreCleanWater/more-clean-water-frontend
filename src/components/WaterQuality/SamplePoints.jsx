@@ -6,7 +6,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 
 import workingIcon from "../../icons/opacity-24px.svg";
-import notworkingIcon from "../../icons/report_problem-24px.svg";
+import notworkingIcon from "../../icons/block-24px.svg";
 import waterShortages from "../../icons/cloud_off-24px.svg";
 import dirtywaterIcon from "../../icons/report_problem-24px.svg";
 
@@ -58,7 +58,7 @@ function SamplePoints({
           icon={{
             url: waterShortages,
             anchor: new google.maps.Point(22, 22),
-            scaledSize: new google.maps.Size(20, 20),
+            scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
             setSelectedPlace(props);
@@ -84,7 +84,7 @@ function SamplePoints({
           icon={{
             url: workingIcon,
             anchor: new google.maps.Point(22, 22),
-            scaledSize: new google.maps.Size(20, 20),
+            scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
             setSelectedPlace(props);
@@ -110,7 +110,7 @@ function SamplePoints({
           icon={{
             url: notworkingIcon,
             anchor: new google.maps.Point(22, 22),
-            scaledSize: new google.maps.Size(20, 20),
+            scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
             setSelectedPlace(props);
@@ -135,7 +135,7 @@ function SamplePoints({
           icon={{
             url: dirtywaterIcon,
             anchor: new google.maps.Point(22, 22),
-            scaledSize: new google.maps.Size(20, 20),
+            scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
             setSelectedPlace(props);
@@ -172,7 +172,7 @@ function SamplePoints({
           <div style={{position: 'relative'}}>
             <input
               {...getInputProps({
-                placeholder: "Search Places ...",
+                placeholder: "Search here",
                 className: "location-search-input",
               })}
             />

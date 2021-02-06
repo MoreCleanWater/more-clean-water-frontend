@@ -56,9 +56,11 @@ function LandingPage () {
                     justify="center"
                 >
                     <div className="title">
-                        <h1>
-                            More Clean Water
-                        </h1>
+                        <div className="logo">
+                                <h1>
+                                    More Clean Water
+                                </h1>
+                        </div>
                         <h2>
                             Helping you to access clean water
                         </h2>
