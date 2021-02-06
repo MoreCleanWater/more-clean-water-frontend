@@ -77,6 +77,7 @@ function SamplePoints({
         <Marker
           key={ws.stationId}
           type='Working water station'
+          countyName={ws.county}
           stationSize={ws.size}
           capacity={ws.capacity}
           installDate={ws.installDate}
@@ -102,6 +103,7 @@ function SamplePoints({
       return (
         <Marker
           type='Water station not working'
+          countyName={ws.county}
           key={ws.stationId}
           stationSize={ws.size}
           capacity={ws.capacity}
