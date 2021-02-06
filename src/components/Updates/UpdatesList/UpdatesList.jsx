@@ -21,12 +21,14 @@ function UpdatesList() {
 		loadData();
 	}, []);
 
+	// console.log(updates)
+
 	const loadData = () => {
 		setStatus('loading');
 		axios
 		.get('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/alert/' + userId)
 		.then(response => {
-			console.log(response.data)
+			// console.log(response.data)
 			if (response.data) {
 				const loadedData = response.data.map((i, index) => ({
 					...i, 
@@ -48,11 +50,21 @@ function UpdatesList() {
 		})
 	}
 
-	const markAsRead = id => {
-		setStatus('loading');
+	const markAsRead = alertId => {
+		// const alert_id = ;
+		let newUpdates = [...updates];
+		newUpdates[updates.findIndex(i => i.alert_id === alertId)].isRead = true;
+		setUpdates(newUpdates);
+		// console.log(newUpdates)
+		return;
+		// console.log(update);
+		// return;
+		// {...updates, }
+		// setStatus('loading');
         axios
-            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/read/alert/' + userId)
+            .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/read/alert/' + userId, updates)
             .then((response) => {
+				console.log(response.data==='Alert status is updated successfully')
                 if (response.data === 'Alert status is updated successfully') {
 					loadData();
                     setStatus('success');
@@ -68,7 +80,7 @@ function UpdatesList() {
 	}
 
 	// if (!updates) return (<div></div>);
-	const unreadUpdates = updates.filter(update => !update.isReaded);
+	const unreadUpdates = updates.filter(update => !update.isRead);
 
 	if (!userId) return (
 		<Grid 
@@ -123,7 +135,7 @@ function UpdatesList() {
 				{unreadUpdates.map(update => 
 				<UpdatesItem 
 					key={update.id}
-					id={update.id}
+					id={update.alert_id}
 					title={update.title}
 					description={update.description}
 					markAsRead={markAsRead}
@@ -138,7 +150,7 @@ function UpdatesList() {
 				container 
 				justify="center" 
 				alignItems="center"> 
-				Hooray! No updates!
+				<h3>Hooray! No updates!</h3>
 			</Grid>}
 			</div>
 		</div>

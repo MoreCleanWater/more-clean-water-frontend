@@ -44,6 +44,7 @@ function SignIn() {
         axios
             .put('https://ckyxnow688.execute-api.eu-west-2.amazonaws.com/dev/users/login', formData)
             .then((response) => {
+                console.log(response.data)
                 if (response.data === 'Invalid email or password') {
                     setStatus('error');
                 } else {
