@@ -40,6 +40,11 @@
                     height: 0;
                     padding-bottom: 51.67%;
                     transform: scale(.8) translateX(1rem);
+                    margin-top: 2rem;
+
+                    @media screen and (min-width: 961px) {
+                        transform: scale(.6) translate(1rem, 2.8rem);
+                    }
 
                     h1 {
                         font-size: 0;
