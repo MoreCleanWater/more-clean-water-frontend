@@ -25,11 +25,13 @@ const Validation = {
                 newErrors.confirmPassword = '';
             }
         }
-        if (data.email && !/\S+@\S+\.\S+/.test(data.email)) {
-            newErrors.email = 'Ops, invalid email detected';
-            isValidated = false;
-        } else {
-            newErrors.email = '';
+        if (data.email) {
+            if (!/\S+@\S+\.\S+/.test(data.email)) {
+                newErrors.email = 'Ops, invalid email detected';
+                isValidated = false;
+            } else {
+                newErrors.email = '';
+            }
         }
         
         this.errors = {...this.errors, ...newErrors};
