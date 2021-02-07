@@ -61,9 +61,12 @@ function SamplePoints({
             scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
+            const lat = marker.getPosition().lat();
+            const lng = marker.getPosition().lng();
             setSelectedPlace(props);
             setActiveMarker(marker);
             setShowingInfoWindow(!showingInfoWindow);
+            setMapCenter({lat, lng});
           }}
         ></Marker>
       );
@@ -88,9 +91,12 @@ function SamplePoints({
             scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
+            const lat = marker.getPosition().lat();
+            const lng = marker.getPosition().lng();
             setSelectedPlace(props);
             setActiveMarker(marker);
             setShowingInfoWindow(!showingInfoWindow);
+            setMapCenter({lat, lng});
           }}
         ></Marker>
       );
@@ -115,9 +121,12 @@ function SamplePoints({
             scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
+            const lat = marker.getPosition().lat();
+            const lng = marker.getPosition().lng();
             setSelectedPlace(props);
             setActiveMarker(marker);
             setShowingInfoWindow(!showingInfoWindow);
+            setMapCenter({lat, lng});
           }}
         ></Marker>
       );
@@ -140,9 +149,12 @@ function SamplePoints({
             scaledSize: new google.maps.Size(25, 25),
           }}
           onClick={(props, marker) => {
+            const lat = marker.getPosition().lat();
+            const lng = marker.getPosition().lng();
             setSelectedPlace(props);
             setActiveMarker(marker);
             setShowingInfoWindow(!showingInfoWindow);
+            setMapCenter({lat, lng});
           }}
         ></Marker>
       );
