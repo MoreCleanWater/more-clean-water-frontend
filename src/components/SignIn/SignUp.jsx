@@ -43,7 +43,7 @@ function SignUp() {
         {label: 'Last Name', name: 'lastName', required: true, component: TextField, step: 1},
         {label: 'County', name: 'countyId', required: true, component: ComboBox, dataProvider: countyData, step: 1},
         {label: 'Post Code', name: 'postcode', required: true, component: TextField, step: 1},
-        {label: 'Receive water alerts?', name: 'isSubscriber', required: false, component: CheckBox, step: 1},
+        {label: 'Receive email communication?', name: 'isSubscriber', required: false, component: CheckBox, step: 1},
     ]
 
     const maxStep = 2;
