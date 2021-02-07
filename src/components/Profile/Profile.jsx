@@ -20,7 +20,7 @@ function Profile() {
 
     const [status, setStatus] = useState('idle');
 
-    const [userId] = useState(localStorage.getItem('userId'));
+    const [userId, setUserId] = useState(localStorage.getItem('userId'));
 
     const [countyData] = useState(JSON.parse(localStorage.getItem('countyList')));
 
@@ -133,8 +133,8 @@ function Profile() {
                 setStatus('deleted');
                 setTimeout(() => {
                     localStorage.removeItem('userId');
-                    setStatus('idle')
-                }, 2000);
+                    setUserId(null)
+                }, 1500);
             } else {
                 console.log(response);
                 setStatus('error')
@@ -156,6 +156,7 @@ function Profile() {
         if (status!=='deleted') setOpenDialog(false);
     };
 
+
     if (!userId) return <Redirect to="/signin"/>
 
     if (!formData) return (
@@ -163,7 +164,7 @@ function Profile() {
             <CircularProgress color="inherit" />
         </Backdrop>
     )
-    console.log(status)
+    
     return (
         <Grid 
             justify="center"
