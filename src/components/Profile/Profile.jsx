@@ -294,6 +294,22 @@ function Profile() {
                     </div>
 
                     <div className={`${formStyle.contentBox} ${formStyle.deleteBox}`}>
+                        <OutlinedInput notched disabled label='Password' className={formStyle.border}/>
+                        <h4>
+                            Password
+                        </h4>
+                        <Button 
+                            variant="contained"
+                            color="primary"
+                            disableElevation
+                            // onClick={handleDelete}
+                            disabled={status === 'loading' ? 'disabled' : ''}
+                        >
+                            Change Password
+                        </Button>
+                    </div>
+
+                    <div className={`${formStyle.contentBox} ${formStyle.deleteBox}`}>
                         <OutlinedInput notched disabled label='Danger zone' className={formStyle.border}/>
                         <h4>
                             Danger zone
