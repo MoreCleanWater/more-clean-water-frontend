@@ -77,7 +77,7 @@ export default function ContentModal(props) {
             {postedArticle.body ? (
               <div className={cardStyle.text}
                 dangerouslySetInnerHTML={{
-                  __html: postedArticle.body.substr(0, 340),
+                  __html: postedArticle.body,
                 }}
               ></div>
             ) : null}

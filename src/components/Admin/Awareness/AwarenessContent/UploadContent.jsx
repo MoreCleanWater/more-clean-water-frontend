@@ -126,6 +126,7 @@ export default function UploadContent(props) {
 			<Grid container className={formStyle.adminContent} justify="space-between" spacing={3}>
 				<Grid item xs={12}>
 					<TextField
+						name='title'
 						required
 						// className={classes.text}
 						className = {`${formStyle.formInput}`}
@@ -171,6 +172,7 @@ export default function UploadContent(props) {
 						variant='outlined'
 						id="standard-basic-videourl"
 						label="Video URL"
+						name='video'
 						value={formData ? formData.video : ""}
 						// defaultValue={editArticle ? editArticle.video : null}
 						onChange={handleChange}

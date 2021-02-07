@@ -71,7 +71,7 @@ import { Avatar, Grid } from "@material-ui/core";
 	};
 
 	return (
-		<Grid item xs={12} sm={6} lg={4}>
+		<Grid item xs={12} sm={6}>
 			<Card variant="outlined" className={cardStyle.root} >
 				<CardHeader className={cardStyle.header}
 					avatar={
