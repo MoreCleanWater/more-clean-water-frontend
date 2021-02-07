@@ -285,7 +285,7 @@ function Profile() {
                         >
                             <CheckBox
                                 value={formData.isSubscriber}  
-                                label="Receive water alerts?"
+                                label="Receive email communication?"
                                 disabled={status === 'loading' ? 'disabled' : ''}
                             />
                         </div>

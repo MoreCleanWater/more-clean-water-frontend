@@ -12,7 +12,7 @@ function Nav() {
             <BottomMenu>
                 <BottomMenuItem icon={<InfoIcon/>} title="Awareness" to="/awareness"/>
                 <BottomMenuItem icon={<RoomIcon/>} title="Find Water" to="/find-water"/>
-                <BottomMenuItem icon={<NotificationsIcon/>} title="Updates" to="/updates"/>
+                <BottomMenuItem icon={<NotificationsIcon/>} title="Alerts" to="/alerts"/>
             </BottomMenu>
         </div>
     )

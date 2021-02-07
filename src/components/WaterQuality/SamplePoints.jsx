@@ -49,6 +49,8 @@ function SamplePoints({
   const getWaterShortages = () => {
     shortageMarkers = shortages.map((sh) => {
       const latLong = sh.basearea.split(",");
+      // console.log(latLong)
+      
       return (
         <Marker
           type='Water shortage detected'
@@ -241,7 +243,7 @@ function SamplePoints({
         {activeMarker ? (
           <InfoWindow visible={showingInfoWindow} marker={activeMarker}>
             <div>
-              {console.log(selectedPlace)}
+              {/* {console.log(selectedPlace)} */}
               {selectedPlace.type ? (
                 <h3>{selectedPlace.type}</h3>
               ) : null}

@@ -61,7 +61,7 @@ function App() {
             <Profile />
           </Route>
 
-          <Route exact path="/updates">
+          <Route exact path="/alerts">
             <Nav />
             <UpdatesList />
           </Route>

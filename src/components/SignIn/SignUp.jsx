@@ -116,7 +116,7 @@ function SignUp() {
                 className="fullHeight"
             >
                 <div style={{textAlign: 'center'}}>
-                    <CheckCircleIcon color="primary" style={{fontSize: '5rem'}}/>
+                    <CheckCircleIcon className='primaryColor' style={{fontSize: '5rem'}}/>
                     <h2 style={{margin:0}}>Woo hoo!</h2>
                     <p style={{lineHeight: 1.5}}>Welcome! <br/> You account has been created</p>
                     <div>
@@ -211,7 +211,12 @@ function SignUp() {
                         })}
 
                         <li className={step === maxStep ? ' active-flex' : ''}>
-                            <ul className={formStyle.confirmation}>
+                            <ul className={formStyle.confirmation} style={{
+                                textAlign: 'center',
+                                transform: 'translateY(-19px)',
+                                fontWeight: 500,
+                                height: 392,
+                            }}>
                                 <li>Username: {formData.userName}</li>
                                 <li>Email: {formData.email}</li>
                                 <li>Password: {formData.password ? formData.password.split('').map(i => '•') : ''}</li>
